@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Game</title>
     <style>
         @font-face {
@@ -404,7 +404,7 @@
             padding: 5px 0;
             border-top: 1px solid #333;
             position: fixed;
-            bottom: 0;
+            bottom: 10px;
             width: 100%;
             background-color: black;
             box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5);
@@ -482,7 +482,8 @@
     <button id="end-and-bank-button" style="display:none;" onclick="endAndBank()">End and Bank</button>
     <button id="info-button">i</button>
     <div id="message" class="message" style="color: red;">Sammy just rug pulled you</div>
-    <div id="leverage-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points</div>
+    <div id="leverage-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points
+    </div>
     <div id="bear-value" class="message" style="color: red;">Market maker bear has stolen your gains</div>
     <div id="boost-message" class="message" style="color: green;"> Short Squeeeeze</div>
     <div id="slowdown-message" class="message" style="color: red;">You've been stopped out</div>
@@ -678,6 +679,7 @@
         let allTimeTopScore = 0;
         let collectingCoins = false;
         let clearingCoins = false;
+        let goldToken = 5;
         const debugMode = false; // Change this to true to enable hitbox visualization
 
         const terrains = [
@@ -949,7 +951,7 @@
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                },                                                                                       
+                },
             })
                 .then(response => response.json())
                 .then(data => {
@@ -971,7 +973,7 @@
             if (user) {
                 const playerName = user.username || null;
                 const playerId = user.id;
-                
+
                 console.log("-------------------------------------");
                 console.log(playerId, playerName, score);
                 console.log("-------------------------------------");
@@ -1217,9 +1219,12 @@
                     console.log(`Collision detected between player and ${coin.type} coin at (${coin.x}, ${coin.y})`);
                     let breakdownMessage = '';
                     if (coin.type === 'good') {
-                        score += 5; // +5 points for good coins
+                        score += goldToken; // +15 points for good coins
                         cashRegisterSound.play();
-                        breakdownMessage = `<span style="color:green;">5 Triend points collected</span>`;
+                        breakdownMessage = `<span style="color:green;">${goldToken} Triend points collected</span>`;
+                        setTimeout(() => {
+                            goldToken = 5;
+                        }, 2000);
                     } else {
                         const shitCoinPoints = Math.floor(Math.random() * 81) - 40; // -40 to +40 points for shit coins
                         score += shitCoinPoints;
@@ -1245,6 +1250,7 @@
                     console.log(`Collision detected between player and ${obstacle.type} obstacle at (${obstacle.x}, ${obstacle.y})`);
                     showMessage('<span style="color:green;">This Ones For Retail</span>');
                     obstacles = obstacles.filter(o => o !== obstacle);
+                    goldToken = 15;
                 }
 
                 // Check for collision with bear
@@ -1256,6 +1262,18 @@
                     console.log(`Collision detected between player and ${obstacle.type} obstacle at (${obstacle.x}, ${obstacle.y})`);
                     showMessage('<span style="color:red;">Market Maker Bear Has Stolen Your Gains</span>');
                     obstacles = obstacles.filter(o => o !== obstacle);
+                    //actions
+                    score = score - 20;
+                    for (let i = 0; i < 3; i++) {
+                        obstacles.push({
+                            x: Math.random() * (canvas.width - 200),
+                            y: Math.random() * (canvas.height - 200),
+                            width: player.width,
+                            height: player.height,
+                            speed: 5,
+                            type: 'samBankman'
+                        });
+                    }
                 }
 
                 // Check for collision with Sam Bankman
@@ -1630,7 +1648,7 @@
         }
     </script>
     <div class="footer" id="navigation-bar">
-        <div class="footer-item" onclick="navigateToHome()">
+        <div class="footer-item active" onclick="navigateToHome()">
             <div class="icon">🌍</div>
             <div>Wen</div>
         </div>

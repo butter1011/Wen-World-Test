@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,7 +91,7 @@
         }
 
         #triend-message {
-            top: 75%;
+            top: 70%;
         }
 
         #game-over-screen {
@@ -117,6 +116,8 @@
         }
 
         .leaderboard-container {
+            width: 100%;
+            max-width: 400px;
             margin: 0 auto;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
@@ -198,7 +199,7 @@
             min-width: 160px;
             max-height: 200px;
             overflow-y: auto;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
             border-radius: 10px;
         }
@@ -337,6 +338,7 @@
             padding: 5px 0;
             border-top: 1px solid #333;
             width: 100%;
+            max-width: 400px;
             background-color: black;
             box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5);
             height: 50px;
@@ -369,34 +371,17 @@
     <!-- Telegram Web Apps JavaScript API -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
-
 <body>
     <div id="opening-page">
         <div id="characters">
-            <img id="player-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1"
-                alt="Player">
-            <img id="good-coin-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/lpmmzradg397jl3uk0faf/Add-a-subheading-6.svg?rlkey=oyxoux29ln5qfjhm2chexir3d&raw=1"
-                alt="Good Coin">
-            <img id="bad-coin-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/ffprp1gne2k3qi9s65diq/Add-a-subheading-3.svg?rlkey=44ro7mwowu390lkjbyilkoqb8&raw=1"
-                alt="Bad Coin">
-            <img id="bull-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/dslt1d1kd7xwp6hypdgw8/.svg?rlkey=6g1snhasrq5fklpknwlsvpmes&raw=1"
-                alt="Bull">
-            <img id="bear-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/73ioipk50ixg9qld604rs/Add-a-subheading-32.png?rlkey=f24ub3dcyz2wbokphi5pg2l12&raw=1"
-                alt="Bear">
-            <img id="sam-bankman-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/tlsn0iioa257wbtf58lso/Add-a-subheading-29.png?rlkey=vwr7rc5m23ecjcc4dk443g9h4&raw=1"
-                alt="Sam Bankman">
-            <img id="triend-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/g2o9xn1qnshg54oupj38l/Add-a-subheading-7.svg?rlkey=lp9evhxzdwvxit2dik3qi0j9x&raw=1"
-                alt="Triend">
-            <img id="zkp-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/4h2xc3pwt20dgcro6g9q8/Add-a-subheading-11.svg?rlkey=2se4mwne0p256k5rzh86l74zl&raw=1"
-                alt="ZKP">
+            <img id="player-img" loading="lazy" src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1" alt="Player">
+            <img id="good-coin-img" loading="lazy" src="https://www.dropbox.com/scl/fi/lpmmzradg397jl3uk0faf/Add-a-subheading-6.svg?rlkey=oyxoux29ln5qfjhm2chexir3d&raw=1" alt="Good Coin">
+            <img id="bad-coin-img" loading="lazy" src="https://www.dropbox.com/scl/fi/ffprp1gne2k3qi9s65diq/Add-a-subheading-3.svg?rlkey=44ro7mwowu390lkjbyilkoqb8&raw=1" alt="Bad Coin">
+            <img id="bull-img" loading="lazy" src="https://www.dropbox.com/scl/fi/dslt1d1kd7xwp6hypdgw8/.svg?rlkey=6g1snhasrq5fklpknwlsvpmes&raw=1" alt="Bull">
+            <img id="bear-img" loading="lazy" src="https://www.dropbox.com/scl/fi/73ioipk50ixg9qld604rs/Add-a-subheading-32.png?rlkey=f24ub3dcyz2wbokphi5pg2l12&raw=1" alt="Bear">
+            <img id="sam-bankman-img" loading="lazy" src="https://www.dropbox.com/scl/fi/tlsn0iioa257wbtf58lso/Add-a-subheading-29.png?rlkey=vwr7rc5m23ecjcc4dk443g9h4&raw=1" alt="Sam Bankman">
+            <img id="triend-img" loading="lazy" src="https://www.dropbox.com/scl/fi/g2o9xn1qnshg54oupj38l/Add-a-subheading-7.svg?rlkey=lp9evhxzdwvxit2dik3qi0j9x&raw=1" alt="Triend">
+            <img id="zkp-img" loading="lazy" src="https://www.dropbox.com/scl/fi/4h2xc3pwt20dgcro6g9q8/Add-a-subheading-11.svg?rlkey=2se4mwne0p256k5rzh86l74zl&raw=1" alt="ZKP">
         </div>
         <h1>Do you want to enter the world of wen?</h1>
         <button id="yes-button" onclick="startGame()">Yes</button>
@@ -412,19 +397,16 @@
     </div>
     <div id="score-breakdown" style="display:none;"></div>
     <button id="end-and-bank-button" style="display:none;" onclick="endAndBank()">End and Bank</button>
-    <div id="message" class="message" style="color: red;">Sammy just rug pulled you</div>
-    <div id="leverage-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points
-    </div>
-    <div id="bear-value" class="message" style="color: red;">Market maker bear has stolen your gains</div>
-    <div id="boost-message" class="message" style="color: green;">Short Squeeeeze</div>
-    <div id="slowdown-message" class="message" style="color: red;">You've been stopped out</div>
-    <div id="last-life-message" class="message"
-        style="top: 50%; transform: translate(-50%, -50%); background-color: red; color: white;">Warning: One life
-        remaining!</div>
-    <div id="zkp-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points</div>
-    <div id="triend-message" class="message" style="color: green;">200 Triend points collected</div>
+    <div id="message" class="message">Sammy just rug pulled you</div>
+    <div id="leverage-message" class="message">Infinite knowledge grants you +100 Triend points</div>
+    <div id="bear-value" class="message">Market maker bear has stolen your gains</div>
+    <div id="boost-message" class="message">Short Squeeeeze</div>
+    <div id="slowdown-message" class="message">You've been stopped out</div>
+    <div id="last-life-message" class="message" style="top: 50%; transform: translate(-50%, -50%); background-color: red; color: white;">Warning: One life remaining!</div>
+    <div id="zkp-message" class="message">Infinite knowledge grants you +100 Triend points</div>
+    <div id="triend-message" class="message">200 Triend points collected</div>
     <div id="game-over-screen">
-        <div id="game-over" style="color: red;">Game Over</div>
+        <div id="game-over">Game Over</div>
         <div class="leaderboard-container">
             <div class="leaderboard-header">
                 My Wen Scores
@@ -458,8 +440,7 @@
         </div>
     </div>
     <div id="flash-screen"></div>
-    <audio id="cashRegisterSound" src="https://freesound.org/data/previews/195/195138_2074484-lq.mp3"
-        preload="auto"></audio>
+    <audio id="cashRegisterSound" src="https://freesound.org/data/previews/195/195138_2074484-lq.mp3" preload="auto"></audio>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             console.log("DOM fully loaded and parsed");
@@ -519,7 +500,7 @@
                 imageElements[src].src = sources[src];
 
                 // Log any transparency issues
-                imageElements[src].onerror = function () {
+                imageElements[src].onerror = function() {
                     console.error(`Error loading image ${sources[src]}`);
                 };
             }
@@ -569,7 +550,6 @@
         let allTimeTopScore = 0;
         let collectingCoins = false;
         let clearingCoins = false;
-        let goldToken = 5;
         const debugMode = false; // Change this to true to enable hitbox visualization
 
         const terrains = [
@@ -834,58 +814,25 @@
             showMessage("Coins banked successfully!", 2000);
         }
 
-        function displayLeaderboard(leaderboard) {
+        function displayLeaderboard() {
             const leaderboardList = document.getElementById('leaderboard-list');
-            const user = window.Telegram.WebApp.initDataUnsafe.user;
             leaderboardList.innerHTML = '';
-            fetch(`https://wen-world-test.onrender.com/leaderboard_data?user_id=${user.id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    data.sort((a, b) => b.score - a.points).forEach((entry, index) => {
-                        const listItem = document.createElement('tr');
-                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.points}</td><td>${entry.date}</td>`;
-                        leaderboardList.appendChild(listItem);
-                    });
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+            leaderboard.sort((a, b) => b.score - a.score).forEach((entry, index) => {
+                const listItem = document.createElement('tr');
+                listItem.innerHTML = `<td>${index + 1}</td><td>${entry.score}</td><td>${entry.date}</td>`;
+                leaderboardList.appendChild(listItem);
+            });
         }
 
         function saveScore() {
-            // const playerName = "matt"; 
-            const user = window.Telegram.WebApp.initDataUnsafe.user;
-
-            if (user) {
-                const playerName = user.username || null;
-                const playerId = user.id;
-
-                console.log("-------------------------------------");
-                console.log(playerId, playerName, score);
-                console.log("-------------------------------------");
-
-                fetch('https://wen-world-test.onrender.com/update_score', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 'user_id': playerId, 'name': playerName, 'score': score }),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Success:', data);
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
-
-                displayLeaderboard();
-            }
+            const playerName = "matt"; 
+            const today = new Date().toLocaleDateString();
+            leaderboard.push({
+                score: todayScore,
+                date: today
+            });
+            localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+            displayLeaderboard();
         }
 
         function shareWithFriends() {
@@ -1090,12 +1037,9 @@
                     console.log(`Collision detected between player and ${coin.type} coin at (${coin.x}, ${coin.y})`);
                     let breakdownMessage = '';
                     if (coin.type === 'good') {
-                        score += goldToken; // +15 points for good coins
+                        score += 5; // +5 points for good coins
                         cashRegisterSound.play();
-                        breakdownMessage = `<span style="color:green;">${goldToken} Triend points collected</span>`;
-                        setTimeout(() => {
-                            goldToken = 5;
-                        }, 2000);
+                        breakdownMessage = `<span style="color:green;">5 Triend points collected</span>`;
                     } else {
                         const shitCoinPoints = Math.floor(Math.random() * 81) - 40; // -40 to +40 points for shit coins
                         score += shitCoinPoints;
@@ -1121,7 +1065,6 @@
                     console.log(`Collision detected between player and ${obstacle.type} obstacle at (${obstacle.x}, ${obstacle.y})`);
                     showMessage('<span style="color:green;">This Ones For Retail</span>');
                     obstacles = obstacles.filter(o => o !== obstacle);
-                    
                 }
 
                 // Check for collision with bear
@@ -1133,22 +1076,10 @@
                     console.log(`Collision detected between player and ${obstacle.type} obstacle at (${obstacle.x}, ${obstacle.y})`);
                     showMessage('<span style="color:red;">Market Maker Bear Has Stolen Your Gains</span>');
                     obstacles = obstacles.filter(o => o !== obstacle);
-                    //actions
-                    score = score - 20;
-                    for (let i = 0; i < 3; i++) {
-                        obstacles.push({
-                            x: canvas.width,
-                            y: Math.random() * (canvas.height - 200),
-                            width: player.width,
-                            height: player.height,
-                            speed: 5,
-                            type: 'samBankman'
-                        });
-                    }
                 }
 
                 // Handle other obstacles (e.g., samBankman, candles, etc.)
-                if ((obstacle.type === 'samBankman' || obstacle.type === 'redCandle') &&
+                if ((obstacle.type === 'samBankman' || obstacle.type === 'bear' || obstacle.type === 'redCandle') &&
                     player.x < obstacle.x + obstacle.width &&
                     player.x + player.width > obstacle.x &&
                     player.y < obstacle.y + obstacle.height &&
@@ -1273,7 +1204,7 @@
                             const zkpMessage = document.getElementById('zkp-message');
                             zkpMessage.style.display = 'block';
                             setTimeout(() => {
-                                zkpMessage.style.display = 'none'
+                                zkpMessage.style.display = 'none');
                             }, 3000);
                             obstacles = obstacles.filter(o => o !== obstacle);
                         }
@@ -1483,7 +1414,7 @@
         displayLeaderboard();
 
         document.getElementById('share-button').addEventListener('click', toggleDropdown);
-        window.onclick = function (event) {
+        window.onclick = function(event) {
             if (!event.target.matches('#share-button') && !event.target.closest('#share-dropdown')) {
                 const dropdowns = document.getElementsByClassName("share-dropdown");
                 for (let i = 0; i < dropdowns.length; i++) {
@@ -1514,7 +1445,7 @@
         highlightCurrentPage();
     </script>
     <div class="footer" id="navigation-bar">
-        <div class="footer-item active" onclick="navigateToHome()">
+        <div class="footer-item" onclick="navigateToHome()">
             <div class="icon">🌍</div>
             <div>Wen</div>
         </div>
@@ -1537,5 +1468,4 @@
         }
     </script>
 </body>
-
 </html>

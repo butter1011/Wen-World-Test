@@ -7,10 +7,8 @@
     <title>Telegram Game</title>
     <style>
         @font-face {
-            font-family: 'Avenir';
-            src: url('https://fonts.cdnfonts.com/s/49041/AvenirNextLTPro-Bold.woff') format('woff');
-            font-weight: bold;
-            font-style: normal;
+            font-family: 'PixelFont';
+            src: url('https://example.com/path-to-your-pixel-font.ttf') format('truetype');
         }
 
         body,
@@ -34,6 +32,18 @@
         }
 
         #gameCanvas {
+            display: none;
+        }
+
+        #countdown {
+            font-family: 'PixelFont', sans-serif;
+            font-size: 10vh;
+            color: #ff00ff;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             display: none;
         }
 
@@ -92,7 +102,7 @@
         }
 
         #triend-message {
-            top: 75%;
+            top: 70%;
         }
 
         #game-over-screen {
@@ -117,6 +127,8 @@
         }
 
         .leaderboard-container {
+            width: 100%;
+            max-width: 400px;
             margin: 0 auto;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
@@ -186,7 +198,7 @@
             color: black;
         }
 
-        #share-button {
+        #add-points-button {
             position: relative;
             display: inline-block;
         }
@@ -218,12 +230,11 @@
         #score {
             position: absolute;
             top: 2vh;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 2vh;
             font-size: 3vh;
             color: white;
-            text-align: center;
-            width: 90vw;
+            text-align: left;
+            width: auto;
             z-index: 10;
         }
 
@@ -242,8 +253,7 @@
         #health-container {
             position: absolute;
             top: 7vh;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 2vh;
             width: 15vw;
             height: 10px;
             background: url('path/to/health-bar.png') no-repeat center;
@@ -266,7 +276,8 @@
         #end-and-bank-button {
             position: absolute;
             top: 2vh;
-            right: 2vh;
+            right: 10vh;
+            /* Adjusted to make space for info button */
             padding: 1vh 2vh;
             font-size: 2vh;
             background-color: red;
@@ -275,6 +286,65 @@
             border-radius: 5px;
             cursor: pointer;
             z-index: 10;
+        }
+
+        #info-button {
+            position: absolute;
+            top: 2vh;
+            right: 2vh;
+            width: 5vh;
+            height: 5vh;
+            background-color: #ADD8E6;
+            color: black;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 2.5vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        #info-modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        #info-modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            font-size: 2.5vh;
+            color: black;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
 
         #flash-screen {
@@ -336,21 +406,22 @@
             align-items: center;
             padding: 5px 0;
             border-top: 1px solid #333;
+            position: fixed;
+            bottom: 0;
             width: 100%;
+            max-width: 400px;
             background-color: black;
             box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5);
             height: 50px;
-            position: fixed;
-            bottom: 10px;
-            border-radius: 15px;
-            margin: 0 10px;
+            z-index: 1000;
+            border-radius: 10px 10px 0 0;
         }
 
         .footer .footer-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-size: 2vh;
+            font-size: 10px;
             color: #aaa;
             cursor: pointer;
             padding: 2px 0;
@@ -358,7 +429,7 @@
         }
 
         .footer .footer-item .icon {
-            font-size: 3vh;
+            font-size: 20px;
             margin-bottom: 2px;
         }
 
@@ -398,13 +469,14 @@
                 src="https://www.dropbox.com/scl/fi/4h2xc3pwt20dgcro6g9q8/Add-a-subheading-11.svg?rlkey=2se4mwne0p256k5rzh86l74zl&raw=1"
                 alt="ZKP">
         </div>
-        <h1>Do you want to enter the world of wen?</h1>
-        <button id="yes-button" onclick="startGame()">Yes</button>
+        <h1>Enter Wen World?</h1>
+        <button id="yes-button" onclick="startCountdown()">Yes</button>
         <button id="no-button" onclick="showNoMessage()">No</button>
     </div>
     <div id="game-container">
         <canvas id="gameCanvas"></canvas>
     </div>
+    <div id="countdown">3</div>
     <div class="ground" id="ground" style="display:none;"></div>
     <div id="score" style="display:none;">Score: 0</div>
     <div id="health-container" style="display:none;">
@@ -412,19 +484,19 @@
     </div>
     <div id="score-breakdown" style="display:none;"></div>
     <button id="end-and-bank-button" style="display:none;" onclick="endAndBank()">End and Bank</button>
-    <div id="message" class="message" style="color: red;">Sammy just rug pulled you</div>
-    <div id="leverage-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points
-    </div>
-    <div id="bear-value" class="message" style="color: red;">Market maker bear has stolen your gains</div>
-    <div id="boost-message" class="message" style="color: green;">Short Squeeeeze</div>
-    <div id="slowdown-message" class="message" style="color: red;">You've been stopped out</div>
+    <button id="info-button">i</button>
+    <div id="message" class="message">Sammy just rug pulled you</div>
+    <div id="leverage-message" class="message">Infinite knowledge grants you +100 Triend points</div>
+    <div id="bear-value" class="message">Market maker bear has stolen your gains</div>
+    <div id="boost-message" class="message"> Short Squeeeeze</div>
+    <div id="slowdown-message" class="message">You've been stopped out</div>
     <div id="last-life-message" class="message"
         style="top: 50%; transform: translate(-50%, -50%); background-color: red; color: white;">Warning: One life
         remaining!</div>
-    <div id="zkp-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points</div>
-    <div id="triend-message" class="message" style="color: green;">200 Triend points collected</div>
+    <div id="zkp-message" class="message">Infinite knowledge grants you +100 Triend points</div>
+    <div id="triend-message" class="message">200 Triend points collected</div>
     <div id="game-over-screen">
-        <div id="game-over" style="color: red;">Game Over</div>
+        <div id="game-over">Game Over</div>
         <div class="leaderboard-container">
             <div class="leaderboard-header">
                 My Wen Scores
@@ -446,7 +518,7 @@
                 </table>
             </div>
             <div class="buttons">
-                <div id="share-button" class="my-progress">Share
+                <div id="add-points-button" class="my-progress">Add Points
                     <div id="share-dropdown" class="share-dropdown">
                         <a href="#" onclick="shareOnDiscord()">Discord</a>
                         <a href="#" onclick="shareOnTelegram()">Telegram</a>
@@ -455,6 +527,47 @@
                 </div>
                 <button class="my-progress" onclick="restartGame()">Play Again</button>
             </div>
+        </div>
+    </div>
+    <div id="info-modal">
+        <div id="info-modal-content">
+            <span class="close">&times;</span>
+            <h2>How to Play "The World of Wen"</h2>
+            <p>🚀 Welcome to the World of Wen! Dive into the ultimate crypto game where dodging bulls and bears is just
+                part of the fun. Here’s your quick guide to conquering the digital chaos:</p>
+            <h3>🎮 Starting the Game</h3>
+            <p>Enter the Game: Smash that “Yes” button on the splash screen to kick off your crypto quest. Hit “No,” and
+                you miss out—simple as that.</p>
+            <p>Choose Your Hero: Spot some cool character avatars on the opening page? Pick one to represent you in the
+                digital fray! (Character options might vary with updates.)</p>
+            <h3>🏃‍♂️ Gameplay Basics</h3>
+            <p>Jump Around: Tap Spacebar or Arrow Up to jump. Keep those reflexes sharp to snag coins and dodge the
+                dips!</p>
+            <p>Touch to Leap: Playing on mobile? Just tap the screen to make your move.</p>
+            <p>Multi-Jump Mastery: You can jump up to four times in a row—perfect for tricky traps and awesome coin
+                grabs.</p>
+            <h3>💰 Collecting Coins and Power-Ups</h3>
+            <p>Wen Coins Galore: Grab those shiny "Good Coins" to boost your score. Steer clear of the "Bad Coins"
+                unless you’re feeling risky—they might just slash your stash.</p>
+            <p>Power-Up Party: Snatch "Triend tokens" for a sweet score surge or grab a "ZKP" for a moment of
+                market-proof invincibility.</p>
+            <h3>🐂 Bulls and Bears</h3>
+            <p>Bull Boosts: Bulls send you flying forward—ride their momentum to reach new heights.</p>
+            <p>Bear Bumps: Bears will drag you down. Outsmart them or prepare to lose ground!</p>
+            <h3>🎭 Meet the Market Movers</h3>
+            <p>Sam Bankman and Friends: These characters can make or break your game. Some will rocket your score,
+                others might tank it—watch out!</p>
+            <h3>❤️ Keep Your Health Up</h3>
+            <p>Health Bar Check: Keep an eye on your health up top. Hit too many snags and it’s game over!</p>
+            <p>Bank or Bust: Hit “End and Bank” to secure your coins and lock in your score before you crash.</p>
+            <h3>🏆 Leaderboard and Sharing</h3>
+            <p>Climb the Ranks: Game over? Check the leaderboard to see how you stack up.</p>
+            <p>Share the Wealth: Flaunt your high score across Discord, Telegram, and Twitter with a quick click!</p>
+            <h3>🔄 Ready to Replay?</h3>
+            <p>Quick Restart: Tap “Play Again” to dive back into the fray. Can you beat your best score?</p>
+            <h3>Get Set, Go!</h3>
+            <p>Strap in, strategize, and sprint through "The World of Wen." Are you ready to top the leaderboard? Let’s
+                see what you’ve got—ready, set, trade! 🌟</p>
         </div>
     </div>
     <div id="flash-screen"></div>
@@ -558,7 +671,7 @@
         let slowdownActive = false;
         let reducedPointsActive = false;
         let reducedPointsDuration = 5000;
-        let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+        // let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
         let doublePointsActive = false;
         let doubleGoodCoinSpawn = false;
         let bullTouched = false;
@@ -569,7 +682,6 @@
         let allTimeTopScore = 0;
         let collectingCoins = false;
         let clearingCoins = false;
-        let goldToken = 5;
         const debugMode = false; // Change this to true to enable hitbox visualization
 
         const terrains = [
@@ -836,9 +948,8 @@
 
         function displayLeaderboard(leaderboard) {
             const leaderboardList = document.getElementById('leaderboard-list');
-            const user = window.Telegram.WebApp.initDataUnsafe.user;
             leaderboardList.innerHTML = '';
-            fetch(`https://wen-world-test.onrender.com/leaderboard_data?user_id=${user.id}`, {
+            fetch('/leaderboard_data', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -846,9 +957,9 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    data.sort((a, b) => b.score - a.points).forEach((entry, index) => {
+                    data.sort((a, b) => b.score - a.score).forEach((entry, index) => {
                         const listItem = document.createElement('tr');
-                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.points}</td><td>${entry.date}</td>`;
+                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.score}</td><td>${entry.date}</td>`;
                         leaderboardList.appendChild(listItem);
                     });
                 })
@@ -864,17 +975,14 @@
             if (user) {
                 const playerName = user.username || null;
                 const playerId = user.id;
+                const today = new Date().toLocaleDateString();
 
-                console.log("-------------------------------------");
-                console.log(playerId, playerName, score);
-                console.log("-------------------------------------");
-
-                fetch('https://wen-world-test.onrender.com/update_score', {
+                fetch('/update_score', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ 'user_id': playerId, 'name': playerName, 'score': score }),
+                    body: JSON.stringify({ 'user_id': playerId, 'name': playername, 'date': today, 'score': score }),
                 })
                     .then(response => response.json())
                     .then(data => {
@@ -883,7 +991,6 @@
                     .catch((error) => {
                         console.error('Error:', error);
                     });
-
                 displayLeaderboard();
             }
         }
@@ -951,6 +1058,26 @@
 
         function showNoMessage() {
             alert("You chose not to enter the world of wen. The game will not start.");
+        }
+
+        function startCountdown() {
+            document.getElementById('opening-page').style.display = 'none';
+            const countdownElement = document.getElementById('countdown');
+            countdownElement.style.display = 'block';
+            let countdown = 3;
+            countdownElement.innerHTML = countdown;
+            const interval = setInterval(() => {
+                countdown--;
+                if (countdown > 0) {
+                    countdownElement.innerHTML = countdown;
+                } else if (countdown === 0) {
+                    countdownElement.innerHTML = 'GO!';
+                } else {
+                    clearInterval(interval);
+                    countdownElement.style.display = 'none';
+                    startGame();
+                }
+            }, 1000);
         }
 
         function restartGame() {
@@ -1090,12 +1217,9 @@
                     console.log(`Collision detected between player and ${coin.type} coin at (${coin.x}, ${coin.y})`);
                     let breakdownMessage = '';
                     if (coin.type === 'good') {
-                        score += goldToken; // +15 points for good coins
+                        score += 5; // +5 points for good coins
                         cashRegisterSound.play();
-                        breakdownMessage = `<span style="color:green;">${goldToken} Triend points collected</span>`;
-                        setTimeout(() => {
-                            goldToken = 5;
-                        }, 2000);
+                        breakdownMessage = `<span style="color:green;">5 Triend points collected</span>`;
                     } else {
                         const shitCoinPoints = Math.floor(Math.random() * 81) - 40; // -40 to +40 points for shit coins
                         score += shitCoinPoints;
@@ -1121,7 +1245,6 @@
                     console.log(`Collision detected between player and ${obstacle.type} obstacle at (${obstacle.x}, ${obstacle.y})`);
                     showMessage('<span style="color:green;">This Ones For Retail</span>');
                     obstacles = obstacles.filter(o => o !== obstacle);
-                    
                 }
 
                 // Check for collision with bear
@@ -1133,65 +1256,41 @@
                     console.log(`Collision detected between player and ${obstacle.type} obstacle at (${obstacle.x}, ${obstacle.y})`);
                     showMessage('<span style="color:red;">Market Maker Bear Has Stolen Your Gains</span>');
                     obstacles = obstacles.filter(o => o !== obstacle);
-                    //actions
-                    score = score - 20;
-                    for (let i = 0; i < 3; i++) {
-                        obstacles.push({
-                            x: canvas.width,
-                            y: Math.random() * (canvas.height - 200),
-                            width: player.width,
-                            height: player.height,
-                            speed: 5,
-                            type: 'samBankman'
-                        });
-                    }
                 }
 
-                // Handle other obstacles (e.g., samBankman, candles, etc.)
-                if ((obstacle.type === 'samBankman' || obstacle.type === 'redCandle') &&
+                // Check for collision with Sam Bankman
+                if (obstacle.type === 'samBankman' &&
                     player.x < obstacle.x + obstacle.width &&
                     player.x + player.width > obstacle.x &&
                     player.y < obstacle.y + obstacle.height &&
                     player.y + player.height > obstacle.y) {
-                    const now = Date.now();
-                    if (now - lastHurtTime > 3000) {
-                        player.health--;
-                        lastHurtTime = now;
-                        player.dy = player.jumpPower * 2;
-                        player.visible = false;
-                        showFlash();
-                        setTimeout(() => {
-                            player.visible = true;
-                            player.y = canvas.height - player.height - 25;
-                            player.dy = 0;
-                            updateHealth();
-                        }, 1000);
-                        obstacle.y = canvas.height + 100;
-                        setTimeout(() => {
-                            obstacles = obstacles.filter(o => o !== obstacle);
-                        }, 500);
-                        if (player.health === 1) {
-                            showLastLifeMessage();
+                    console.log(`Collision detected between player and ${obstacle.type} obstacle at (${obstacle.x}, ${obstacle.y})`);
+                    score = Math.floor(score / 2); // Halve the score
+                    player.health--; // Reduce one life
+                    showMessage('<span style="color:red;">Sammy just rug pulled you</span>');
+                    obstacles = obstacles.filter(o => o !== obstacle);
+                    updateScore();
+                    updateHealth();
+                    if (player.health === 1) {
+                        showLastLifeMessage();
+                    }
+                    if (player.health <= 0) {
+                        gameOver = true;
+                        document.getElementById('game-over-screen').style.display = 'block';
+                        document.getElementById('score').style.display = 'none';
+                        document.getElementById('score-breakdown').style.display = 'none';
+                        document.getElementById('health-container').style.display = 'none';
+                        document.getElementById('end-and-bank-button').style.display = 'none';
+                        showNavigationBar();  // Show the navigation bar when the game ends
+                        if (todayScore > allTimeTopScore) {
+                            allTimeTopScore = todayScore;
                         }
-                        if (player.health <= 0) {
-                            gameOver = true;
-                            document.getElementById('game-over-screen').style.display = 'block';
-                            document.getElementById('score').style.display = 'none';
-                            document.getElementById('score-breakdown').style.display = 'none';
-                            document.getElementById('health-container').style.display = 'none';
-                            document.getElementById('end-and-bank-button').style.display = 'none';
-                            showNavigationBar();  // Show the navigation bar when the game ends
-                            if (todayScore > allTimeTopScore) {
-                                allTimeTopScore = todayScore;
-                            }
-                            saveScore();
-                            return;
-                        }
-                        showFlash();
-                        updateHealth();
+                        saveScore();
+                        return;
                     }
                 }
 
+                // Handle other obstacles (e.g., candles, etc.)
                 if (obstacle.type === 'candleGreen' &&
                     player.x < obstacle.x + obstacle.width &&
                     player.x + player.width > obstacle.x &&
@@ -1254,11 +1353,7 @@
                     player.y + player.height > obstacle.y) {
                     const now = Date.now();
                     if (now - lastHurtTime > 3000) {
-                        if (obstacle.type === 'samBankman') {
-                            score = Math.floor(score / 2);
-                            updateScore(`<span style="color:red;">Sammy just rug pulled you</span>`);
-                            obstacles = obstacles.filter(o => o !== obstacle);
-                        } else if (obstacle.type === 'triend') {
+                        if (obstacle.type === 'triend') {
                             score += 200; // +200 points for Triend
                             updateScore(`<span style="color:green;">200 Triend points collected</span>`);
                             const triendMessage = document.getElementById('triend-message');
@@ -1273,7 +1368,7 @@
                             const zkpMessage = document.getElementById('zkp-message');
                             zkpMessage.style.display = 'block';
                             setTimeout(() => {
-                                zkpMessage.style.display = 'none'
+                                zkpMessage.style.display = 'none';
                             }, 3000);
                             obstacles = obstacles.filter(o => o !== obstacle);
                         }
@@ -1482,9 +1577,11 @@
 
         displayLeaderboard();
 
-        document.getElementById('share-button').addEventListener('click', toggleDropdown);
+        document.getElementById('add-points-button').addEventListener('click', () => {
+            window.location.href = '/tasks';
+        });
         window.onclick = function (event) {
-            if (!event.target.matches('#share-button') && !event.target.closest('#share-dropdown')) {
+            if (!event.target.matches('#add-points-button') && !event.target.closest('#share-dropdown')) {
                 const dropdowns = document.getElementsByClassName("share-dropdown");
                 for (let i = 0; i < dropdowns.length; i++) {
                     const openDropdown = dropdowns[i];
@@ -1512,9 +1609,28 @@
 
         // Call the function on page load
         highlightCurrentPage();
+
+        // Info modal script
+        const infoButton = document.getElementById("info-button");
+        const infoModal = document.getElementById("info-modal");
+        const closeSpan = document.getElementsByClassName("close")[0];
+
+        infoButton.onclick = function () {
+            infoModal.style.display = "block";
+        }
+
+        closeSpan.onclick = function () {
+            infoModal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target === infoModal) {
+                infoModal.style.display = "none";
+            }
+        }
     </script>
     <div class="footer" id="navigation-bar">
-        <div class="footer-item active" onclick="navigateToHome()">
+        <div class="footer-item" onclick="navigateToHome()">
             <div class="icon">🌍</div>
             <div>Wen</div>
         </div>
