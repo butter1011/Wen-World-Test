@@ -57,6 +57,7 @@ def tasks_page():
 def test_page():
     return "<h1>Test Page</h1>"
 
+
 # Route to handle referral links and display custom message
 @app.route("/referral/<ref_code>")
 def referral(ref_code):
@@ -111,11 +112,14 @@ def update_score():
         user_id = data.get("user_id")
         name = data.get("name")
         score = data.get("score")
+        logging.debug(f"Updating score for user {user_id}: {score}:{name}")
 
         if not all([user_id, name, score]):
-            return jsonify({"status": "error", "message": "Missing required fields"}), 400
+            return (
+                jsonify({"status": "error", "message": "Missing required fields"}),
+                400,
+            )
 
-        db = firestore.client()
         user_ref = db.collection("users").document(user_id)
         user_doc = user_ref.get()
         timestamp = datetime.now().isoformat()
@@ -125,22 +129,21 @@ def update_score():
             user_ref.set({"name": name}, merge=True)
         else:
             # Create new user
-            user_ref.set({
-                "name": name,
-                "created_at": timestamp
-            })
+            user_ref.set({"name": name, "created_at": timestamp})
 
         # Add new score
         scores_ref = user_ref.collection("scores").document()
-        scores_ref.set({
-            "score": score,
-            "timestamp": timestamp
-        })
+        scores_ref.set({"score": score, "timestamp": timestamp})
 
-        return jsonify({
-            "status": "success",
-            "message": "Score updated and user data saved",
-        }), 200
+        return (
+            jsonify(
+                {
+                    "status": "success",
+                    "message": "Score updated and user data saved",
+                }
+            ),
+            200,
+        )
 
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
@@ -179,6 +182,7 @@ def leaderboard_data():
     print(f"Leaderboard data: {leaderboard}")
 
     return jsonify(leaderboard)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
