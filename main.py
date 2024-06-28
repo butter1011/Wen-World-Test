@@ -2,23 +2,23 @@ import logging
 import requests
 import time
 from flask import Flask, request, jsonify, render_template
-from telegram import (
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    WebAppInfo,
-    Update,
-)
-from telegram.ext import (
-    Application,
-    CallbackContext,
-    CallbackQueryHandler,
-    CommandHandler,
-    ContextTypes,
-    ExtBot,
-    MessageHandler,
-    CallbackQueryHandler,
-    filters,
-)
+# from telegram import (
+#     InlineKeyboardButton,
+#     InlineKeyboardMarkup,
+#     WebAppInfo,
+#     Update,
+# )
+# from telegram.ext import (
+#     Application,
+#     CallbackContext,
+#     CallbackQueryHandler,
+#     CommandHandler,
+#     ContextTypes,
+#     ExtBot,
+#     MessageHandler,
+#     CallbackQueryHandler,
+#     filters,
+# )
 import firebase_admin
 from firebase_admin import credentials, firestore
 from datetime import datetime
@@ -63,27 +63,27 @@ db = firestore.client()
 
 
 # Serve the game HTML
-# @app.route('/')
-# def index():
-#     return render_template('index.html')
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
-# # Serve the leaderboard HTML
-# @app.route('/leaderboard')
-# def leaderboard_page():
-#     return render_template('leaderboard.html')
+# Serve the leaderboard HTML
+@app.route('/leaderboard')
+def leaderboard_page():
+    return render_template('leaderboard.html')
 
 
-# # Serve the tasks HTML
-# @app.route('/tasks')
-# def tasks_page():
-#     return render_template('tasks.html')
+# Serve the tasks HTML
+@app.route('/tasks')
+def tasks_page():
+    return render_template('tasks.html')
 
 
-# # Test route
-# @app.route('/test')
-# def test_page():
-#     return '<h1>Test Page</h1>'
+# Test route
+@app.route('/test')
+def test_page():
+    return '<h1>Test Page</h1>'
 
 
 # # Webhook route to handle Telegram updates
@@ -93,92 +93,92 @@ db = firestore.client()
 #     dispatcher.process_update(update)
 #     return 'ok'
 
-def setUserId(context: ContextTypes.DEFAULT_TYPE):
-    # Init the user
-    response = requests.post(
-        f"{SERVER}/api/v1/user", json={"user_id": context.chat_data["userId"]}
-    )
+# def setUserId(context: ContextTypes.DEFAULT_TYPE):
+#     # Init the user
+#     response = requests.post(
+#         f"{SERVER}/api/v1/user", json={"user_id": context.chat_data["userId"]}
+#     )
 
-    # Reply Buttons when click '/start'
-    startGameButton = InlineKeyboardButton(
-        text="💰 Start the Game!",
-        web_app=WebAppInfo(
-            "https://wen-world-bot-web.vercel.app"
-        ),
-    )
+#     # Reply Buttons when click '/start'
+#     startGameButton = InlineKeyboardButton(
+#         text="💰 Start the Game!",
+#         web_app=WebAppInfo(
+#             "https://wen-world-bot-web.vercel.app"
+#         ),
+#     )
 
-    # referralUser = InlineKeyboardButton(
-    #     text="🪄 Invite the User", callback_data="inviteBtn"
-    # )
-    # connectWallet = InlineKeyboardButton(
-    #     text="💰 Connect Wallet", callback_data="connect_wallet"
-    # )
-    # userProfile = InlineKeyboardButton(
-    #     text="👤 Profile", callback_data="userprofileBtn"
-    # )
+#     # referralUser = InlineKeyboardButton(
+#     #     text="🪄 Invite the User", callback_data="inviteBtn"
+#     # )
+#     # connectWallet = InlineKeyboardButton(
+#     #     text="💰 Connect Wallet", callback_data="connect_wallet"
+#     # )
+#     # userProfile = InlineKeyboardButton(
+#     #     text="👤 Profile", callback_data="userprofileBtn"
+#     # )
 
-    configKeyboardMarkup = InlineKeyboardMarkup(
-        [
-            [startGameButton],
-            # [connectWallet],
-            # [referralUser],
-            # [userProfile],
-        ]
-    )
+#     configKeyboardMarkup = InlineKeyboardMarkup(
+#         [
+#             [startGameButton],
+#             # [connectWallet],
+#             # [referralUser],
+#             # [userProfile],
+#         ]
+#     )
 
-    return configKeyboardMarkup
+#     return configKeyboardMarkup
 
 # start commmand
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Get User ID
-    context.chat_data["userId"] = update.effective_message.chat_id
-    # Set User
-    configKeyboardMarkup = setUserId(context)
-    # Get Inviter Id
-    args = context.args
+# async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     # Get User ID
+#     context.chat_data["userId"] = update.effective_message.chat_id
+#     # Set User
+#     configKeyboardMarkup = setUserId(context)
+#     # Get Inviter Id
+#     args = context.args
 
-    if update.effective_user.username:
-        print(
-            f"Username------------>{update.effective_user.username}\nTime-------------------->{time.strftime('%y/%m/%d %H:%M:%S', time.localtime())}\n"
-        )
+#     if update.effective_user.username:
+#         print(
+#             f"Username------------>{update.effective_user.username}\nTime-------------------->{time.strftime('%y/%m/%d %H:%M:%S', time.localtime())}\n"
+#         )
 
-    # # Set the Inviter Id
-    # if args:
-    #     inviter_id = args[0]
-    #     context.chat_data["inviter_id"] = inviter_id
-    #     newUser = context.chat_data["userId"]
-    #     response = setInviterUserId(context)
+#     # # Set the Inviter Id
+#     # if args:
+#     #     inviter_id = args[0]
+#     #     context.chat_data["inviter_id"] = inviter_id
+#     #     newUser = context.chat_data["userId"]
+#     #     response = setInviterUserId(context)
 
-    #     if response.status_code == 200:
-    #         # Send messages to the inviter and new user.
-    #         await context.bot.send_message(
-    #             chat_id=inviter_id,
-    #             text=f"💰You earned 🌟30000 coins for inviting the new user.\n\nThe {newUser} earned 15000 coins for bonus.💰",
-    #         )
+#     #     if response.status_code == 200:
+#     #         # Send messages to the inviter and new user.
+#     #         await context.bot.send_message(
+#     #             chat_id=inviter_id,
+#     #             text=f"💰You earned 🌟30000 coins for inviting the new user.\n\nThe {newUser} earned 15000 coins for bonus.💰",
+#     #         )
 
-    #         await update.message.reply_html(
-    #             f"💰You now invited by <b>{inviter_id}</b>\n\nYou earned 🌟15000 coins. Inviter earned 30000 coins for bonus.💰"
-    #         )
-    #     else:
-    #         await update.message.reply_html(
-    #             f"❗The invite link is not invalid or you already set a inviter. No bonus point was added❗"
-    #         )
+#     #         await update.message.reply_html(
+#     #             f"💰You now invited by <b>{inviter_id}</b>\n\nYou earned 🌟15000 coins. Inviter earned 30000 coins for bonus.💰"
+#     #         )
+#     #     else:
+#     #         await update.message.reply_html(
+#     #             f"❗The invite link is not invalid or you already set a inviter. No bonus point was added❗"
+#     #         )
 
-    photo_file = open("./public/background.jpg", "rb")
+#     photo_file = open("./public/background.jpg", "rb")
 
-    # Hello Message
-    descText = f"""
-    🎉🎉🎉 Welcome to WenWorld Game! 🎉🎉🎉\n\nYou can earn money by playing this game.
-    """
-    # certification = f"\n<b>Made with ❤️ by Bitcoin Millionaire Team</b>"
+#     # Hello Message
+#     descText = f"""
+#     🎉🎉🎉 Welcome to WenWorld Game! 🎉🎉🎉\n\nYou can earn money by playing this game.
+#     """
+#     # certification = f"\n<b>Made with ❤️ by Bitcoin Millionaire Team</b>"
 
-    # Send the image with the text
-    await context.bot.send_photo(
-        chat_id=update.effective_chat.id,
-        photo=photo_file,
-        caption=descText,
-        reply_markup=configKeyboardMarkup,
-    )
+#     # Send the image with the text
+#     await context.bot.send_photo(
+#         chat_id=update.effective_chat.id,
+#         photo=photo_file,
+#         caption=descText,
+#         reply_markup=configKeyboardMarkup,
+#     )
 
 # if __name__ == "__main__":
 #     application = Application.builder().token(TOKEN).build()
@@ -357,14 +357,14 @@ def leaderboard_data():
 # dispatcher.add_handler(CommandHandler('custom_message', send_custom_message))
 
 if __name__ == '__main__':
-    application = Application.builder().token(TOKEN).build()
+    # application = Application.builder().token(TOKEN).build()
 
     # Add handler to the bot
-    application.add_handler(CommandHandler("start", start))
+    # application.add_handler(CommandHandler("start", start))
     # application.add_handler(
     #     MessageHandler(filters.Text and ~filters.COMMAND, handleMessage)
     # )
 
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
-    # app.run(host='0.0.0.0', port=5000)
+    # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    # application.run_polling(allowed_updates=Update.ALL_TYPES)
+    app.run(host='0.0.0.0', port=5000)
