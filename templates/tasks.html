@@ -30,7 +30,6 @@
 
         .header {
             width: 100%;
-            max-width: 400px;
             background-color: #FFD700;
             color: black;
             padding: 10px 0;
@@ -51,7 +50,6 @@
 
         .container {
             width: 100%;
-            max-width: 400px;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
@@ -122,14 +120,14 @@
             align-items: center;
             padding: 5px 0;
             border-top: 1px solid #333;
+            position: fixed;
+            bottom: 0;
             width: 100%;
             background-color: black;
             box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5);
             height: 50px;
-            position: fixed;
-            bottom: 10px; /* Adjust position */
-            border-radius: 15px;
-            margin: 0 10px;
+            z-index: 1000;
+            border-radius: 10px 10px 0 0;
         }
 
         .footer .footer-item {
@@ -234,12 +232,12 @@
             </div>
         </div>
     </div>
-    <div class="footer">
+    <div class="footer" id="navigation-bar">
         <div class="footer-item" onclick="navigateToHome()">
             <div class="icon">🌍</div>
             <div>Wen</div>
         </div>
-        <div class="footer-item active" onclick="navigateTo('tasks')">
+        <div class="footer-item" onclick="navigateTo('tasks')">
             <div class="icon">📋</div>
             <div>Tasks</div>
         </div>
