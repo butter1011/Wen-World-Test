@@ -109,9 +109,9 @@ def collect_coin():
 def update_score():
     try:
         data = request.get_json()
-        user_id = data.get("user_id")
+        user_id = str(data.get("user_id"))
         name = data.get("name")
-        score = data.get("score")
+        score = str(data.get("score"))
         logging.info(f"Updating score for user {user_id}: {score}:{name}")
 
         if not all([user_id, name, score]):
