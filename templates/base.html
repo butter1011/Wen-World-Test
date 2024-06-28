@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -198,7 +199,7 @@
             min-width: 160px;
             max-height: 200px;
             overflow-y: auto;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
             border-radius: 10px;
         }
@@ -369,17 +370,34 @@
     <!-- Telegram Web Apps JavaScript API -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
+
 <body>
     <div id="opening-page">
         <div id="characters">
-            <img id="player-img" loading="lazy" src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1" alt="Player">
-            <img id="good-coin-img" loading="lazy" src="https://www.dropbox.com/scl/fi/lpmmzradg397jl3uk0faf/Add-a-subheading-6.svg?rlkey=oyxoux29ln5qfjhm2chexir3d&raw=1" alt="Good Coin">
-            <img id="bad-coin-img" loading="lazy" src="https://www.dropbox.com/scl/fi/ffprp1gne2k3qi9s65diq/Add-a-subheading-3.svg?rlkey=44ro7mwowu390lkjbyilkoqb8&raw=1" alt="Bad Coin">
-            <img id="bull-img" loading="lazy" src="https://www.dropbox.com/scl/fi/dslt1d1kd7xwp6hypdgw8/.svg?rlkey=6g1snhasrq5fklpknwlsvpmes&raw=1" alt="Bull">
-            <img id="bear-img" loading="lazy" src="https://www.dropbox.com/scl/fi/73ioipk50ixg9qld604rs/Add-a-subheading-32.png?rlkey=f24ub3dcyz2wbokphi5pg2l12&raw=1" alt="Bear">
-            <img id="sam-bankman-img" loading="lazy" src="https://www.dropbox.com/scl/fi/tlsn0iioa257wbtf58lso/Add-a-subheading-29.png?rlkey=vwr7rc5m23ecjcc4dk443g9h4&raw=1" alt="Sam Bankman">
-            <img id="triend-img" loading="lazy" src="https://www.dropbox.com/scl/fi/g2o9xn1qnshg54oupj38l/Add-a-subheading-7.svg?rlkey=lp9evhxzdwvxit2dik3qi0j9x&raw=1" alt="Triend">
-            <img id="zkp-img" loading="lazy" src="https://www.dropbox.com/scl/fi/4h2xc3pwt20dgcro6g9q8/Add-a-subheading-11.svg?rlkey=2se4mwne0p256k5rzh86l74zl&raw=1" alt="ZKP">
+            <img id="player-img" loading="lazy"
+                src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1"
+                alt="Player">
+            <img id="good-coin-img" loading="lazy"
+                src="https://www.dropbox.com/scl/fi/lpmmzradg397jl3uk0faf/Add-a-subheading-6.svg?rlkey=oyxoux29ln5qfjhm2chexir3d&raw=1"
+                alt="Good Coin">
+            <img id="bad-coin-img" loading="lazy"
+                src="https://www.dropbox.com/scl/fi/ffprp1gne2k3qi9s65diq/Add-a-subheading-3.svg?rlkey=44ro7mwowu390lkjbyilkoqb8&raw=1"
+                alt="Bad Coin">
+            <img id="bull-img" loading="lazy"
+                src="https://www.dropbox.com/scl/fi/dslt1d1kd7xwp6hypdgw8/.svg?rlkey=6g1snhasrq5fklpknwlsvpmes&raw=1"
+                alt="Bull">
+            <img id="bear-img" loading="lazy"
+                src="https://www.dropbox.com/scl/fi/73ioipk50ixg9qld604rs/Add-a-subheading-32.png?rlkey=f24ub3dcyz2wbokphi5pg2l12&raw=1"
+                alt="Bear">
+            <img id="sam-bankman-img" loading="lazy"
+                src="https://www.dropbox.com/scl/fi/tlsn0iioa257wbtf58lso/Add-a-subheading-29.png?rlkey=vwr7rc5m23ecjcc4dk443g9h4&raw=1"
+                alt="Sam Bankman">
+            <img id="triend-img" loading="lazy"
+                src="https://www.dropbox.com/scl/fi/g2o9xn1qnshg54oupj38l/Add-a-subheading-7.svg?rlkey=lp9evhxzdwvxit2dik3qi0j9x&raw=1"
+                alt="Triend">
+            <img id="zkp-img" loading="lazy"
+                src="https://www.dropbox.com/scl/fi/4h2xc3pwt20dgcro6g9q8/Add-a-subheading-11.svg?rlkey=2se4mwne0p256k5rzh86l74zl&raw=1"
+                alt="ZKP">
         </div>
         <h1>Do you want to enter the world of wen?</h1>
         <button id="yes-button" onclick="startGame()">Yes</button>
@@ -400,7 +418,9 @@
     <div id="bear-value" class="message">Market maker bear has stolen your gains</div>
     <div id="boost-message" class="message">Short Squeeeeze</div>
     <div id="slowdown-message" class="message">You've been stopped out</div>
-    <div id="last-life-message" class="message" style="top: 50%; transform: translate(-50%, -50%); background-color: red; color: white;">Warning: One life remaining!</div>
+    <div id="last-life-message" class="message"
+        style="top: 50%; transform: translate(-50%, -50%); background-color: red; color: white;">Warning: One life
+        remaining!</div>
     <div id="zkp-message" class="message">Infinite knowledge grants you +100 Triend points</div>
     <div id="triend-message" class="message">200 Triend points collected</div>
     <div id="game-over-screen">
@@ -438,7 +458,8 @@
         </div>
     </div>
     <div id="flash-screen"></div>
-    <audio id="cashRegisterSound" src="https://freesound.org/data/previews/195/195138_2074484-lq.mp3" preload="auto"></audio>
+    <audio id="cashRegisterSound" src="https://freesound.org/data/previews/195/195138_2074484-lq.mp3"
+        preload="auto"></audio>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             console.log("DOM fully loaded and parsed");
@@ -498,7 +519,7 @@
                 imageElements[src].src = sources[src];
 
                 // Log any transparency issues
-                imageElements[src].onerror = function() {
+                imageElements[src].onerror = function () {
                     console.error(`Error loading image ${sources[src]}`);
                 };
             }
@@ -814,12 +835,13 @@
 
         function displayLeaderboard(leaderboard) {
             const leaderboardList = document.getElementById('leaderboard-list');
+            const user = window.Telegram.WebApp.initDataUnsafe.user;
             leaderboardList.innerHTML = '';
-            fetch('https://wen-world-test.onrender.com/leaderboard_data', {
+            fetch(`https://wen-world-test.onrender.com/leaderboard_data?user_id=${user.id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                },                                                                                       
+                },
             })
                 .then(response => response.json())
                 .then(data => {
@@ -841,7 +863,7 @@
             if (user) {
                 const playerName = user.username || null;
                 const playerId = user.id;
-                
+
                 console.log("-------------------------------------");
                 console.log(playerId, playerName, score);
                 console.log("-------------------------------------");
@@ -1235,193 +1257,193 @@
                             zkpMessage.style.display = 'block';
                             setTimeout(() => {
                                 zkpMessage.style.display = 'none');
-                            }, 3000);
-                            obstacles = obstacles.filter(o => o !== obstacle);
-                        }
+                        }, 3000);
+            obstacles = obstacles.filter(o => o !== obstacle);
+        }
                     }
                 }
             });
 
-            platforms.forEach(platform => {
-                ctx.fillStyle = '#8B4513';
-                ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
-                drawHitbox(ctx, platform.x, platform.y, platform.width, platform.height); // Draw hitbox if debugMode is true
-                platform.x -= platform.speed * deltaTime * 60;
+        platforms.forEach(platform => {
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+            drawHitbox(ctx, platform.x, platform.y, platform.width, platform.height); // Draw hitbox if debugMode is true
+            platform.x -= platform.speed * deltaTime * 60;
 
-                if (platform.x + platform.width < 0) {
-                    platforms = platforms.filter(p => p !== platform);
-                }
+            if (platform.x + platform.width < 0) {
+                platforms = platforms.filter(p => p !== platform);
+            }
 
-                if (player.x < platform.x + platform.width &&
-                    player.x + player.width > platform.x &&
-                    player.y < platform.y + platform.height &&
-                    player.y + player.height > platform.y) {
-                    player.y = platform.y - player.height;
-                    player.dy = 0;
-                    player.jumpCount = 0;
-                }
-            });
-
-            player.dy += player.gravity * deltaTime * 60;
-            player.y += player.dy * deltaTime * 60;
-
-            if (player.y + player.height > canvas.height - 25) {
-                player.y = canvas.height - player.height - 25;
+            if (player.x < platform.x + platform.width &&
+                player.x + player.width > platform.x &&
+                player.y < platform.y + platform.height &&
+                player.y + player.height > platform.y) {
+                player.y = platform.y - player.height;
+                player.dy = 0;
                 player.jumpCount = 0;
             }
-            if (player.y < 0) {
-                player.y = 0;
-                player.dy = 0;
-            }
+        });
 
-            if (player.x < 0) {
-                player.x = 0;
-            }
-            if (player.x + player.width > canvas.width) {
-                player.x = canvas.width - player.width;
-            }
+        player.dy += player.gravity * deltaTime * 60;
+        player.y += player.dy * deltaTime * 60;
 
-            if (Math.random() < coinSpawnRate * deltaTime * 60) {
-                const coinType = doubleGoodCoinSpawn ? 'good' : Math.random() < 0.1 ? 'bad' : 'good';
-                coins.push({
-                    x: canvas.width,
-                    y: Math.random() * (canvas.height - 200),
-                    size: 20,
-                    speed: 5,
-                    type: coinType
-                });
-            }
+        if (player.y + player.height > canvas.height - 25) {
+            player.y = canvas.height - player.height - 25;
+            player.jumpCount = 0;
+        }
+        if (player.y < 0) {
+            player.y = 0;
+            player.dy = 0;
+        }
 
-            const baseGoldTokenProbability = 0.1; // 10%
+        if (player.x < 0) {
+            player.x = 0;
+        }
+        if (player.x + player.width > canvas.width) {
+            player.x = canvas.width - player.width;
+        }
 
-            const shitCoinProbability = baseGoldTokenProbability; // 10%
-            const triendProbability = baseGoldTokenProbability * 0.01; // 0.1%
-            const zkpProbability = baseGoldTokenProbability * 0.02; // 0.2%
-            const bullProbability = baseGoldTokenProbability * 0.01; // 0.1%
-            const bearProbability = baseGoldTokenProbability * 0.02; // 0.2%
-            const greenCandleProbability = baseGoldTokenProbability * (1 / 120); // 0.083%
-            const redCandleProbability = baseGoldTokenProbability * 0.01; // 0.1%
-            const samBankmanProbability = baseGoldTokenProbability * (1 / 60); // 0.167%
+        if (Math.random() < coinSpawnRate * deltaTime * 60) {
+            const coinType = doubleGoodCoinSpawn ? 'good' : Math.random() < 0.1 ? 'bad' : 'good';
+            coins.push({
+                x: canvas.width,
+                y: Math.random() * (canvas.height - 200),
+                size: 20,
+                speed: 5,
+                type: coinType
+            });
+        }
 
-            if (Math.random() < baseGoldTokenProbability * deltaTime * 60) {
-                coins.push({
-                    x: canvas.width,
-                    y: Math.random() * (canvas.height - 200),
-                    size: 20,
-                    speed: 5,
-                    type: 'good'
-                });
-            }
+        const baseGoldTokenProbability = 0.1; // 10%
 
-            if (Math.random() < shitCoinProbability * deltaTime * 60) {
-                coins.push({
-                    x: canvas.width,
-                    y: Math.random() * (canvas.height - 200),
-                    size: 40,
-                    speed: 5,
-                    type: 'bad'
-                });
-            }
+        const shitCoinProbability = baseGoldTokenProbability; // 10%
+        const triendProbability = baseGoldTokenProbability * 0.01; // 0.1%
+        const zkpProbability = baseGoldTokenProbability * 0.02; // 0.2%
+        const bullProbability = baseGoldTokenProbability * 0.01; // 0.1%
+        const bearProbability = baseGoldTokenProbability * 0.02; // 0.2%
+        const greenCandleProbability = baseGoldTokenProbability * (1 / 120); // 0.083%
+        const redCandleProbability = baseGoldTokenProbability * 0.01; // 0.1%
+        const samBankmanProbability = baseGoldTokenProbability * (1 / 60); // 0.167%
 
-            if (Math.random() < triendProbability * deltaTime * 60) {
-                obstacles.push({
-                    x: canvas.width,
-                    y: Math.random() * (canvas.height - 200),
-                    width: player.width,
-                    height: player.height,
-                    speed: 5,
-                    type: 'triend'
-                });
-            }
+        if (Math.random() < baseGoldTokenProbability * deltaTime * 60) {
+            coins.push({
+                x: canvas.width,
+                y: Math.random() * (canvas.height - 200),
+                size: 20,
+                speed: 5,
+                type: 'good'
+            });
+        }
 
-            if (Math.random() < zkpProbability * deltaTime * 60) {
-                obstacles.push({
-                    x: canvas.width,
-                    y: Math.random() * (canvas.height - 200),
-                    width: player.width,
-                    height: player.height,
-                    speed: 5,
-                    type: 'zkp'
-                });
-            }
+        if (Math.random() < shitCoinProbability * deltaTime * 60) {
+            coins.push({
+                x: canvas.width,
+                y: Math.random() * (canvas.height - 200),
+                size: 40,
+                speed: 5,
+                type: 'bad'
+            });
+        }
 
-            if (Math.random() < bullProbability * deltaTime * 60) {
-                obstacles.push({
-                    x: canvas.width,
-                    y: Math.random() * (canvas.height - 200),
-                    width: player.width,
-                    height: player.height,
-                    speed: 5,
-                    type: 'bull'
-                });
-            }
+        if (Math.random() < triendProbability * deltaTime * 60) {
+            obstacles.push({
+                x: canvas.width,
+                y: Math.random() * (canvas.height - 200),
+                width: player.width,
+                height: player.height,
+                speed: 5,
+                type: 'triend'
+            });
+        }
 
-            if (Math.random() < bearProbability * deltaTime * 60) {
-                obstacles.push({
-                    x: canvas.width,
-                    y: Math.random() * (canvas.height - 200),
-                    width: player.width,
-                    height: player.height,
-                    speed: 5,
-                    type: 'bear'
-                });
-            }
+        if (Math.random() < zkpProbability * deltaTime * 60) {
+            obstacles.push({
+                x: canvas.width,
+                y: Math.random() * (canvas.height - 200),
+                width: player.width,
+                height: player.height,
+                speed: 5,
+                type: 'zkp'
+            });
+        }
 
-            if (Math.random() < greenCandleProbability * deltaTime * 60) {
-                obstacles.push({
-                    x: canvas.width,
-                    y: canvas.height - 25 - player.height, // on the road
-                    width: player.width,
-                    height: player.height,
-                    speed: 5,
-                    type: 'candleGreen'
-                });
-            }
+        if (Math.random() < bullProbability * deltaTime * 60) {
+            obstacles.push({
+                x: canvas.width,
+                y: Math.random() * (canvas.height - 200),
+                width: player.width,
+                height: player.height,
+                speed: 5,
+                type: 'bull'
+            });
+        }
 
-            if (Math.random() < redCandleProbability * deltaTime * 60) {
-                obstacles.push({
-                    x: canvas.width,
-                    y: canvas.height - 25 - player.height, // on the road
-                    width: player.width,
-                    height: player.height,
-                    speed: 5,
-                    type: 'candleRed'
-                });
-            }
+        if (Math.random() < bearProbability * deltaTime * 60) {
+            obstacles.push({
+                x: canvas.width,
+                y: Math.random() * (canvas.height - 200),
+                width: player.width,
+                height: player.height,
+                speed: 5,
+                type: 'bear'
+            });
+        }
 
-            if (Math.random() < samBankmanProbability * deltaTime * 60) {
-                obstacles.push({
-                    x: canvas.width,
-                    y: Math.random() * (canvas.height - 200),
-                    width: player.width,
-                    height: player.height,
-                    speed: 5,
-                    type: 'samBankman'
-                });
-            }
+        if (Math.random() < greenCandleProbability * deltaTime * 60) {
+            obstacles.push({
+                x: canvas.width,
+                y: canvas.height - 25 - player.height, // on the road
+                width: player.width,
+                height: player.height,
+                speed: 5,
+                type: 'candleGreen'
+            });
+        }
 
-            if (Math.random() < platformSpawnRate * deltaTime * 60) {
-                const platformWidth = getRandomSize(100, 200);
-                platforms.push({
-                    x: canvas.width,
-                    y: Math.random() * (canvas.height / 2),
-                    width: platformWidth,
-                    height: 20,
-                    speed: 5
-                });
-            }
+        if (Math.random() < redCandleProbability * deltaTime * 60) {
+            obstacles.push({
+                x: canvas.width,
+                y: canvas.height - 25 - player.height, // on the road
+                width: player.width,
+                height: player.height,
+                speed: 5,
+                type: 'candleRed'
+            });
+        }
 
-            if (Math.random() < 0.01 * deltaTime * 60) {
-                clouds.push({
-                    x: canvas.width,
-                    y: Math.random() * (canvas.height / 2),
-                    width: 100,
-                    height: 50,
-                    speed: 2
-                });
-            }
+        if (Math.random() < samBankmanProbability * deltaTime * 60) {
+            obstacles.push({
+                x: canvas.width,
+                y: Math.random() * (canvas.height - 200),
+                width: player.width,
+                height: player.height,
+                speed: 5,
+                type: 'samBankman'
+            });
+        }
 
-            requestAnimationFrame(gameLoop);
+        if (Math.random() < platformSpawnRate * deltaTime * 60) {
+            const platformWidth = getRandomSize(100, 200);
+            platforms.push({
+                x: canvas.width,
+                y: Math.random() * (canvas.height / 2),
+                width: platformWidth,
+                height: 20,
+                speed: 5
+            });
+        }
+
+        if (Math.random() < 0.01 * deltaTime * 60) {
+            clouds.push({
+                x: canvas.width,
+                y: Math.random() * (canvas.height / 2),
+                width: 100,
+                height: 50,
+                speed: 2
+            });
+        }
+
+        requestAnimationFrame(gameLoop);
         }
 
         function showBoostMessage() {
@@ -1444,7 +1466,7 @@
         displayLeaderboard();
 
         document.getElementById('share-button').addEventListener('click', toggleDropdown);
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (!event.target.matches('#share-button') && !event.target.closest('#share-dropdown')) {
                 const dropdowns = document.getElementsByClassName("share-dropdown");
                 for (let i = 0; i < dropdowns.length; i++) {
@@ -1498,4 +1520,5 @@
         }
     </script>
 </body>
+
 </html>

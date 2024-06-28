@@ -152,36 +152,68 @@ def update_score():
 # Endpoint to get the leaderboard
 @app.route("/leaderboard_data", methods=["GET"])
 def leaderboard_data():
-    users_ref = db.collection("users")
-    print("--------------------------")
-    users = users_ref.get()
-    print("users---------->", users)
-    leaderboard = []
+    if request.args.get("user_id"):
+        user_id = request.args.get("user_id")
+        user_ref = db.collection("users").document(user_id)
+        user_doc = user_ref.get()
+        
+        if not user_doc.exists:
+            return jsonify({"error": "User not found"}), 404
+        
+        user_data = user_doc.to_dict()
 
-    for user in users:
-        user_data = user.to_dict()
-        print("user_data-------->", user_data)
-        scores_ref = db.collection("users").document(user.id).collection("scores")
-        print("scores_ref----------->", scores_ref)
+        scores_ref = user_ref.collection("scores")
         scores = scores_ref.get()
-        print("scores:---------->", scores)
+
+        leaderboard = []
+
         for score in scores:
             score_data = score.to_dict()
             leaderboard.append(
                 {
-                    "user_id": user.id,
+                    "user_id": user_id,
                     "name": user_data.get("name", "Unknown"),
                     "points": score_data.get("score", 0),
                     "date": score_data.get("timestamp", "N/A"),
                 }
             )
 
-    # Sort the leaderboard by points in descending order
-    leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
+        # Sort the leaderboard by points in descending order
+        leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
 
-    print(f"Leaderboard data: {leaderboard}")
+        print(f"Leaderboard data: {leaderboard}")
 
-    return jsonify(leaderboard)
+        return jsonify(leaderboard)
+    else:
+        users_ref = db.collection("users")
+        users = users_ref.get()
+        print("users---------->", users)
+        leaderboard = []
+
+        for user in users:
+            user_data = user.to_dict()
+            print("user_data-------->", user_data)
+            scores_ref = db.collection("users").document(user.id).collection("scores")
+            print("scores_ref----------->", scores_ref)
+            scores = scores_ref.get()
+            print("scores:---------->", scores)
+            for score in scores:
+                score_data = score.to_dict()
+                leaderboard.append(
+                    {
+                        "user_id": user.id,
+                        "name": user_data.get("name", "Unknown"),
+                        "points": score_data.get("score", 0),
+                        "date": score_data.get("timestamp", "N/A"),
+                    }
+                )
+
+        # Sort the leaderboard by points in descending order
+        leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
+
+        print(f"Leaderboard data: {leaderboard}")
+
+        return jsonify(leaderboard)
 
 
 if __name__ == "__main__":
