@@ -63,27 +63,27 @@ db = firestore.client()
 
 
 # Serve the game HTML
-@app.route('/')
-def index():
-    return render_template('index.html')
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
 
 
-# Serve the leaderboard HTML
-@app.route('/leaderboard')
-def leaderboard_page():
-    return render_template('leaderboard.html')
+# # Serve the leaderboard HTML
+# @app.route('/leaderboard')
+# def leaderboard_page():
+#     return render_template('leaderboard.html')
 
 
-# Serve the tasks HTML
-@app.route('/tasks')
-def tasks_page():
-    return render_template('tasks.html')
+# # Serve the tasks HTML
+# @app.route('/tasks')
+# def tasks_page():
+#     return render_template('tasks.html')
 
 
-# Test route
-@app.route('/test')
-def test_page():
-    return '<h1>Test Page</h1>'
+# # Test route
+# @app.route('/test')
+# def test_page():
+#     return '<h1>Test Page</h1>'
 
 
 # # Webhook route to handle Telegram updates
@@ -103,7 +103,7 @@ def setUserId(context: ContextTypes.DEFAULT_TYPE):
     startGameButton = InlineKeyboardButton(
         text="💰 Start the Game!",
         web_app=WebAppInfo(
-            "https://wen-world-test.onrender.com"
+            "https://wen-world-bot-web.vercel.app"
         ),
     )
 
@@ -365,6 +365,6 @@ if __name__ == '__main__':
     #     MessageHandler(filters.Text and ~filters.COMMAND, handleMessage)
     # )
 
-    # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     application.run_polling(allowed_updates=Update.ALL_TYPES)
-    app.run(host='0.0.0.0', port=8080)
+    # app.run(host='0.0.0.0', port=5000)
