@@ -107,12 +107,12 @@ def collect_coin():
 # Endpoint to update the score
 @app.route("/update_score", methods=["POST"])
 def update_score():
-    logging.INFO("update_score-------------------------------->,", request.get_json())
     data = request.get_json()
     user_id = data["user_id"]
     name = data["name"]
     score = data["score"]
     timestamp = datetime.now().isoformat()
+    print(f"Updating score for user {user_id}: {score}")
 
     user_ref = db.collection("users").document(user_id)
     scores_ref = user_ref.collection("scores").document()
