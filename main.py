@@ -275,7 +275,7 @@ def collect_coin():
 # Endpoint to update the score
 @app.route("/update_score", methods=["POST"])
 def update_score():
-    print("update_data-------------------------------->", request.get_json())
+    logger.info("update_score-------------------------------->,", request.get_json())
     data = request.get_json()
     user_id = data["user_id"]
     name = data["name"]
