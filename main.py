@@ -365,6 +365,6 @@ if __name__ == '__main__':
     #     MessageHandler(filters.Text and ~filters.COMMAND, handleMessage)
     # )
 
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     application.run_polling(allowed_updates=Update.ALL_TYPES)
     app.run(host='0.0.0.0', port=8080)
