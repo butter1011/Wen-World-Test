@@ -349,30 +349,30 @@
         function updateCheckinCount(count) {
             document.getElementById('checkin-count').innerText = `Check-ins: ${count}`;
         }
-        function fetchLeaderboard() {
-            fetch('https://wen-world-test.onrender.com/leaderboard_data')
+        function displayLeaderboard(leaderboard) {
+            const leaderboardList = document.getElementById('leaderboard-list');
+            leaderboardList.innerHTML = '';
+            fetch('https://wen-world-test.onrender.com/leaderboard_data', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },                                                                                       
+            })
                 .then(response => response.json())
                 .then(data => {
-                    // console.log('data', data)
-                    const leaderboard = data.parse();
-                    console.log("leaderboard----------->", leaderboard);
-                    // const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
-                    const leaderboardList = document.getElementById('leaderboard-list');
-                    leaderboardList.innerHTML = '';
-
-                    leaderboard.sort((a, b) => b.score - a.score).forEach((entry, index) => {
+                    data.sort((a, b) => b.score - a.score).forEach((entry, index) => {
                         const listItem = document.createElement('tr');
-                        listItem.innerHTML = `<td>${index + 1}</td>
-                                      <td><img src="${entry.image}" alt="Player Image" width="30" height="30" style="border-radius: 50%; vertical-align: middle;"> ${entry.name}</td>
-                                      <td>${entry.score}</td>`;
+                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.score}</td><td>${entry.date}</td>`;
                         leaderboardList.appendChild(listItem);
                     });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
                 });
-
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            fetchLeaderboard();
+            displayLeaderboard();
             const storedImage = localStorage.getItem('profileImage');
             const storedNickname = localStorage.getItem('nickname');
             const totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
