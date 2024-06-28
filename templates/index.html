@@ -949,11 +949,11 @@
         function displayLeaderboard(leaderboard) {
             const leaderboardList = document.getElementById('leaderboard-list');
             leaderboardList.innerHTML = '';
-            fetch('/leaderboard_data', {
+            fetch('https://wen-world-test.onrender.com/leaderboard_data', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                },
+                },                                                                                       
             })
                 .then(response => response.json())
                 .then(data => {
@@ -975,14 +975,17 @@
             if (user) {
                 const playerName = user.username || null;
                 const playerId = user.id;
-                const today = new Date().toLocaleDateString();
+                
+                console.log("-------------------------------------");
+                console.log(playerId, playerName, score);
+                console.log("-------------------------------------");
 
-                fetch('/update_score', {
+                fetch('https://wen-world-test.onrender.com/update_score', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ 'user_id': playerId, 'name': playername, 'date': today, 'score': score }),
+                    body: JSON.stringify({ 'user_id': playerId, 'name': playerName, 'score': score }),
                 })
                     .then(response => response.json())
                     .then(data => {
@@ -991,6 +994,7 @@
                     .catch((error) => {
                         console.error('Error:', error);
                     });
+
                 displayLeaderboard();
             }
         }

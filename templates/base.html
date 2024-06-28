@@ -814,25 +814,57 @@
             showMessage("Coins banked successfully!", 2000);
         }
 
-        function displayLeaderboard() {
+        function displayLeaderboard(leaderboard) {
             const leaderboardList = document.getElementById('leaderboard-list');
             leaderboardList.innerHTML = '';
-            leaderboard.sort((a, b) => b.score - a.score).forEach((entry, index) => {
-                const listItem = document.createElement('tr');
-                listItem.innerHTML = `<td>${index + 1}</td><td>${entry.score}</td><td>${entry.date}</td>`;
-                leaderboardList.appendChild(listItem);
-            });
+            fetch('https://wen-world-test.onrender.com/leaderboard_data', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },                                                                                       
+            })
+                .then(response => response.json())
+                .then(data => {
+                    data.sort((a, b) => b.score - a.score).forEach((entry, index) => {
+                        const listItem = document.createElement('tr');
+                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.score}</td><td>${entry.date}</td>`;
+                        leaderboardList.appendChild(listItem);
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
 
         function saveScore() {
-            const playerName = "matt"; 
-            const today = new Date().toLocaleDateString();
-            leaderboard.push({
-                score: todayScore,
-                date: today
-            });
-            localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
-            displayLeaderboard();
+            // const playerName = "matt"; 
+            const user = window.Telegram.WebApp.initDataUnsafe.user;
+
+            if (user) {
+                const playerName = user.username || null;
+                const playerId = user.id;
+                
+                console.log("-------------------------------------");
+                console.log(playerId, playerName, score);
+                console.log("-------------------------------------");
+
+                fetch('https://wen-world-test.onrender.com/update_score', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 'user_id': playerId, 'name': playerName, 'score': score }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
+                displayLeaderboard();
+            }
         }
 
         function shareWithFriends() {
