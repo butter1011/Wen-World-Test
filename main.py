@@ -1,5 +1,4 @@
 import logging
-import requests
 import time
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
@@ -114,13 +113,16 @@ def update_score():
     timestamp = datetime.now().isoformat()
     print(f"Updating score for user {user_id}: {score}")
 
-    user_ref = db.collection("users").document(user_id)
-    scores_ref = user_ref.collection("scores").document()
+    if user_id:
+        user_ref = db.collection("users").document(user_id)
+        scores_ref = user_ref.collection("scores").document()
 
-    user_ref.set({"name": name}, merge=True)
-    scores_ref.set({"score": score, "timestamp": timestamp})
+        user_ref.set({"name": name}, merge=True)
+        scores_ref.set({"score": score, "timestamp": timestamp})
 
-    return jsonify({"status": "success", "message": "Score updated"})
+        return jsonify({"status": "success", "message": "Score updated"}), 200
+    else:
+        return jsonify({"status": "fail", "message": "User ID not provided"}), 400
 
 
 # Endpoint to get the leaderboard
