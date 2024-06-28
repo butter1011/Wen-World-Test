@@ -8,7 +8,6 @@ from datetime import datetime
 import asyncio
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://wen-world-bot-web.vercel.app"}})
 # Enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO

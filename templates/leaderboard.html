@@ -356,7 +356,7 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    data.sort((a, b) => b.score - a.score).forEach((entry, index) => {
+                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
                         const listItem = document.createElement('tr');
                         listItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
                         leaderboardList.appendChild(listItem);
