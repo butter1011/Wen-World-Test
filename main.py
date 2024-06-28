@@ -122,7 +122,7 @@ def update_score():
 
         user_ref = db.collection("users").document(user_id)
         user_doc = user_ref.get()
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now().strftime("%m/%d/%y")
 
         if user_doc.exists:
             # Update existing user
