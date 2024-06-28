@@ -350,9 +350,7 @@
             document.getElementById('checkin-count').innerText = `Check-ins: ${count}`;
         }
         function fetchLeaderboard() {
-
-
-            fetch('/leaderboard_data')
+            fetch('https://wen-world-test.onrender.com/leaderboard_data')
                 .then(response => response.json())
                 .then(data => {
                     // console.log('data', data)
