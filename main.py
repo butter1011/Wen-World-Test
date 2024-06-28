@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 # Telegram bot token
 # TOKEN = '7188910603:AAGG-9sIlhdrZ4y4ZTcoURrl5c4jqdI3zL4'
 TOKEN = '7494962995:AAEwyFj7QT0qrDUmgrdHxaVqxiS00oLW8p4'  # Mine Telegram Bot
-SERVER = 'https://wen-world-bot-web.vercel.app'
+SERVER = 'https://wen-world-test.onrender.com'
 
 # Firebase credentials and initialization
 firebase_creds = {
@@ -103,7 +103,7 @@ def setUserId(context: ContextTypes.DEFAULT_TYPE):
     startGameButton = InlineKeyboardButton(
         text="💰 Start the Game!",
         web_app=WebAppInfo(
-            "https://wen-world-bot-web.vercel.app"
+            "https://wen-world-test.onrender.com"
         ),
     )
 
