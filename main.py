@@ -112,7 +112,7 @@ def update_score():
         user_id = data.get("user_id")
         name = data.get("name")
         score = data.get("score")
-        logging.debug(f"Updating score for user {user_id}: {score}:{name}")
+        logging.info(f"Updating score for user {user_id}: {score}:{name}")
 
         if not all([user_id, name, score]):
             return (
