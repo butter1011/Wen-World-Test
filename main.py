@@ -106,23 +106,44 @@ def collect_coin():
 # Endpoint to update the score
 @app.route("/update_score", methods=["POST"])
 def update_score():
-    data = request.get_json()
-    user_id = data["user_id"]
-    name = data["name"]
-    score = data["score"]
-    timestamp = datetime.now().isoformat()
-    print(f"Updating score for user {user_id}: {score}")
+    try:
+        data = request.get_json()
+        user_id = data.get("user_id")
+        name = data.get("name")
+        score = data.get("score")
 
-    if user_id:
+        if not all([user_id, name, score]):
+            return jsonify({"status": "error", "message": "Missing required fields"}), 400
+
+        db = firestore.client()
         user_ref = db.collection("users").document(user_id)
+        user_doc = user_ref.get()
+        timestamp = datetime.now().isoformat()
+
+        if user_doc.exists:
+            # Update existing user
+            user_ref.set({"name": name}, merge=True)
+        else:
+            # Create new user
+            user_ref.set({
+                "name": name,
+                "created_at": timestamp
+            })
+
+        # Add new score
         scores_ref = user_ref.collection("scores").document()
+        scores_ref.set({
+            "score": score,
+            "timestamp": timestamp
+        })
 
-        user_ref.set({"name": name}, merge=True)
-        scores_ref.set({"score": score, "timestamp": timestamp})
+        return jsonify({
+            "status": "success",
+            "message": "Score updated and user data saved",
+        }), 200
 
-        return jsonify({"status": "success", "message": "Score updated"}), 200
-    else:
-        return jsonify({"status": "fail", "message": "User ID not provided"}), 400
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 
 # Endpoint to get the leaderboard
