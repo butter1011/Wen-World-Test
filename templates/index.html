@@ -959,7 +959,7 @@
                 .then(data => {
                     data.sort((a, b) => b.score - a.score).forEach((entry, index) => {
                         const listItem = document.createElement('tr');
-                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.score}</td><td>${entry.date}</td>`;
+                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.points}</td><td>${entry.date}</td>`;
                         leaderboardList.appendChild(listItem);
                     });
                 })
