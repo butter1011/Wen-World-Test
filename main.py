@@ -3,24 +3,6 @@ import requests
 import time
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-
-# from telegram import (
-#     InlineKeyboardButton,
-#     InlineKeyboardMarkup,
-#     WebAppInfo,
-#     Update,
-# )
-# from telegram.ext import (
-#     Application,
-#     CallbackContext,
-#     CallbackQueryHandler,
-#     CommandHandler,
-#     ContextTypes,
-#     ExtBot,
-#     MessageHandler,
-#     CallbackQueryHandler,
-#     filters,
-# )
 import firebase_admin
 from firebase_admin import credentials, firestore
 from datetime import datetime
@@ -32,14 +14,6 @@ CORS(app, resources={r"/*": {"origins": "https://wen-world-bot-web.vercel.app"}}
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
-
-logging.getLogger("httpx").setLevel(logging.WARNING)
-logger = logging.getLogger(__name__)
-
-# Telegram bot token
-# TOKEN = '7188910603:AAGG-9sIlhdrZ4y4ZTcoURrl5c4jqdI3zL4'
-TOKEN = "7494962995:AAEwyFj7QT0qrDUmgrdHxaVqxiS00oLW8p4"  # Mine Telegram Bot
-SERVER = "https://wen-world-test.onrender.com"
 
 # Firebase credentials and initialization
 firebase_creds = {
@@ -83,148 +57,6 @@ def tasks_page():
 @app.route("/test")
 def test_page():
     return "<h1>Test Page</h1>"
-
-
-# # Webhook route to handle Telegram updates
-# @app.route(f'/{TOKEN}', methods=['POST'])
-# def webhook():
-#     update = Update.de_json(request.get_json(force=True), bot)
-#     dispatcher.process_update(update)
-#     return 'ok'
-
-# def setUserId(context: ContextTypes.DEFAULT_TYPE):
-#     # Init the user
-#     response = requests.post(
-#         f"{SERVER}/api/v1/user", json={"user_id": context.chat_data["userId"]}
-#     )
-
-#     # Reply Buttons when click '/start'
-#     startGameButton = InlineKeyboardButton(
-#         text="💰 Start the Game!",
-#         web_app=WebAppInfo(
-#             "https://wen-world-bot-web.vercel.app"
-#         ),
-#     )
-
-#     # referralUser = InlineKeyboardButton(
-#     #     text="🪄 Invite the User", callback_data="inviteBtn"
-#     # )
-#     # connectWallet = InlineKeyboardButton(
-#     #     text="💰 Connect Wallet", callback_data="connect_wallet"
-#     # )
-#     # userProfile = InlineKeyboardButton(
-#     #     text="👤 Profile", callback_data="userprofileBtn"
-#     # )
-
-#     configKeyboardMarkup = InlineKeyboardMarkup(
-#         [
-#             [startGameButton],
-#             # [connectWallet],
-#             # [referralUser],
-#             # [userProfile],
-#         ]
-#     )
-
-#     return configKeyboardMarkup
-
-# start commmand
-# async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-#     # Get User ID
-#     context.chat_data["userId"] = update.effective_message.chat_id
-#     # Set User
-#     configKeyboardMarkup = setUserId(context)
-#     # Get Inviter Id
-#     args = context.args
-
-#     if update.effective_user.username:
-#         print(
-#             f"Username------------>{update.effective_user.username}\nTime-------------------->{time.strftime('%y/%m/%d %H:%M:%S', time.localtime())}\n"
-#         )
-
-#     # # Set the Inviter Id
-#     # if args:
-#     #     inviter_id = args[0]
-#     #     context.chat_data["inviter_id"] = inviter_id
-#     #     newUser = context.chat_data["userId"]
-#     #     response = setInviterUserId(context)
-
-#     #     if response.status_code == 200:
-#     #         # Send messages to the inviter and new user.
-#     #         await context.bot.send_message(
-#     #             chat_id=inviter_id,
-#     #             text=f"💰You earned 🌟30000 coins for inviting the new user.\n\nThe {newUser} earned 15000 coins for bonus.💰",
-#     #         )
-
-#     #         await update.message.reply_html(
-#     #             f"💰You now invited by <b>{inviter_id}</b>\n\nYou earned 🌟15000 coins. Inviter earned 30000 coins for bonus.💰"
-#     #         )
-#     #     else:
-#     #         await update.message.reply_html(
-#     #             f"❗The invite link is not invalid or you already set a inviter. No bonus point was added❗"
-#     #         )
-
-#     photo_file = open("./public/background.jpg", "rb")
-
-#     # Hello Message
-#     descText = f"""
-#     🎉🎉🎉 Welcome to WenWorld Game! 🎉🎉🎉\n\nYou can earn money by playing this game.
-#     """
-#     # certification = f"\n<b>Made with ❤️ by Bitcoin Millionaire Team</b>"
-
-#     # Send the image with the text
-#     await context.bot.send_photo(
-#         chat_id=update.effective_chat.id,
-#         photo=photo_file,
-#         caption=descText,
-#         reply_markup=configKeyboardMarkup,
-#     )
-
-# if __name__ == "__main__":
-#     application = Application.builder().token(TOKEN).build()
-
-#     # Add handler to the bot
-#     application.add_handler(CommandHandler("start", start))
-#     # application.add_handler(
-#     #     MessageHandler(filters.Text and ~filters.COMMAND, handleMessage)
-#     # )
-
-#     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-#     application.run_polling(allowed_updates=Update.ALL_TYPES)
-
-
-# # Command to start the game
-# def start(update, context):
-#     chat_id = update.message.chat_id
-#     game_url = 'https://telegram-1-triend.replit.app'  # Replace with your Replit project URL
-#     bot.send_message(chat_id=chat_id,
-#                      text=f"Click the link to start the game: {game_url}")
-
-
-# # Command to send the custom Telegram message
-# def send_custom_message(update, context):
-#     chat_id = update.message.chat_id
-#     username = update.message.from_user.username
-#     referral_link = f"https://telegram-1-triend.replit.app/referral/{username}"  # Create a referral link
-#     message = (
-#         f"Hey @{username}! It's World of Wen! 🌟 Your go-to game for navigating the crypto market - travel the world, navigate the bull and bear market, and dodge the SEC! 🌍📈🚀\n\n"
-#         "Now we're rolling out our Telegram mini app! Start farming points now, and who knows what cool stuff you'll snag with them soon! 🚀\n\n"
-#         "Got friends? Bring 'em in! The more, the merrier! 🌱\n\n"
-#         "Remember: World of Wen is where growth thrives and endless opportunities are discovered! 🌼\n\n"
-#         f"Use my invite link to join the fun: [Launch Wen]({referral_link})\n"
-#         "[Join Community](https://t.me/WenworldCommunity)")
-
-#     buttons = [[InlineKeyboardButton("Launch Wen", url=referral_link)],
-#                [
-#                    InlineKeyboardButton("Join Community",
-#                                         url="https://t.me/WenworldCommunity")
-#                ]]
-#     reply_markup = InlineKeyboardMarkup(buttons)
-
-#     bot.send_message(chat_id=chat_id,
-#                      text=message,
-#                      reply_markup=reply_markup,
-#                      parse_mode=ParseMode.HTML)
-
 
 # Route to handle referral links and display custom message
 @app.route("/referral/<ref_code>")
@@ -275,7 +107,7 @@ def collect_coin():
 # Endpoint to update the score
 @app.route("/update_score", methods=["POST"])
 def update_score():
-    logger.info("update_score-------------------------------->,", request.get_json())
+    logging.INFO("update_score-------------------------------->,", request.get_json())
     data = request.get_json()
     user_id = data["user_id"]
     name = data["name"]
@@ -325,44 +157,5 @@ def leaderboard_data():
 
     return jsonify(leaderboard)
 
-
-# Test Firestore connection
-# @app.route('/test_firestore', methods=['GET'])
-# def test_firestore():
-#     print("Testing Firestore connection...")
-#     try:
-#         test_doc_ref = db.collection('test').document('test_doc')
-#         test_doc_ref.set({'status': 'working'})
-#         doc = test_doc_ref.get()
-#         if (doc.exists):
-#             print("Firestore connection is working")
-#             return jsonify({'status': 'success', 'data': doc.to_dict()})
-#         else:
-#             print("Document does not exist")
-#             return jsonify({
-#                 'status': 'fail',
-#                 'message': 'Document does not exist'
-#             })
-#     except Exception as e:
-#         print(f"Error testing Firestore: {e}")
-#         return jsonify({'status': 'error', 'message': str(e)})
-
-
-# Set up the updater and dispatcher
-# updater = Updater(TOKEN, use_context=True)
-# dispatcher = updater.dispatcher
-# dispatcher.add_handler(CommandHandler('start', start))
-# dispatcher.add_handler(CommandHandler('custom_message', send_custom_message))
-
 if __name__ == "__main__":
-    # application = Application.builder().token(TOKEN).build()
-
-    # Add handler to the bot
-    # application.add_handler(CommandHandler("start", start))
-    # application.add_handler(
-    #     MessageHandler(filters.Text and ~filters.COMMAND, handleMessage)
-    # )
-
-    # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    # application.run_polling(allowed_updates=Update.ALL_TYPES)
     app.run(host="0.0.0.0", port=5000)
