@@ -834,7 +834,7 @@
             showMessage("Coins banked successfully!", 2000);
         }
 
-        function displayLeaderboard(leaderboard) {
+        function displayScore(leaderboard) {
             const leaderboardList = document.getElementById('leaderboard-list');
             const user = window.Telegram.WebApp.initDataUnsafe.user;
             leaderboardList.innerHTML = '';
@@ -884,7 +884,7 @@
                         console.error('Error:', error);
                     });
 
-                displayLeaderboard();
+                displayScore();
             }
         }
 
@@ -1480,7 +1480,7 @@
             }, 2000);
         }
 
-        displayLeaderboard();
+        displayScore();
 
         document.getElementById('share-button').addEventListener('click', toggleDropdown);
         window.onclick = function (event) {

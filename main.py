@@ -1,5 +1,5 @@
 import logging
-import time
+from datetime import datetime
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import firebase_admin
@@ -58,49 +58,49 @@ def test_page():
 
 
 # Route to handle referral links and display custom message
-@app.route("/referral/<ref_code>")
-def referral(ref_code):
-    custom_message = (
-        f"Hey there! You were invited by @{ref_code} to join World of Wen! 🌟 Your go-to game for navigating the crypto market - "
-        "travel the world, navigate the bull and bear market, and dodge the SEC! 🌍📈🚀\n\n"
-        "Start farming points now, and who knows what cool stuff you'll snag with them soon! 🚀\n\n"
-        "Got friends? Bring 'em in! The more, the merrier! 🌱\n\n"
-        "Remember: World of Wen is where growth thrives and endless opportunities are discovered! 🌼\n\n"
-        f"<a href='https://t.me/Wenworldbot'>Launch Wen</a>\n"
-        "<a href='https://t.me/WenworldCommunity'>Join Community</a>"
-    )
-    return f"<html><body>{custom_message}</body></html>"
+# @app.route("/referral/<ref_code>")
+# def referral(ref_code):
+#     custom_message = (
+#         f"Hey there! You were invited by @{ref_code} to join World of Wen! 🌟 Your go-to game for navigating the crypto market - "
+#         "travel the world, navigate the bull and bear market, and dodge the SEC! 🌍📈🚀\n\n"
+#         "Start farming points now, and who knows what cool stuff you'll snag with them soon! 🚀\n\n"
+#         "Got friends? Bring 'em in! The more, the merrier! 🌱\n\n"
+#         "Remember: World of Wen is where growth thrives and endless opportunities are discovered! 🌼\n\n"
+#         f"<a href='https://t.me/Wenworldbot'>Launch Wen</a>\n"
+#         "<a href='https://t.me/WenworldCommunity'>Join Community</a>"
+#     )
+#     return f"<html><body>{custom_message}</body></html>"
 
 
 # Function to collect a coin
-@app.route("/collect_coin", methods=["POST"])
-def collect_coin():
-    user_id = request.json.get("user_id")
-    coin_id = request.json.get("coin_id")
+# @app.route("/collect_coin", methods=["POST"])
+# def collect_coin():
+#     user_id = request.json.get("user_id")
+#     coin_id = request.json.get("coin_id")
 
-    print(f"Collecting coin: {coin_id} for user: {user_id}")
+#     print(f"Collecting coin: {coin_id} for user: {user_id}")
 
-    doc_ref = db.collection("collected_coins").document(coin_id)
-    doc = doc_ref.get()
-    if doc.exists():
-        print("Coin already collected")
-        return jsonify({"status": "fail", "message": "Coin already collected"})
+#     doc_ref = db.collection("collected_coins").document(coin_id)
+#     doc = doc_ref.get()
+#     if doc.exists():
+#         print("Coin already collected")
+#         return jsonify({"status": "fail", "message": "Coin already collected"})
 
-    doc_ref.set({"user_id": user_id})
-    print(f"Coin {coin_id} collected")
+#     doc_ref.set({"user_id": user_id})
+#     print(f"Coin {coin_id} collected")
 
-    user_ref = db.collection("users").document(user_id)
-    user_doc = user_ref.get()
-    if user_doc.exists():
-        user_data = user_doc.to_dict()
-        user_data["points"] += 10
-    else:
-        user_data = {"points": 10}
+#     user_ref = db.collection("users").document(user_id)
+#     user_doc = user_ref.get()
+#     if user_doc.exists():
+#         user_data = user_doc.to_dict()
+#         user_data["points"] += 10
+#     else:
+#         user_data = {"points": 10}
 
-    user_ref.set(user_data)
-    print(f"Updated points for user {user_id}: {user_data['points']}")
+#     user_ref.set(user_data)
+#     print(f"Updated points for user {user_id}: {user_data['points']}")
 
-    return jsonify({"status": "success", "message": f"Coin {coin_id} collected"})
+#     return jsonify({"status": "success", "message": f"Coin {coin_id} collected"})
 
 
 # Endpoint to update the score
@@ -155,10 +155,10 @@ def leaderboard_data():
         user_id = request.args.get("user_id")
         user_ref = db.collection("users").document(user_id)
         user_doc = user_ref.get()
-        
+
         if not user_doc.exists:
             return jsonify({"error": "User not found"}), 404
-        
+
         user_data = user_doc.to_dict()
 
         scores_ref = user_ref.collection("scores")
@@ -178,24 +178,24 @@ def leaderboard_data():
             )
 
         # Sort the leaderboard by points in descending order
-        leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
-
-        print(f"Leaderboard data: {leaderboard}")
+        today = datetime.now().date()
+        leaderboard = sorted(
+            [entry for entry in leaderboard if entry["date"].date() == today],
+            key=lambda x: x["points"],
+            reverse=True,
+        )
 
         return jsonify(leaderboard)
+
     else:
         users_ref = db.collection("users")
         users = users_ref.get()
-        print("users---------->", users)
         leaderboard = []
 
         for user in users:
             user_data = user.to_dict()
-            print("user_data-------->", user_data)
             scores_ref = db.collection("users").document(user.id).collection("scores")
-            print("scores_ref----------->", scores_ref)
             scores = scores_ref.get()
-            print("scores:---------->", scores)
             for score in scores:
                 score_data = score.to_dict()
                 leaderboard.append(
@@ -209,8 +209,6 @@ def leaderboard_data():
 
         # Sort the leaderboard by points in descending order
         leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
-
-        print(f"Leaderboard data: {leaderboard}")
 
         return jsonify(leaderboard)
 

@@ -210,6 +210,8 @@
             color: #fff;
         }
     </style>
+    <!-- Telegram Web Apps JavaScript API -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
@@ -346,14 +348,17 @@
         function updateCheckinCount(count) {
             document.getElementById('checkin-count').innerText = `Check-ins: ${count}`;
         }
+
+        // get the all the score value
         function displayLeaderboard(leaderboard) {
             const leaderboardList = document.getElementById('leaderboard-list');
             leaderboardList.innerHTML = '';
+            // fetch('http://127.0.0.1:5000/leaderboard_data', {
             fetch('https://wen-world-test.onrender.com/leaderboard_data', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                },                                                                                       
+                },
             })
                 .then(response => response.json())
                 .then(data => {
@@ -368,8 +373,36 @@
                 });
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            displayLeaderboard();
+        // init top score and total score
+        const initScore = async () => {
+            const user = window.Telegram.WebApp.initDataUnsafe.user;
+            const totalPointsDiv = document.getElementById('tridend-amount');
+            const top_scoreDiv = document.getElementById("top-score");
+            let total_points = 0;
+
+            await fetch(`https://wen-world-test.onrender.com/leaderboard_data?user_id=${user.id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const res = data.sort((a, b) => b.points - a.points);
+                    res.forEach((index) => { total_points += parseInt(index.points); });
+    
+                    localStorage.setItem('totalPoints', total_points);
+                    top_scoreDiv.innerText = `Today's Top Score: ${res[0].points}`;
+                    totalPointsDiv.innerText = `Total Points: ${total_points}`
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await displayLeaderboard();
+            await initScore();
             const storedImage = localStorage.getItem('profileImage');
             const storedNickname = localStorage.getItem('nickname');
             const totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
