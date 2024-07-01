@@ -155,10 +155,10 @@ def leaderboard_data():
         user_id = request.args.get("user_id")
         user_ref = db.collection("users").document(user_id)
         user_doc = user_ref.get()
-
+        
         if not user_doc.exists:
             return jsonify({"error": "User not found"}), 404
-
+        
         user_data = user_doc.to_dict()
 
         scores_ref = user_ref.collection("scores")
@@ -178,12 +178,7 @@ def leaderboard_data():
             )
 
         # Sort the leaderboard by points in descending order
-        today = datetime.now().date()
-        leaderboard = sorted(
-            [entry for entry in leaderboard if entry["date"].date() == today],
-            key=lambda x: x["points"],
-            reverse=True,
-        )
+        leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
 
         return jsonify(leaderboard)
 
@@ -211,7 +206,6 @@ def leaderboard_data():
         leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
 
         return jsonify(leaderboard)
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
