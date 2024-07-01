@@ -388,6 +388,7 @@
             })
                 .then(response => response.json())
                 .then(data => {
+                    const today = new Date().getDate();
                     const res = data.sort((a, b) => b.points - a.points);
                     console.log("all_Data----------->", res);
                     res.forEach((index) => { total_points += parseInt(index.points); });
