@@ -396,8 +396,9 @@
                     
                     console.log("today_score----------->", today_score);
                     console.log("total_points--------->", total_points);
-                    top_scoreDiv.innerText = `Today's Top Score: ${today_score[0].points}`;
                     totalPointsDiv.innerText = `Total Points: ${total_points}`
+                    if(today_score.length != 0)
+                        top_scoreDiv.innerText = `Today's Top Score: ${today_score[0].points}`;
                 })
                 .catch((error) => {
                     console.error(error);
