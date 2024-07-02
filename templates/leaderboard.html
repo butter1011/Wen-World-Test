@@ -80,7 +80,8 @@
             color: white;
             margin-bottom: 10px;
             position: relative;
-            border: 3px solid #FFD700; /* Added border to make profile picture stand out */
+            border: 3px solid #FFD700;
+            /* Added border to make profile picture stand out */
         }
 
         .profile-pic img {
@@ -104,12 +105,14 @@
         }
 
         .nickname {
-            font-size: 3vh; /* Increased font size for nickname */
+            font-size: 3vh;
+            /* Increased font size for nickname */
             margin-bottom: 10px;
         }
 
         .nickname input {
-            font-size: 3vh; /* Increased font size for nickname input */
+            font-size: 3vh;
+            /* Increased font size for nickname input */
             padding: 5px;
             margin-left: 10px;
             border: none;
@@ -121,20 +124,23 @@
         }
 
         .tridend-amount {
-            font-size: 5vh; /* Increased font size for points */
+            font-size: 5vh;
+            /* Increased font size for points */
             margin-bottom: 5px;
             color: #00FFCF;
             font-weight: bold;
         }
 
         .top-score {
-            font-size: 3vh; /* Increased font size for top score */
+            font-size: 3vh;
+            /* Increased font size for top score */
             margin-bottom: 10px;
             color: #FFD700;
         }
 
         .checkin-count {
-            font-size: 3vh; /* Increased font size for check-ins */
+            font-size: 3vh;
+            /* Increased font size for check-ins */
             margin-bottom: 10px;
             color: #FFD700;
         }
@@ -264,7 +270,9 @@
     <div class="leaderboard-container">
         <div class="profile-section">
             <div class="profile-pic">
-                <img id="profile-img" src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1" alt="Profile Picture">
+                <img id="profile-img"
+                    src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1"
+                    alt="Profile Picture">
                 <input type="file" id="upload-img" accept="image/*">
                 <label for="upload-img">📷</label>
             </div>
@@ -410,34 +418,59 @@
             document.getElementById('checkin-count').innerText = `Check-ins: ${count}`;
         }
 
-        function fetchLeaderboard() {
-            fetch('/leaderboard_data')
+        // get the all the score value
+        function displayLeaderboard(leaderboard) {
+            const leaderboardList = document.getElementById('leaderboard-list');
+            leaderboardList.innerHTML = '';
+            // fetch('http://127.0.0.1:5000/leaderboard_data', {
+            fetch('https://wen-world-test.onrender.com/leaderboard_data', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
                 .then(response => response.json())
                 .then(data => {
-                    const highScores = data.highScores;
-                    const totalPoints = data.totalPoints;
-
-                    const highScoresList = document.getElementById('high-scores-list');
-                    const totalPointsList = document.getElementById('total-points-list');
-
-                    highScoresList.innerHTML = '';
-                    totalPointsList.innerHTML = '';
-
-                    highScores.sort((a, b) => b.score - a.score).forEach((entry, index) => {
+                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
                         const listItem = document.createElement('tr');
-                        listItem.innerHTML = `<td><img src="${entry.image}" alt="Player Image" width="30" height="30" style="border-radius: 50%; vertical-align: middle;"> ${index + 1}</td>
-                                      <td>${entry.name}</td>
-                                      <td>${entry.score}</td>`;
-                        highScoresList.appendChild(listItem);
+                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
+                        leaderboardList.appendChild(listItem);
                     });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
 
-                    totalPoints.sort((a, b) => b.points - a.points).forEach((entry, index) => {
-                        const listItem = document.createElement('tr');
-                        listItem.innerHTML = `<td><img src="${entry.image}" alt="Player Image" width="30" height="30" style="border-radius: 50%; vertical-align: middle;"> ${index + 1}</td>
-                                      <td>${entry.name}</td>
-                                      <td>${entry.points}</td>`;
-                        totalPointsList.appendChild(listItem);
-                    });
+        // init top score and total score
+        const initScore = async () => {
+            const user = window.Telegram.WebApp.initDataUnsafe.user;
+            const totalPointsDiv = document.getElementById('tridend-amount');
+            const top_scoreDiv = document.getElementById("top-score");
+            let total_points = 0;
+
+            await fetch(`https://wen-world-test.onrender.com/leaderboard_data?user_id=${user.id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const today = new Date().getDate();
+                    const res = data.sort((a, b) => b.points - a.points);
+                    console.log("all_Data----------->", res);
+                    res.forEach((index) => { total_points += parseInt(index.points); });
+                    const today_score = res.filter(item => new Date(item.date).toLocaleDateString() === today).sort((a, b) => b.points - a.points);
+
+                    console.log("today_score----------->", today_score);
+                    console.log("total_points--------->", total_points);
+                    totalPointsDiv.innerText = `Total Points: ${total_points}`
+                    if (today_score.length != 0)
+                        top_scoreDiv.innerText = `Today's Top Score: ${today_score[0].points}`;
+                })
+                .catch((error) => {
+                    console.error(error);
                 });
         }
 
@@ -474,8 +507,9 @@
             }, 1000);
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            fetchLeaderboard();
+        document.addEventListener('DOMContentLoaded', async function () {
+            await displayLeaderboard();
+            await initScore();
             const storedImage = localStorage.getItem('profileImage');
             const storedNickname = localStorage.getItem('nickname');
             const totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
