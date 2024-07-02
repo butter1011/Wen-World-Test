@@ -1225,8 +1225,9 @@
                     } else {
                         const shitCoinPoints = Math.floor(Math.random() * 81) - 40; // -40 to +40 points for shit coins
                         
-                        if (bullhit) score += Math.abs(shitCoinPoints);
-                        else score += shitCoinPoints;
+                        if (bullhit) shitCoinPoints = Math.abs(shitCoinPoints);
+                        
+                        score += shitCoinPoints;
 
                         if (score < 0) score = 0;
                         breakdownMessage = `<span style="${shitCoinPoints < 0 ? 'color:red;' : 'color:green;'}">${shitCoinPoints} Triend points collected</span>`;
