@@ -104,8 +104,8 @@ def test_page():
 
 
 # Endpoint to update the score
-@app.route("/update_score", methods=["POST"])
-def update_score():
+# @app.route("/update_score", methods=["POST"])
+# def update_score():
     try:
         data = request.get_json()
         user_id = str(data.get("user_id"))
@@ -149,8 +149,8 @@ def update_score():
 
 
 # Endpoint to get the leaderboard
-@app.route("/leaderboard_data", methods=["GET"])
-def leaderboard_data():
+# @app.route("/leaderboard_data", methods=["GET"])
+# def leaderboard_data():
     if request.args.get("user_id"):
         user_id = request.args.get("user_id")
         user_ref = db.collection("users").document(user_id)
