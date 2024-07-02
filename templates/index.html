@@ -679,7 +679,7 @@
         let allTimeTopScore = 0;
         let collectingCoins = false;
         let clearingCoins = false;
-        let goldToken = 5;
+        let bullhit = false;
         const debugMode = false; // Change this to true to enable hitbox visualization
 
         const terrains = [
@@ -1219,15 +1219,15 @@
                     console.log(`Collision detected between player and ${coin.type} coin at (${coin.x}, ${coin.y})`);
                     let breakdownMessage = '';
                     if (coin.type === 'good') {
-                        score += goldToken; // +15 points for good coins
+                        score += 5;
                         cashRegisterSound.play();
                         breakdownMessage = `<span style="color:green;">${goldToken} Triend points collected</span>`;
-                        setTimeout(() => {
-                            goldToken = 5;
-                        }, 2000);
                     } else {
                         const shitCoinPoints = Math.floor(Math.random() * 81) - 40; // -40 to +40 points for shit coins
-                        score += shitCoinPoints;
+                        
+                        if (bullhit) score += Math.abs(shitCoinPoints);
+                        else score += shitCoinPoints;
+
                         if (score < 0) score = 0;
                         breakdownMessage = `<span style="${shitCoinPoints < 0 ? 'color:red;' : 'color:green;'}">${shitCoinPoints} Triend points collected</span>`;
                     }
@@ -1250,7 +1250,13 @@
                     console.log(`Collision detected between player and ${obstacle.type} obstacle at (${obstacle.x}, ${obstacle.y})`);
                     showMessage('<span style="color:green;">This Ones For Retail</span>');
                     obstacles = obstacles.filter(o => o !== obstacle);
-                    goldToken = 15;
+
+                    // for 2 seconds +shitcoin
+                    bullhit = true;
+
+                    setTimeout(() => {
+                        bullhit = false;
+                    }, 2000);
                 }
 
                 // Check for collision with bear
@@ -1263,8 +1269,8 @@
                     showMessage('<span style="color:red;">Market Maker Bear Has Stolen Your Gains</span>');
                     obstacles = obstacles.filter(o => o !== obstacle);
                     //actions
-                    score = score - 20;
-                    for (let i = 0; i < 3; i++) {
+                    score = score - 50;
+                    for (let i = 0; i < 4; i++) {
                         obstacles.push({
                             x: Math.random() * (canvas.width - 200),
                             y: Math.random() * (canvas.height - 200),
