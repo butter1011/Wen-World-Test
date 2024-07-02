@@ -1,105 +1,108 @@
-{% extends 'base.html' %}
-
-{% block title %}Triend Tasks{% endblock %}
-
-{% block styles %}
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #000;
-        color: #fff;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .container {
-        width: 100%;
-        max-width: 400px;
-        padding: 20px;
-        padding-bottom: 70px; /* Extra space for the navbar */
-        box-sizing: border-box;
-    }
-    .header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 0;
-    }
-    .header .title {
-        font-size: 24px;
-        font-weight: bold;
-    }
-    .tasks {
-        margin-top: 20px;
-        overflow-y: auto;
-        max-height: 400px; /* Adjust as needed to fit the screen */
-    }
-    .task {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 10px;
-        border-bottom: 1px solid #333;
-    }
-    .task .task-info {
-        display: flex;
-        flex-direction: column;
-    }
-    .task .task-info .task-title {
-        font-size: 18px;
-        margin-bottom: 5px;
-    }
-    .task .task-info .task-points {
-        font-size: 14px;
-        color: #aaa;
-    }
-    .task .task-action button {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-    .task .task-action button:hover {
-        background-color: #0056b3;
-    }
-    .footer {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 10px 0;
-        border-top: 1px solid #333;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        max-width: 400px;
-        background-color: #1a1a1a;
-        box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5);
-    }
-    .footer .footer-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-size: 14px;
-        color: #aaa;
-        cursor: pointer;
-        padding: 5px 10px;
-    }
-    .footer .footer-item .icon {
-        font-size: 20px;
-        margin-bottom: 5px;
-    }
-    .footer .footer-item.active {
-        color: #fff;
-    }
-</style>
-{% endblock %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triend Tasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            padding-bottom: 70px; /* Extra space for the navbar */
+            box-sizing: border-box;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 0;
+        }
+        .header .title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .tasks {
+            margin-top: 20px;
+            overflow-y: auto;
+            max-height: 400px; /* Adjust as needed to fit the screen */
+        }
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 10px;
+            border-bottom: 1px solid #333;
+        }
+        .task .task-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .task .task-info .task-title {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .task .task-info .task-points {
+            font-size: 14px;
+            color: #aaa;
+        }
+        .task .task-action button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .task .task-action button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            border-top: 1px solid #333;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #1a1a1a;
+            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5);
+        }
+        .footer .footer-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            color: #aaa;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: color 0.3s;
+        }
+        .footer .footer-item .icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .footer .footer-item.active {
+            color: #fff;
+        }
+        .footer .footer-item:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
 <div class="container">
     <div class="header">
         <span class="title">Triend Tasks</span>
@@ -173,18 +176,17 @@
 <div class="footer">
     <div class="footer-item active" onclick="window.location.href = '/'">
         <div class="icon">🌍</div>
-        <div>Wen</div>
+        <div>Home</div>
     </div>
-    <div class="footer-item" onclick="navigateTo('tasks')">
+    <div class="footer-item" onclick="window.location.href = '/tasks'">
         <div class="icon">📋</div>
         <div>Tasks</div>
     </div>
-    <div class="footer-item" onclick="navigateTo('leaderboard')">
+    <div class="footer-item" onclick="window.location.href = '/leaderboard'">
         <div class="icon">🤝</div>
         <div>Leaderboard</div>
     </div>
 </div>
-{% endblock %}
 
 {% block scripts %}
 <script>
@@ -201,8 +203,7 @@
     }
 
     function shareScore() {
-        // Assuming you have a method to get the most recent score from the game
-        const score = getMostRecentGameScore(); // Replace this with the actual method to get the score
+        const score = getMostRecentGameScore();
         const message = `Check out my score of the day: ${score}! #TriendGame`;
         if (navigator.share) {
             navigator.share({
@@ -223,11 +224,10 @@
 
     function checkWidget() {
         alert('Checking out the widget!');
-        // Add any additional logic for checking out the widget here
     }
 
     function inviteFriends() {
-        const referralLink = 'https://telegram.me/wenwenbot?start=referral_code'; // Replace with your bot username and referral code mechanism
+        const referralLink = 'https://telegram.me/wenwenbot?start=referral_code';
         const message = `Invite 5 friends to join our Telegram bot using this link: ${referralLink}`;
 
         if (navigator.share) {
@@ -243,8 +243,10 @@
         }
     }
 
-    function navigateTo(page) {
-        window.location.href = `/${page}`;
+    function getMostRecentGameScore() {
+        return 100;
     }
 </script>
 {% endblock %}
+</body>
+</html>

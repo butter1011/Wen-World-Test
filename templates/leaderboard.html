@@ -66,21 +66,21 @@
             align-items: center;
             margin-bottom: 10px;
             margin-top: 70px;
-            /* Adjust to push content below the header */
         }
 
         .profile-pic {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             background-color: #444;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3vh;
+            font-size: 4vh;
             color: white;
             margin-bottom: 10px;
             position: relative;
+            border: 3px solid #FFD700; /* Added border to make profile picture stand out */
         }
 
         .profile-pic img {
@@ -104,12 +104,12 @@
         }
 
         .nickname {
-            font-size: 2.5vh;
+            font-size: 3vh; /* Increased font size for nickname */
             margin-bottom: 10px;
         }
 
         .nickname input {
-            font-size: 2.5vh;
+            font-size: 3vh; /* Increased font size for nickname input */
             padding: 5px;
             margin-left: 10px;
             border: none;
@@ -121,25 +121,27 @@
         }
 
         .tridend-amount {
-            font-size: 2.5vh;
+            font-size: 5vh; /* Increased font size for points */
             margin-bottom: 5px;
             color: #00FFCF;
+            font-weight: bold;
         }
 
         .top-score {
-            font-size: 2.5vh;
+            font-size: 3vh; /* Increased font size for top score */
             margin-bottom: 10px;
             color: #FFD700;
         }
 
         .checkin-count {
-            font-size: 2.5vh;
+            font-size: 3vh; /* Increased font size for check-ins */
             margin-bottom: 10px;
             color: #FFD700;
         }
 
         .daily-checkin {
             margin-top: 10px;
+            position: relative;
         }
 
         .daily-checkin button {
@@ -150,6 +152,10 @@
             font-size: 2.5vh;
             background-color: #00FFCF;
             color: black;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .game-stats {
@@ -175,6 +181,37 @@
             background-color: #444;
         }
 
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            cursor: pointer;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            background-color: #444;
+            border-radius: 10px 10px 0 0;
+            font-size: 2.5vh;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .tab.active {
+            background-color: #FFD700;
+            color: black;
+        }
+
+        .tab-content {
+            display: none;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .footer {
             display: flex;
             justify-content: space-around;
@@ -188,7 +225,6 @@
             height: 50px;
             position: fixed;
             bottom: 10px;
-            /* Adjust position */
             border-radius: 15px;
             margin: 0 10px;
         }
@@ -212,6 +248,12 @@
         .footer .footer-item.active {
             color: #fff;
         }
+
+        .timer {
+            font-size: 2vh;
+            color: #FFD700;
+            margin-left: 10px;
+        }
     </style>
 </head>
 
@@ -222,9 +264,7 @@
     <div class="leaderboard-container">
         <div class="profile-section">
             <div class="profile-pic">
-                <img id="profile-img"
-                    src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1"
-                    alt="Profile Picture">
+                <img id="profile-img" src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1" alt="Profile Picture">
                 <input type="file" id="upload-img" accept="image/*">
                 <label for="upload-img">📷</label>
             </div>
@@ -232,26 +272,46 @@
                 <span id="nickname-display">Player Name</span>
                 <input type="text" id="nickname-input" value="Player Name" style="display: none;">
             </div>
-            <div class="tridend-amount" id="tridend-amount">Total Points: 0</div>
+            <div class="tridend-amount" id="tridend-amount">0</div>
             <div class="top-score" id="top-score">Today's Top Score: 0</div>
             <div class="checkin-count" id="checkin-count">Check-ins: 0</div>
             <div class="daily-checkin">
                 <button id="farming-btn" onclick="startFarming()">Start Farming</button>
             </div>
         </div>
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('high-scores')">High Scores</div>
+            <div class="tab" onclick="showTab('total-points')">Total Points</div>
+        </div>
         <div class="game-stats">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Player</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboard-list">
-                    <!-- Leaderboard data will be appended here -->
-                </tbody>
-            </table>
+            <div id="high-scores" class="tab-content active">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="high-scores-list">
+                        <!-- High scores data will be appended here -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="total-points" class="tab-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Total Points</th>
+                        </tr>
+                    </thead>
+                    <tbody id="total-points-list">
+                        <!-- Total points data will be appended here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="footer">
@@ -271,6 +331,7 @@
     <script>
         let farmingInterval;
         const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
+        const farmingDuration = 6 * 60 * 60 * 1000;
 
         function navigateTo(page) {
             window.location.href = `/${page}`;
@@ -283,12 +344,12 @@
         function startFarming() {
             const lastStart = localStorage.getItem('lastStart');
             const now = new Date().getTime();
-            const sixHoursInMilliseconds = 6 * 60 * 60 * 1000;
-            if (lastStart && now - lastStart < sixHoursInMilliseconds) {
+            if (lastStart && now - lastStart < farmingDuration) {
                 alert("You've already started farming recently!");
             } else {
                 alert("Farming started successfully!");
                 localStorage.setItem('lastStart', now);
+                startFarmingTimer(farmingDuration);
                 farmingInterval = setInterval(updatePoints, 1000);
             }
         }
@@ -296,13 +357,12 @@
         function updatePoints() {
             const lastStart = localStorage.getItem('lastStart');
             const now = new Date().getTime();
-            const sixHoursInMilliseconds = 6 * 60 * 60 * 1000;
             const elapsed = now - lastStart;
-            const points = Math.min(1000, (elapsed / sixHoursInMilliseconds) * 1000);
+            const points = Math.min(1000, (elapsed / farmingDuration) * 1000);
             localStorage.setItem('pendingPoints', points);
             updateTotalPointsDisplay(points);
-            document.getElementById('farming-btn').innerText = `Farming... ${Math.floor(points)} points`;
-            if (elapsed >= sixHoursInMilliseconds) {
+            document.getElementById('farming-btn').innerHTML = `Farming... ${Math.floor(points)} points <span id="farming-timer" class="timer"></span>`;
+            if (elapsed >= farmingDuration) {
                 clearInterval(farmingInterval);
                 document.getElementById('farming-btn').innerText = 'Claim Points';
                 document.getElementById('farming-btn').onclick = claimPoints;
@@ -343,34 +403,75 @@
         function updateTotalPointsDisplay(points) {
             const totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
             const totalDisplayedPoints = Math.floor(totalPoints + points);
-            document.getElementById('tridend-amount').innerText = `Total Points: ${totalDisplayedPoints}`;
+            document.getElementById('tridend-amount').innerText = `${totalDisplayedPoints}`;
         }
 
         function updateCheckinCount(count) {
             document.getElementById('checkin-count').innerText = `Check-ins: ${count}`;
         }
+
         function fetchLeaderboard() {
-
-
             fetch('/leaderboard_data')
                 .then(response => response.json())
                 .then(data => {
-                    // console.log('data', data)
-                    const leaderboard = data.parse();
-                    console.log("leaderboard----------->", leaderboard);
-                    // const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
-                    const leaderboardList = document.getElementById('leaderboard-list');
-                    leaderboardList.innerHTML = '';
+                    const highScores = data.highScores;
+                    const totalPoints = data.totalPoints;
 
-                    leaderboard.sort((a, b) => b.score - a.score).forEach((entry, index) => {
+                    const highScoresList = document.getElementById('high-scores-list');
+                    const totalPointsList = document.getElementById('total-points-list');
+
+                    highScoresList.innerHTML = '';
+                    totalPointsList.innerHTML = '';
+
+                    highScores.sort((a, b) => b.score - a.score).forEach((entry, index) => {
                         const listItem = document.createElement('tr');
-                        listItem.innerHTML = `<td>${index + 1}</td>
-                                      <td><img src="${entry.image}" alt="Player Image" width="30" height="30" style="border-radius: 50%; vertical-align: middle;"> ${entry.name}</td>
+                        listItem.innerHTML = `<td><img src="${entry.image}" alt="Player Image" width="30" height="30" style="border-radius: 50%; vertical-align: middle;"> ${index + 1}</td>
+                                      <td>${entry.name}</td>
                                       <td>${entry.score}</td>`;
-                        leaderboardList.appendChild(listItem);
+                        highScoresList.appendChild(listItem);
+                    });
+
+                    totalPoints.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+                        const listItem = document.createElement('tr');
+                        listItem.innerHTML = `<td><img src="${entry.image}" alt="Player Image" width="30" height="30" style="border-radius: 50%; vertical-align: middle;"> ${index + 1}</td>
+                                      <td>${entry.name}</td>
+                                      <td>${entry.points}</td>`;
+                        totalPointsList.appendChild(listItem);
                     });
                 });
+        }
 
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+
+        function startFarmingTimer(duration) {
+            const timerElement = document.getElementById('farming-timer');
+            timerElement.style.display = 'block';
+            let timeRemaining = duration;
+
+            const timerInterval = setInterval(() => {
+                const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+                const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.style.display = 'none';
+                } else {
+                    timeRemaining -= 1000;
+                }
+            }, 1000);
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -392,7 +493,9 @@
             }
             updateTotalPointsDisplay(pendingPoints);
             updateCheckinCount(checkinCount);
-            if (lastStart && (new Date().getTime() - lastStart) < 6 * 60 * 60 * 1000) {
+            if (lastStart && (new Date().getTime() - lastStart) < farmingDuration) {
+                const elapsed = new Date().getTime() - lastStart;
+                startFarmingTimer(farmingDuration - elapsed);
                 farmingInterval = setInterval(updatePoints, 1000);
             } else if (pendingPoints > 0) {
                 document.getElementById('farming-btn').innerText = 'Claim Points';

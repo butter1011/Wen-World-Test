@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Triend Tasks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
     <style>
         @font-face {
             font-family: 'Avenir';
@@ -12,8 +14,7 @@
             font-style: normal;
         }
 
-        body,
-        html {
+        body, html {
             margin: 0;
             padding: 0;
             background-color: black;
@@ -25,22 +26,23 @@
             align-items: center;
             justify-content: flex-start;
             height: 100%;
-            overflow: auto;
+            overflow: hidden;
         }
 
         .header {
             width: 100%;
             max-width: 400px;
-            background-color: #FFD700;
+            background: linear-gradient(135deg, #FFD700 0%, #FFC107 100%);
             color: black;
             padding: 10px 0;
             text-align: center;
             font-size: 5vh;
             font-weight: bold;
-            border-radius: 0 0 10px 10px;
+            border-radius: 0 0 20px 20px;
             position: fixed;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .logo {
@@ -56,20 +58,27 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
             text-align: center;
-            padding: 10px 20px;
+            padding: 20px;
             color: white;
-            margin-top: 90px; /* Add margin to push content below the header and logo */
+            margin-top: 90px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
+        .description {
+            font-size: 2.5vh;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
         .tasks {
             margin-top: 10px;
             overflow-y: auto;
             flex-grow: 1;
-            max-height: calc(100vh - 200px); /* Adjust based on the fixed header and footer height */
+            max-height: calc(100vh - 200px);
+            padding-bottom: 60px;
         }
 
         .task {
@@ -92,12 +101,12 @@
         }
 
         .task .task-info .task-points {
-            font-size: 2vh;
-            color: #aaa;
+            font-size: 2.5vh;
+            color: #FFD700;
         }
 
         .task .task-action button {
-            background-color: #00FFCF; /* Updated button color */
+            background-color: #00FFCF;
             color: #000;
             border: none;
             padding: 10px 20px;
@@ -107,11 +116,11 @@
         }
 
         .task .task-action button:hover {
-            background-color: #00bfa0; /* Slightly darker shade for hover effect */
+            background-color: #00bfa0;
         }
 
         .task .task-action button.completed {
-            background-color: #28a745;
+            background-color: #FF00E5;
             color: white;
             cursor: not-allowed;
         }
@@ -128,7 +137,7 @@
             box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5);
             height: 50px;
             position: fixed;
-            bottom: 10px; /* Adjust position */
+            bottom: 10px;
             border-radius: 15px;
             margin: 0 10px;
         }
@@ -153,10 +162,219 @@
             color: #fff;
         }
 
-        .description {
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .popup {
+            position: absolute;
+            left: 50%;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            top: 10%;
+            max-width: 300px;
+            width: 90%;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+            transform: translate(-50%, -50%) scale(1.2);
+            transition: top 0s 0.2s ease-in-out,
+                        opacity 0.2s 0s ease-in-out,
+                        transform 0.2s 0s ease-in-out;
+            color: white;
+        }
+
+        .popup.show {
+            top: 50%;
+            left: 50%;
+            opacity: 1;
+            pointer-events: auto;
+            transform:translate(-50%, -50%) scale(1);
+            transition: top 0s 0s ease-in-out,
+                        opacity 0.2s 0s ease-in-out,
+                        transform 0.2s 0s ease-in-out;
+        }
+
+        .popup :is(header, .icons, .field) {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .popup header {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #444;
+        }
+
+        header span {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        header .close, .icons a {
+            display: flex;
+            align-items: center;
+            border-radius: 50%;
+            justify-content: center;
+            transition: all 0.3s ease-in-out;
+        }
+
+        header .close {
+            color: #878787;
+            font-size: 17px;
+            background: #f3f3f3;
+            height: 33px;
+            width: 33px;
+            cursor: pointer;
+        }
+
+        header .close:hover {
+            background: #ebedf9;
+        }
+
+        .popup .content {
+            margin: 15px 0;
+        }
+
+        .popup .icons {
+            margin: 10px 0 15px 0;
+        }
+
+        .content p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .content .icons a {
+            height: 40px;
+            width: 40px;
+            font-size: 18px;
+            text-decoration: none;
+            border: 1px solid transparent;
+            margin: 0 5px;
+        }
+
+        .icons a i {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .icons a:nth-child(1) {
+            color: #1877F2;
+            border-color: #b7d4fb;
+        }
+
+        .icons a:nth-child(1):hover {
+            background: #1877F2;
+        }
+
+        .icons a:nth-child(2) {
+            color: #46C1F6;
+            border-color: #b6e7fc;
+        }
+
+        .icons a:nth-child(2):hover {
+            background: #46C1F6;
+        }
+
+        .icons a:nth-child(3) {
+            color: #e1306c;
+            border-color: #f5bccf;
+        }
+
+        .icons a:nth-child(3):hover {
+            background: #e1306c;
+        }
+
+        .icons a:nth-child(4) {
+            color: #25D366;
+            border-color: #bef4d2;
+        }
+
+        .icons a:nth-child(4):hover {
+            background: #25D366;
+        }
+
+        .icons a:nth-child(5) {
+            color: #0088cc;
+            border-color: #b3e6ff;
+        }
+
+        .icons a:nth-child(5):hover {
+            background: #0088cc;
+        }
+
+        .icons a:hover {
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .icons a:hover i {
+            transform: scale(1.2);
+        }
+
+        .content .field {
+            margin: 10px 0 -5px 0;
+            height: 45px;
+            border-radius: 4px;
+            padding: 0 5px;
+            border: 1px solid #757171;
+            display: flex;
+            align-items: center;
+        }
+
+        .field.active {
+            border-color: #7d2ae8;
+        }
+
+        .field i {
+            width: 50px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .field.active i {
+            color: #7d2ae8;
+        }
+
+        .field input {
+            width: calc(100% - 70px);
+            height: 100%;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            background: transparent;
+            color: white;
+        }
+
+        .field button {
+            color: #fff;
+            padding: 5px 10px;
+            background: #7d2ae8;
+            border: none;
+            cursor: pointer;
+        }
+
+        .field button:hover {
+            background: #8d39fa;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
             margin-top: 10px;
-            font-size: 2vh;
-            color: #ccc;
+            border-radius: 5px;
+            border: 1px solid #444;
+            font-size: 14px;
+            background: black;
+            color: white;
         }
     </style>
 </head>
@@ -170,67 +388,90 @@
             We will reward you immediately with points after each task completion.
         </div>
         <div class="tasks">
+            <div class="task-category daily">Daily Tasks</div>
             <div class="task">
                 <div class="task-info">
-                    <span class="task-title">Join Twitter</span>
-                    <span class="task-points">+ 100 $TRIEND</span>
+                    <span class="task-title">Invite Frens</span>
+                    <span class="task-points">+ 10 points per invite</span>
                 </div>
                 <div class="task-action">
-                    <button onclick="completeTask(this, 100, 'https://twitter.com')">Start</button>
+                    <button class="view-modal-telegram">Start</button>
+                </div>
+            </div>
+            <div class="task">
+                <div class="task-info">
+                    <span class="task-title">Share Most Recent Score of the Day</span>
+                    <span class="task-points">+ 70 points</span>
+                </div>
+                <div class="task-action">
+                    <button class="view-modal">Start</button>
+                </div>
+            </div>
+            <div class="task">
+                <div class="task-info">
+                    <span class="task-title">Share Highest Score of the Day</span>
+                    <span class="task-points">+ 70 points</span>
+                </div>
+                <div class="task-action">
+                    <button class="view-modal">Start</button>
+                </div>
+            </div>
+
+            <div class="task-category one-off">One-off Tasks</div>
+            <div class="task">
+                <div class="task-info">
+                    <span class="task-title">Follow Telegram Channel</span>
+                    <span class="task-points">+ 50 points</span>
+                </div>
+                <div class="task-action">
+                    <button onclick="completeTask(this, 50, 'https://t.me/triendapp')">Start</button>
+                </div>
+            </div>
+            <div class="task">
+                <div class="task-info">
+                    <img src="https://www.dropbox.com/scl/fi/jpyepbtwu1xvjrdxxzvq3/Comi-Launch-1.svg?rlkey=37nd7btzwg407w8f2x1lujq7y&raw=1" alt="Logo" style="width: 20px; height: 20px; vertical-align: middle;">
+                    <span class="task-title"> Join X</span>
+                    <span class="task-points">+ 50 points</span>
+                </div>
+                <div class="task-action">
+                    <button onclick="completeTask(this, 50, 'https://x.com/triendapp')">Start</button>
+                </div>
+            </div>
+            <div class="task">
+                <div class="task-info">
+                    <img src="https://www.dropbox.com/scl/fi/z771fhza2mxoxwfhgu5l8/Comi-Launch-2.svg?rlkey=wpinrfer98937pevzq0vh6ss8&raw=1" alt="Logo" style="width: 20px; height: 20px; vertical-align: middle;">
+                    <span class="task-title"> Join TikTok</span>
+                    <span class="task-points">+ 50 points</span>
+                </div>
+                <div class="task-action">
+                    <button onclick="completeTask(this, 50, 'https://www.tiktok.com/@triendapp')">Start</button>
                 </div>
             </div>
             <div class="task">
                 <div class="task-info">
                     <span class="task-title">Join Instagram</span>
-                    <span class="task-points">+ 90 $TRIEND</span>
+                    <span class="task-points">+ 40 points</span>
                 </div>
                 <div class="task-action">
-                    <button onclick="completeTask(this, 90, 'https://instagram.com')">Start</button>
+                    <button onclick="completeTask(this, 40, 'https://www.instagram.com/triend.app/?hl=en')">Start</button>
                 </div>
             </div>
             <div class="task">
                 <div class="task-info">
                     <span class="task-title">Join Discord</span>
-                    <span class="task-points">+ 80 $TRIEND</span>
+                    <span class="task-points">+ 60 points</span>
                 </div>
                 <div class="task-action">
-                    <button onclick="completeTask(this, 80, 'https://discord.com')">Start</button>
+                    <button onclick="completeTask(this, 60, 'https://discord.gg/XZPwtfZjWq')">Start</button>
                 </div>
             </div>
             <div class="task">
                 <div class="task-info">
-                    <span class="task-title">Share Score of the Day</span>
-                    <span class="task-points">+ 70 $TRIEND</span>
+                    <span class="task-title">Learn About Triend</span>
+                    <span class="task-points">+ 30 points</span>
                 </div>
                 <div class="task-action">
-                    <button onclick="completeTask(this, 70, 'https://twitter.com')">Start</button>
-                </div>
-            </div>
-            <div class="task">
-                <div class="task-info">
-                    <span class="task-title">Read Litepaper</span>
-                    <span class="task-points">+ 60 $TRIEND</span>
-                </div>
-                <div class="task-action">
-                    <button onclick="completeTask(this, 60, 'https://example.com/litepaper')">Start</button>
-                </div>
-            </div>
-            <div class="task">
-                <div class="task-info">
-                    <span class="task-title">Check Out Widget</span>
-                    <span class="task-points">+ 50 $TRIEND</span>
-                </div>
-                <div class="task-action">
-                    <button onclick="completeTask(this, 50, 'https://example.com/widget')">Start</button>
-                </div>
-            </div>
-            <div class="task">
-                <div class="task-info">
-                    <span class="task-title">Invite Friends</span>
-                    <span class="task-points">+ 120 $TRIEND</span>
-                </div>
-                <div class="task-action">
-                    <button onclick="completeTask(this, 120, 'https://example.com/invite')">Start</button>
+                    <button onclick="completeTask(this, 30, 'https://triend.gitbook.io/triend-docs-and-litepaper')">Start</button>
                 </div>
             </div>
         </div>
@@ -249,7 +490,91 @@
             <div>Leaderboard</div>
         </div>
     </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="socialSharePopup">
+        <header>
+            <span>Share Your Score</span>
+            <div class="close"><i class="uil uil-times"></i></div>
+        </header>
+        <div class="content">
+            <p>Share this link via</p>
+            <ul class="icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-telegram-plane"></i></a>
+            </ul>
+            <p>Or copy link</p>
+            <div class="field">
+                <i class="url-icon uil uil-link"></i>
+                <input type="text" id="shareLink" readonly value="https://example.com/invite?ref=yourReferralCode">
+                <button>Copy</button>
+            </div>
+            <textarea id="shareMessage" placeholder="Add your message...">Join me on this platform and let's earn together! Use my invite link to join the fun: https://example.com/invite?ref=yourReferralCode</textarea>
+        </div>
+    </div>
+
+    <div class="popup" id="telegramSharePopup">
+        <header>
+            <span>Invite Frens</span>
+            <div class="close"><i class="uil uil-times"></i></div>
+        </header>
+        <div class="content">
+            <p>Share with your Telegram contacts</p>
+            <div class="field">
+                <i class="url-icon uil uil-link"></i>
+                <input type="text" id="telegramShareLink" readonly value="https://example.com/invite?ref=yourReferralCode">
+                <button>Copy</button>
+            </div>
+            <textarea id="telegramShareMessage" placeholder="Add your message...">Join me on this platform and let's earn together! Use my invite link to join the fun: https://example.com/invite?ref=yourReferralCode</textarea>
+        </div>
+    </div>
+
     <script>
+        const viewBtns = document.querySelectorAll(".view-modal"),
+            telegramBtn = document.querySelector(".view-modal-telegram"),
+            socialSharePopup = document.querySelector("#socialSharePopup"),
+            telegramSharePopup = document.querySelector("#telegramSharePopup"),
+            closeBtns = document.querySelectorAll(".close"),
+            field = document.querySelectorAll(".field"),
+            input = document.querySelectorAll("input"),
+            copyBtns = document.querySelectorAll("button.copy");
+
+        viewBtns.forEach(viewBtn => {
+            viewBtn.onclick = ()=>{ 
+                socialSharePopup.classList.toggle("show");
+            }
+        });
+
+        telegramBtn.onclick = ()=>{ 
+            telegramSharePopup.classList.toggle("show");
+        };
+
+        closeBtns.forEach(close => {
+            close.onclick = ()=>{
+                socialSharePopup.classList.remove("show");
+                telegramSharePopup.classList.remove("show");
+            }
+        });
+
+        copyBtns.forEach(copyBtn => {
+            copyBtn.onclick = ()=>{
+                const input = copyBtn.previousElementSibling;
+                input.select(); //select input value
+                if(document.execCommand("copy")){ //if the selected text is copied
+                    field.classList.add("active");
+                    copyBtn.innerText = "Copied";
+                    setTimeout(()=>{
+                        window.getSelection().removeAllRanges(); //remove selection from page
+                        field.classList.remove("active");
+                        copyBtn.innerText = "Copy";
+                    }, 3000);
+                }
+            }
+        });
+
         function navigateTo(page) {
             window.location.href = `/${page}`;
         }
@@ -271,7 +596,7 @@
 
         function updateLeaderboard(points) {
             let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
-            const playerName = "Player"; // Change this to dynamically fetch player's name if needed
+            const playerName = "Player";
             const today = new Date().toLocaleDateString();
             let playerEntry = leaderboard.find(entry => entry.name === playerName);
             if (playerEntry) {

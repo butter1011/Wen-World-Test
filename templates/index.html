@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -170,8 +169,24 @@
             overflow: auto;
         }
 
-        .game-stats div {
-            margin: 10px 0;
+        .game-stats table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .game-stats th,
+        .game-stats td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .game-stats th {
+            background-color: #444;
+            color: white;
+        }
+
+        .game-stats td {
+            background-color: #333;
         }
 
         .buttons {
@@ -210,7 +225,7 @@
             min-width: 160px;
             max-height: 200px;
             overflow-y: auto;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
             border-radius: 10px;
         }
@@ -276,8 +291,7 @@
         #end-and-bank-button {
             position: absolute;
             top: 2vh;
-            right: 10vh;
-            /* Adjusted to make space for info button */
+            right: 10vh; /* Adjusted to make space for info button */
             padding: 1vh 2vh;
             font-size: 2vh;
             background-color: red;
@@ -315,8 +329,8 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.8);
         }
 
         #info-modal-content {
@@ -440,34 +454,17 @@
     <!-- Telegram Web Apps JavaScript API -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
-
 <body>
     <div id="opening-page">
         <div id="characters">
-            <img id="player-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1"
-                alt="Player">
-            <img id="good-coin-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/lpmmzradg397jl3uk0faf/Add-a-subheading-6.svg?rlkey=oyxoux29ln5qfjhm2chexir3d&raw=1"
-                alt="Good Coin">
-            <img id="bad-coin-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/ffprp1gne2k3qi9s65diq/Add-a-subheading-3.svg?rlkey=44ro7mwowu390lkjbyilkoqb8&raw=1"
-                alt="Bad Coin">
-            <img id="bull-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/dslt1d1kd7xwp6hypdgw8/.svg?rlkey=6g1snhasrq5fklpknwlsvpmes&raw=1"
-                alt="Bull">
-            <img id="bear-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/73ioipk50ixg9qld604rs/Add-a-subheading-32.png?rlkey=f24ub3dcyz2wbokphi5pg2l12&raw=1"
-                alt="Bear">
-            <img id="sam-bankman-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/tlsn0iioa257wbtf58lso/Add-a-subheading-29.png?rlkey=vwr7rc5m23ecjcc4dk443g9h4&raw=1"
-                alt="Sam Bankman">
-            <img id="triend-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/g2o9xn1qnshg54oupj38l/Add-a-subheading-7.svg?rlkey=lp9evhxzdwvxit2dik3qi0j9x&raw=1"
-                alt="Triend">
-            <img id="zkp-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/4h2xc3pwt20dgcro6g9q8/Add-a-subheading-11.svg?rlkey=2se4mwne0p256k5rzh86l74zl&raw=1"
-                alt="ZKP">
+            <img id="player-img" loading="lazy" src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1" alt="Player">
+            <img id="good-coin-img" loading="lazy" src="https://www.dropbox.com/scl/fi/lpmmzradg397jl3uk0faf/Add-a-subheading-6.svg?rlkey=oyxoux29ln5qfjhm2chexir3d&raw=1" alt="Good Coin">
+            <img id="bad-coin-img" loading="lazy" src="https://www.dropbox.com/scl/fi/ffprp1gne2k3qi9s65diq/Add-a-subheading-3.svg?rlkey=44ro7mwowu390lkjbyilkoqb8&raw=1" alt="Bad Coin">
+            <img id="bull-img" loading="lazy" src="https://www.dropbox.com/scl/fi/dslt1d1kd7xwp6hypdgw8/.svg?rlkey=6g1snhasrq5fklpknwlsvpmes&raw=1" alt="Bull">
+            <img id="bear-img" loading="lazy" src="https://www.dropbox.com/scl/fi/73ioipk50ixg9qld604rs/Add-a-subheading-32.png?rlkey=f24ub3dcyz2wbokphi5pg2l12&raw=1" alt="Bear">
+            <img id="sam-bankman-img" loading="lazy" src="https://www.dropbox.com/scl/fi/tlsn0iioa257wbtf58lso/Add-a-subheading-29.png?rlkey=vwr7rc5m23ecjcc4dk443g9h4&raw=1" alt="Sam Bankman">
+            <img id="triend-img" loading="lazy" src="https://www.dropbox.com/scl/fi/g2o9xn1qnshg54oupj38l/Add-a-subheading-7.svg?rlkey=lp9evhxzdwvxit2dik3qi0j9x&raw=1" alt="Triend">
+            <img id="zkp-img" loading="lazy" src="https://www.dropbox.com/scl/fi/4h2xc3pwt20dgcro6g9q8/Add-a-subheading-11.svg?rlkey=2se4mwne0p256k5rzh86l74zl&raw=1" alt="ZKP">
         </div>
         <h1>Enter Wen World?</h1>
         <button id="yes-button" onclick="startCountdown()">Yes</button>
@@ -490,9 +487,7 @@
     <div id="bear-value" class="message">Market maker bear has stolen your gains</div>
     <div id="boost-message" class="message"> Short Squeeeeze</div>
     <div id="slowdown-message" class="message">You've been stopped out</div>
-    <div id="last-life-message" class="message"
-        style="top: 50%; transform: translate(-50%, -50%); background-color: red; color: white;">Warning: One life
-        remaining!</div>
+    <div id="last-life-message" class="message" style="top: 50%; transform: translate(-50%, -50%); background-color: red; color: white;">Warning: One life remaining!</div>
     <div id="zkp-message" class="message">Infinite knowledge grants you +100 Triend points</div>
     <div id="triend-message" class="message">200 Triend points collected</div>
     <div id="game-over-screen">
@@ -533,46 +528,18 @@
         <div id="info-modal-content">
             <span class="close">&times;</span>
             <h2>How to Play "The World of Wen"</h2>
-            <p>🚀 Welcome to the World of Wen! Dive into the ultimate crypto game where dodging bulls and bears is just
-                part of the fun. Here’s your quick guide to conquering the digital chaos:</p>
-            <h3>🎮 Starting the Game</h3>
-            <p>Enter the Game: Smash that “Yes” button on the splash screen to kick off your crypto quest. Hit “No,” and
-                you miss out—simple as that.</p>
-            <p>Choose Your Hero: Spot some cool character avatars on the opening page? Pick one to represent you in the
-                digital fray! (Character options might vary with updates.)</p>
-            <h3>🏃‍♂️ Gameplay Basics</h3>
-            <p>Jump Around: Tap Spacebar or Arrow Up to jump. Keep those reflexes sharp to snag coins and dodge the
-                dips!</p>
-            <p>Touch to Leap: Playing on mobile? Just tap the screen to make your move.</p>
-            <p>Multi-Jump Mastery: You can jump up to four times in a row—perfect for tricky traps and awesome coin
-                grabs.</p>
-            <h3>💰 Collecting Coins and Power-Ups</h3>
-            <p>Wen Coins Galore: Grab those shiny "Good Coins" to boost your score. Steer clear of the "Bad Coins"
-                unless you’re feeling risky—they might just slash your stash.</p>
-            <p>Power-Up Party: Snatch "Triend tokens" for a sweet score surge or grab a "ZKP" for a moment of
-                market-proof invincibility.</p>
-            <h3>🐂 Bulls and Bears</h3>
-            <p>Bull Boosts: Bulls send you flying forward—ride their momentum to reach new heights.</p>
-            <p>Bear Bumps: Bears will drag you down. Outsmart them or prepare to lose ground!</p>
-            <h3>🎭 Meet the Market Movers</h3>
-            <p>Sam Bankman and Friends: These characters can make or break your game. Some will rocket your score,
-                others might tank it—watch out!</p>
-            <h3>❤️ Keep Your Health Up</h3>
-            <p>Health Bar Check: Keep an eye on your health up top. Hit too many snags and it’s game over!</p>
-            <p>Bank or Bust: Hit “End and Bank” to secure your coins and lock in your score before you crash.</p>
-            <h3>🏆 Leaderboard and Sharing</h3>
-            <p>Climb the Ranks: Game over? Check the leaderboard to see how you stack up.</p>
-            <p>Share the Wealth: Flaunt your high score across Discord, Telegram, and Twitter with a quick click!</p>
-            <h3>🔄 Ready to Replay?</h3>
-            <p>Quick Restart: Tap “Play Again” to dive back into the fray. Can you beat your best score?</p>
-            <h3>Get Set, Go!</h3>
-            <p>Strap in, strategize, and sprint through "The World of Wen." Are you ready to top the leaderboard? Let’s
-                see what you’ve got—ready, set, trade! 🌟</p>
+            <p>🚀 Welcome to World of Wen! Collect Coins 💰Coins: Score big! 💩 Coins: Risk losing points. 💪Power-Ups: Snag Triend coin for bonus points and ZKP for trust.</p>
+            <h3>Obstacles</h3>
+            <p>🐂Bulls: Boost you forward! 🐻Bears: Slow you down! 🥷Sammy: Tanks your score! 🕯️Candles: Market trends, red for down, green for up.</p>
+            <h3>Health and Scoring</h3>
+            <p>👩‍⚕️Health Bar: Don’t let it drop! 🏦Bank or Bust: Secure your score with “End and Bank.”</p>
+            <h3>Leaderboard and Sharing</h3>
+            <p>📈Ranks: See where you stand. 🌎Share: Flex your score on Discord, Telegram, and Twitter.</p>
+            <p>Ready for the adventure? Dive in and rule the market! 🌟</p>
         </div>
     </div>
     <div id="flash-screen"></div>
-    <audio id="cashRegisterSound" src="https://freesound.org/data/previews/195/195138_2074484-lq.mp3"
-        preload="auto"></audio>
+    <audio id="cashRegisterSound" src="https://freesound.org/data/previews/195/195138_2074484-lq.mp3" preload="auto"></audio>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             console.log("DOM fully loaded and parsed");
@@ -632,7 +599,7 @@
                 imageElements[src].src = sources[src];
 
                 // Log any transparency issues
-                imageElements[src].onerror = function () {
+                imageElements[src].onerror = function() {
                     console.error(`Error loading image ${sources[src]}`);
                 };
             }
@@ -671,7 +638,7 @@
         let slowdownActive = false;
         let reducedPointsActive = false;
         let reducedPointsDuration = 5000;
-        // let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+        let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
         let doublePointsActive = false;
         let doubleGoodCoinSpawn = false;
         let bullTouched = false;
@@ -946,53 +913,25 @@
             showMessage("Coins banked successfully!", 2000);
         }
 
-        function displayLeaderboard(leaderboard) {
+        function displayLeaderboard() {
             const leaderboardList = document.getElementById('leaderboard-list');
             leaderboardList.innerHTML = '';
-            fetch('/leaderboard_data', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    data.sort((a, b) => b.score - a.score).forEach((entry, index) => {
-                        const listItem = document.createElement('tr');
-                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.score}</td><td>${entry.date}</td>`;
-                        leaderboardList.appendChild(listItem);
-                    });
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+            leaderboard.sort((a, b) => b.score - a.score).forEach((entry, index) => {
+                const listItem = document.createElement('tr');
+                listItem.innerHTML = `<td>${index + 1}</td><td>${entry.score}</td><td>${entry.date}</td>`;
+                leaderboardList.appendChild(listItem);
+            });
         }
 
         function saveScore() {
-            // const playerName = "matt"; 
-            const user = window.Telegram.WebApp.initDataUnsafe.user;
-
-            if (user) {
-                const playerName = user.username || null;
-                const playerId = user.id;
-                const today = new Date().toLocaleDateString();
-
-                fetch('/update_score', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 'user_id': playerId, 'name': playername, 'date': today, 'score': score }),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Success:', data);
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
-                displayLeaderboard();
-            }
+            const playerName = "matt"; 
+            const today = new Date().toLocaleDateString();
+            leaderboard.push({
+                score: todayScore,
+                date: today
+            });
+            localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+            displayLeaderboard();
         }
 
         function shareWithFriends() {
@@ -1097,9 +1036,9 @@
             gameOver = false;
             clouds = [];
             currentTerrainIndex = 0;
-            coinSpawnRate = 0.25;
+            coinSpawnRate = 0.20;
             obstacleSpawnRate = 0.005;
-            platformSpawnRate = 0.001;
+            platformSpawnRate = 0.002;
             boostActive = false;
             slowdownActive = false;
             reducedPointsActive = false;
@@ -1368,7 +1307,7 @@
                             const zkpMessage = document.getElementById('zkp-message');
                             zkpMessage.style.display = 'block';
                             setTimeout(() => {
-                                zkpMessage.style.display = 'none';
+                                zkpMessage.style.display = 'none'
                             }, 3000);
                             obstacles = obstacles.filter(o => o !== obstacle);
                         }
@@ -1415,7 +1354,7 @@
                 player.x = canvas.width - player.width;
             }
 
-            if (Math.random() < coinSpawnRate * deltaTime * 60) {
+            if (Math.random() < coinSpawnRate * deltaTime * 20) {
                 const coinType = doubleGoodCoinSpawn ? 'good' : Math.random() < 0.1 ? 'bad' : 'good';
                 coins.push({
                     x: canvas.width,
@@ -1428,8 +1367,8 @@
 
             const baseGoldTokenProbability = 0.1; // 10%
 
-            const shitCoinProbability = baseGoldTokenProbability; // 10%
-            const triendProbability = baseGoldTokenProbability * 0.01; // 0.1%
+            const shitCoinProbability = baseGoldTokenProbability; // 2%
+            const triendProbability = baseGoldTokenProbability * 0.05; // 0.5%
             const zkpProbability = baseGoldTokenProbability * 0.02; // 0.2%
             const bullProbability = baseGoldTokenProbability * 0.01; // 0.1%
             const bearProbability = baseGoldTokenProbability * 0.02; // 0.2%
@@ -1580,7 +1519,7 @@
         document.getElementById('add-points-button').addEventListener('click', () => {
             window.location.href = '/tasks';
         });
-        window.onclick = function (event) {
+        window.onclick = function(event) {
             if (!event.target.matches('#add-points-button') && !event.target.closest('#share-dropdown')) {
                 const dropdowns = document.getElementsByClassName("share-dropdown");
                 for (let i = 0; i < dropdowns.length; i++) {
@@ -1615,15 +1554,15 @@
         const infoModal = document.getElementById("info-modal");
         const closeSpan = document.getElementsByClassName("close")[0];
 
-        infoButton.onclick = function () {
+        infoButton.onclick = function() {
             infoModal.style.display = "block";
         }
 
-        closeSpan.onclick = function () {
+        closeSpan.onclick = function() {
             infoModal.style.display = "none";
         }
 
-        window.onclick = function (event) {
+        window.onclick = function(event) {
             if (event.target === infoModal) {
                 infoModal.style.display = "none";
             }
@@ -1653,5 +1592,4 @@
         }
     </script>
 </body>
-
 </html>
