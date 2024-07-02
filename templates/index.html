@@ -126,6 +126,29 @@
             padding: 2vh;
         }
 
+        .game-stats {
+            margin-top: 10px;
+            font-size: 2.5vh;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .game-stats table {
+            width: 100%;
+            color: white;
+            border-collapse: collapse;
+        }
+
+        .game-stats th,
+        .game-stats td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .game-stats th {
+            background-color: #444;
+        }
+
         .leaderboard-container {
             margin: 0 auto;
             background-color: rgba(0, 0, 0, 0.5);
@@ -170,6 +193,37 @@
 
         .game-stats div {
             margin: 10px 0;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            cursor: pointer;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            background-color: #444;
+            border-radius: 10px 10px 0 0;
+            font-size: 2.5vh;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .tab.active {
+            background-color: #FFD700;
+            color: black;
+        }
+
+        .tab-content {
+            display: none;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         .buttons {
@@ -501,18 +555,40 @@
             <div class="score-section">
                 <h2 id="final-score">0</h2>
             </div>
-            <div id="leaderboard-section" class="game-stats">
-                <table style="width: 100%; color: white;">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Score</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboard-list">
-                    </tbody>
-                </table>
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('high-scores')">High Scores</div>
+                <div class="tab" onclick="showTab('total-points')">Total Points</div>
+                </div>
+                <div class="game-stats">
+                    <div id="high-scores" class="tab-content active">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="high-scores-list">
+                                <!-- High scores data will be appended here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="total-points" class="tab-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Total Points</th>
+                                </tr>
+                            </thead>
+                            <tbody id="total-points-list">
+                                <!-- Total points data will be appended here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="buttons">
                 <div id="add-points-button" class="my-progress">Add Points
@@ -596,6 +672,18 @@
                 canvas.style.marginTop = '0';
                 canvas.style.marginLeft = '0';
             }
+        }
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
         }
 
         window.addEventListener('resize', resizeCanvas);
@@ -944,9 +1032,11 @@
             showMessage("Coins banked successfully!", 2000);
         }
 
+        // get the all the score value
         function displayLeaderboard(leaderboard) {
-            const leaderboardList = document.getElementById('leaderboard-list');
+            const leaderboardList = document.getElementById('total-points-list');
             leaderboardList.innerHTML = '';
+            // fetch('http://127.0.0.1:5000/leaderboard_data', {
             fetch('https://wen-world-test.onrender.com/leaderboard_data', {
                 method: 'GET',
                 headers: {
@@ -957,7 +1047,7 @@
                 .then(data => {
                     data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
                         const listItem = document.createElement('tr');
-                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.points}</td><td>${entry.date}</td>`;
+                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
                         leaderboardList.appendChild(listItem);
                     });
                 })
