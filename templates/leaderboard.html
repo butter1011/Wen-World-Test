@@ -31,6 +31,7 @@
 
         .leaderboard-container {
             width: 100%;
+            max-width: 400px;
             background-color: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
@@ -46,6 +47,7 @@
 
         .leaderboard-header {
             width: 100%;
+            max-width: 400px;
             background-color: #FFD700;
             color: black;
             padding: 10px 0;
@@ -180,6 +182,7 @@
             padding: 5px 0;
             border-top: 1px solid #333;
             width: 100%;
+            max-width: 400px;
             background-color: black;
             box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5);
             height: 50px;
@@ -210,8 +213,6 @@
             color: #fff;
         }
     </style>
-    <!-- Telegram Web Apps JavaScript API -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
@@ -254,7 +255,7 @@
         </div>
     </div>
     <div class="footer">
-        <div class="footer-item" onclick="navigateTo('')">
+        <div class="footer-item" onclick="navigateToHome()">
             <div class="icon">🌍</div>
             <div>Wen</div>
         </div>
@@ -348,66 +349,32 @@
         function updateCheckinCount(count) {
             document.getElementById('checkin-count').innerText = `Check-ins: ${count}`;
         }
+        function fetchLeaderboard() {
 
-        // get the all the score value
-        function displayLeaderboard(leaderboard) {
-            const leaderboardList = document.getElementById('leaderboard-list');
-            leaderboardList.innerHTML = '';
-            // fetch('http://127.0.0.1:5000/leaderboard_data', {
-            fetch('https://wen-world-test.onrender.com/leaderboard_data', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
+
+            fetch('/leaderboard_data')
                 .then(response => response.json())
                 .then(data => {
-                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+                    // console.log('data', data)
+                    const leaderboard = data.parse();
+                    console.log("leaderboard----------->", leaderboard);
+                    // const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+                    const leaderboardList = document.getElementById('leaderboard-list');
+                    leaderboardList.innerHTML = '';
+
+                    leaderboard.sort((a, b) => b.score - a.score).forEach((entry, index) => {
                         const listItem = document.createElement('tr');
-                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
+                        listItem.innerHTML = `<td>${index + 1}</td>
+                                      <td><img src="${entry.image}" alt="Player Image" width="30" height="30" style="border-radius: 50%; vertical-align: middle;"> ${entry.name}</td>
+                                      <td>${entry.score}</td>`;
                         leaderboardList.appendChild(listItem);
                     });
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
                 });
+
         }
 
-        // init top score and total score
-        const initScore = async () => {
-            const user = window.Telegram.WebApp.initDataUnsafe.user;
-            const totalPointsDiv = document.getElementById('tridend-amount');
-            const top_scoreDiv = document.getElementById("top-score");
-            let total_points = 0;
-
-            await fetch(`https://wen-world-test.onrender.com/leaderboard_data?user_id=${user.id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    const today = new Date().getDate();
-                    const res = data.sort((a, b) => b.points - a.points);
-                    console.log("all_Data----------->", res);
-                    res.forEach((index) => { total_points += parseInt(index.points); });
-                    const today_score = res.filter(item => new Date(item.date).toLocaleDateString() === today).sort((a, b) => b.points - a.points);
-                    
-                    console.log("today_score----------->", today_score);
-                    console.log("total_points--------->", total_points);
-                    totalPointsDiv.innerText = `Total Points: ${total_points}`
-                    if(today_score.length != 0)
-                        top_scoreDiv.innerText = `Today's Top Score: ${today_score[0].points}`;
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        }
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            await displayLeaderboard();
-            await initScore();
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchLeaderboard();
             const storedImage = localStorage.getItem('profileImage');
             const storedNickname = localStorage.getItem('nickname');
             const totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;

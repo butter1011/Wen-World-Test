@@ -102,7 +102,7 @@
         }
 
         #triend-message {
-            top: 75%;
+            top: 70%;
         }
 
         #game-over-screen {
@@ -127,6 +127,8 @@
         }
 
         .leaderboard-container {
+            width: 100%;
+            max-width: 400px;
             margin: 0 auto;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
@@ -323,6 +325,7 @@
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
+            max-width: 600px;
             border-radius: 10px;
             font-size: 2.5vh;
             color: black;
@@ -404,8 +407,9 @@
             padding: 5px 0;
             border-top: 1px solid #333;
             position: fixed;
-            bottom: 10px;
+            bottom: 0;
             width: 100%;
+            max-width: 400px;
             background-color: black;
             box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5);
             height: 50px;
@@ -417,7 +421,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-size: 2vh;
+            font-size: 10px;
             color: #aaa;
             cursor: pointer;
             padding: 2px 0;
@@ -425,7 +429,7 @@
         }
 
         .footer .footer-item .icon {
-            font-size: 3vh;
+            font-size: 20px;
             margin-bottom: 2px;
         }
 
@@ -481,19 +485,18 @@
     <div id="score-breakdown" style="display:none;"></div>
     <button id="end-and-bank-button" style="display:none;" onclick="endAndBank()">End and Bank</button>
     <button id="info-button">i</button>
-    <div id="message" class="message" style="color: red;">Sammy just rug pulled you</div>
-    <div id="leverage-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points
-    </div>
-    <div id="bear-value" class="message" style="color: red;">Market maker bear has stolen your gains</div>
-    <div id="boost-message" class="message" style="color: green;"> Short Squeeeeze</div>
-    <div id="slowdown-message" class="message" style="color: red;">You've been stopped out</div>
+    <div id="message" class="message">Sammy just rug pulled you</div>
+    <div id="leverage-message" class="message">Infinite knowledge grants you +100 Triend points</div>
+    <div id="bear-value" class="message">Market maker bear has stolen your gains</div>
+    <div id="boost-message" class="message"> Short Squeeeeze</div>
+    <div id="slowdown-message" class="message">You've been stopped out</div>
     <div id="last-life-message" class="message"
         style="top: 50%; transform: translate(-50%, -50%); background-color: red; color: white;">Warning: One life
         remaining!</div>
-    <div id="zkp-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points</div>
-    <div id="triend-message" class="message" style="color: green;">200 Triend points collected</div>
+    <div id="zkp-message" class="message">Infinite knowledge grants you +100 Triend points</div>
+    <div id="triend-message" class="message">200 Triend points collected</div>
     <div id="game-over-screen">
-        <div id="game-over" style="color: red;">Game Over</div>
+        <div id="game-over">Game Over</div>
         <div class="leaderboard-container">
             <div class="leaderboard-header">
                 My Wen Scores
@@ -679,7 +682,6 @@
         let allTimeTopScore = 0;
         let collectingCoins = false;
         let clearingCoins = false;
-        let goldToken = 5;
         const debugMode = false; // Change this to true to enable hitbox visualization
 
         const terrains = [
@@ -947,7 +949,7 @@
         function displayLeaderboard(leaderboard) {
             const leaderboardList = document.getElementById('leaderboard-list');
             leaderboardList.innerHTML = '';
-            fetch('https://wen-world-test.onrender.com/leaderboard_data', {
+            fetch('/leaderboard_data', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -955,9 +957,9 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+                    data.sort((a, b) => b.score - a.score).forEach((entry, index) => {
                         const listItem = document.createElement('tr');
-                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.points}</td><td>${entry.date}</td>`;
+                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.score}</td><td>${entry.date}</td>`;
                         leaderboardList.appendChild(listItem);
                     });
                 })
@@ -973,17 +975,14 @@
             if (user) {
                 const playerName = user.username || null;
                 const playerId = user.id;
+                const today = new Date().toLocaleDateString();
 
-                console.log("-------------------------------------");
-                console.log(playerId, playerName, score);
-                console.log("-------------------------------------");
-
-                fetch('https://wen-world-test.onrender.com/update_score', {
+                fetch('/update_score', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ 'user_id': playerId, 'name': playerName, 'score': score }),
+                    body: JSON.stringify({ 'user_id': playerId, 'name': playername, 'date': today, 'score': score }),
                 })
                     .then(response => response.json())
                     .then(data => {
@@ -992,7 +991,6 @@
                     .catch((error) => {
                         console.error('Error:', error);
                     });
-
                 displayLeaderboard();
             }
         }
@@ -1219,12 +1217,9 @@
                     console.log(`Collision detected between player and ${coin.type} coin at (${coin.x}, ${coin.y})`);
                     let breakdownMessage = '';
                     if (coin.type === 'good') {
-                        score += goldToken; // +15 points for good coins
+                        score += 5; // +5 points for good coins
                         cashRegisterSound.play();
-                        breakdownMessage = `<span style="color:green;">${goldToken} Triend points collected</span>`;
-                        setTimeout(() => {
-                            goldToken = 5;
-                        }, 2000);
+                        breakdownMessage = `<span style="color:green;">5 Triend points collected</span>`;
                     } else {
                         const shitCoinPoints = Math.floor(Math.random() * 81) - 40; // -40 to +40 points for shit coins
                         score += shitCoinPoints;
@@ -1250,7 +1245,6 @@
                     console.log(`Collision detected between player and ${obstacle.type} obstacle at (${obstacle.x}, ${obstacle.y})`);
                     showMessage('<span style="color:green;">This Ones For Retail</span>');
                     obstacles = obstacles.filter(o => o !== obstacle);
-                    goldToken = 15;
                 }
 
                 // Check for collision with bear
@@ -1262,18 +1256,6 @@
                     console.log(`Collision detected between player and ${obstacle.type} obstacle at (${obstacle.x}, ${obstacle.y})`);
                     showMessage('<span style="color:red;">Market Maker Bear Has Stolen Your Gains</span>');
                     obstacles = obstacles.filter(o => o !== obstacle);
-                    //actions
-                    score = score - 20;
-                    for (let i = 0; i < 3; i++) {
-                        obstacles.push({
-                            x: Math.random() * (canvas.width - 200),
-                            y: Math.random() * (canvas.height - 200),
-                            width: player.width,
-                            height: player.height,
-                            speed: 5,
-                            type: 'samBankman'
-                        });
-                    }
                 }
 
                 // Check for collision with Sam Bankman
@@ -1648,7 +1630,7 @@
         }
     </script>
     <div class="footer" id="navigation-bar">
-        <div class="footer-item active" onclick="navigateToHome()">
+        <div class="footer-item" onclick="navigateToHome()">
             <div class="icon">🌍</div>
             <div>Wen</div>
         </div>
