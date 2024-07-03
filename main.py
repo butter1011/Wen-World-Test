@@ -123,10 +123,14 @@ def update_score():
         timestamp = datetime.now().strftime("%m/%d/%y")
 
         # Add new score
-        totals_ref = user_ref.collection("totals").document()
+        totals_ref = user_ref.collection("totals").document("total")
 
         # totals update
-        current_total = totals_ref.get("total", 0)
+        current_total_doc = totals_ref.get()
+        if current_total_doc.exists:
+            current_total = current_total_doc.to_dict().get("total", 0)
+        else:
+            current_total = 0
         totals_ref.set({"total": int(current_total) + int(score)})
 
         # scores update
