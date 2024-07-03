@@ -1049,7 +1049,7 @@
             highScorelist.innerHTML = '';
             totalScorelist.innerHTML = '';
 
-            fetch('http://localhost:5000/api/v1/highscore_data', {
+            fetch('https://wen-world-test.onrender.com/api/v1/highscore_data', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1071,7 +1071,7 @@
                     console.error('Error:', error);
                 });
 
-            fetch('http://localhost:5000/api/v1/totalscore_data', {
+            fetch('https://wen-world-test.onrender.com/api/v1/totalscore_data', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1105,7 +1105,7 @@
                 console.log(playerId, playerName, score);
                 console.log("-------------------------------------");
 
-                fetch('http://localhost:5000//api/v2/update_score', {
+                fetch('https://wen-world-test.onrender.com//api/v2/update_score', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

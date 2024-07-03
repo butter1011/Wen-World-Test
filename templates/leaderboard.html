@@ -421,85 +421,88 @@
 
         // get the all the score value
         function displayLeaderboard(leaderboard) {
-            function displayLeaderboard(leaderboard) {
-                const highScorelist = document.getElementById('high-scores-list');
-                const totalScorelist = document.getElementById('total-points-list');
-                const today = new Date();
+            const highScorelist = document.getElementById('high-scores-list');
+            const totalScorelist = document.getElementById('total-points-list');
+            const todayFormatted = getTodayFormatted();
 
-                highScorelist.innerHTML = '';
-                totalScorelist.innerHTML = '';
+            highScorelist.innerHTML = '';
+            totalScorelist.innerHTML = '';
 
-                fetch('http://localhost:5000//api/v1/highscore_data', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        const today_data = data.filter(entry => entry.date === todayFormatDate);
-                        today_data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
-                            const highlistItem = document.createElement('tr');
-                            highlistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
-                            highScorelist.appendChild(highlistItem);
-                        });
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
+            fetch('https://wen-world-test.onrender.com/api/v1/highscore_data', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("-----------previous_data----------", data);
+                    data = data.filter(item => item.date === todayFormatted);
+                    console.log("----------------HighScoreList------------------");
+                    console.log(data);
+                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+                        const highlistItem = document.createElement('tr');
+                        highlistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
+                        highScorelist.appendChild(highlistItem);
                     });
-
-                fetch('http://localhost:5000//api/v1/totalscore_data', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        // const today_data = data.filter(entry => entry.date === todayFormatDate);
-                        today_data.forEach((entry, index) => {
-                            const totallistItem = document.createElement('tr');
-                            totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
-                            totalScorelist.appendChild(totallistItem);
-                        });
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+            fetch('https://wen-world-test.onrender.com/api/v1/totalscore_data', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // const today_data = data.filter(entry => entry.date === todayFormatDate);
+                    console.log("----------------TotalScore_data------------------");
+                    console.log(data.totalscores);
+                    data.totalscores.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+                        const totallistItem = document.createElement('tr');
+                        totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.total}</td>`;
+                        totalScorelist.appendChild(totallistItem);
                     });
-            }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
 
         // init top score and total score
-        // const initScore = async () => {
-        //     const user = window.Telegram.WebApp.initDataUnsafe.user;
-        //     const totalPointsDiv = document.getElementById('tridend-amount');
-        //     const top_scoreDiv = document.getElementById("top-score");
-        //     let total_points = 0;
+        const initScore = async () => {
+            // const user = window.Telegram.WebApp.initDataUnsafe.user;
+            // const totalPointsDiv = document.getElementById('tridend-amount');
+            // const top_scoreDiv = document.getElementById("top-score");
+            // let total_points = 0;
 
-        //     await fetch(`http://localhost:5000/leaderboard_data`, {
-        //         method: 'GET',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //     })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             const today = new Date().getDate();
-        //             const res = data.sort((a, b) => b.points - a.points);
-        //             console.log("all_Data----------->", res);
-        //             res.forEach((index) => { total_points += parseInt(index.points); });
-        //             const today_score = res.filter(item => new Date(item.date).toLocaleDateString() === today).sort((a, b) => b.points - a.points);
+            // await fetch(`https://wen-world-test.onrender.com/leaderboard_data`, {
+            //     method: 'GET',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            // })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         const today = new Date().getDate();
+            //         const res = data.sort((a, b) => b.points - a.points);
+            //         console.log("all_Data----------->", res);
+            //         res.forEach((index) => { total_points += parseInt(index.points); });
+            //         const today_score = res.filter(item => new Date(item.date).toLocaleDateString() === today).sort((a, b) => b.points - a.points);
 
-        //             console.log("today_score----------->", today_score);
-        //             console.log("total_points--------->", total_points);
-        //             totalPointsDiv.innerText = `Total Points: ${total_points}`
-        //             if (today_score.length != 0)
-        //                 top_scoreDiv.innerText = `Today's Top Score: ${total_points}`;
-        //         })
-        //         .catch((error) => {
-        //             console.error(error);
-        //         });
-        // }
+            //         console.log("today_score----------->", today_score);
+            //         console.log("total_points--------->", total_points);
+            //         totalPointsDiv.innerText = `Total Points: ${total_points}`
+            //         if (today_score.length != 0)
+            //             top_scoreDiv.innerText = `Today's Top Score: ${total_points}`;
+            //     })
+            //     .catch((error) => {
+            //         console.error(error);
+            //     });
+        }
 
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => {
