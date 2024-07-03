@@ -110,7 +110,7 @@ def update_score():
         data = request.get_json()
         user_id = str(data.get("user_id"))
         name = data.get("name")
-        score = str(data.get("score"))
+        score = data.get("score")
         logging.info(f"Updating score for user {user_id}: {score}:{name}")
 
         if not all([user_id, name, score]):
@@ -119,7 +119,7 @@ def update_score():
                 400,
             )
 
-        user_ref = db.collection("users").document(user_id)
+        user_ref = db.collection("users").document(document_id=user_id)
         timestamp = datetime.now().strftime("%m/%d/%y")
 
         # Add new score
@@ -127,6 +127,7 @@ def update_score():
 
         # totals update
         current_total_doc = totals_ref.get()
+
         if current_total_doc.exists:
             current_total = current_total_doc.to_dict().get("total", 0)
         else:
@@ -154,61 +155,68 @@ def update_score():
 # Endpoint to get the leaderboard
 @app.route("/leaderboard_data", methods=["GET"])
 def leaderboard_data():
-    if request.args.get("user_id"):
-        user_id = request.args.get("user_id")
-        user_ref = db.collection("users").document(user_id)
-        user_doc = user_ref.get()
+    # if request.args.get("user_id"):
+    #     user_id = request.args.get("user_id")
+    #     user_ref = db.collection("users").document(user_id)
+    #     user_doc = user_ref.get()
 
-        if not user_doc.exists:
-            return jsonify({"error": "User not found"}), 404
+    #     if not user_doc.exists:
+    #         return jsonify({"error": "User not found"}), 404
 
-        user_data = user_doc.to_dict()
+    #     user_data = user_doc.to_dict()
 
-        scores_ref = user_ref.collection("scores")
-        scores = scores_ref.get()
+    #     scores_ref = user_ref.collection("scores")
+    #     scores = scores_ref.get()
 
-        leaderboard = []
+    #     leaderboard = []
 
-        for score in scores:
-            score_data = score.to_dict()
-            leaderboard.append(
-                {
-                    "user_id": user_id,
-                    "name": user_data.get("name", "Unknown"),
-                    "points": score_data.get("score", 0),
-                    "date": score_data.get("timestamp", "N/A"),
-                }
-            )
+    #     for score in scores:
+    #         score_data = score.to_dict()
+    #         leaderboard.append(
+    #             {
+    #                 "name": "Player",
+    #                 "points": score_data.get("score", 0),
+    #                 "date": score_data.get("timestamp", "N/A"),
+    #             }
+    #         )
 
-        # Sort the leaderboard by points in descending order
-        leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
+    #     # Sort the leaderboard by points in descending order
+    #     leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
 
-        return jsonify(leaderboard)
+    #     return jsonify(leaderboard)
 
-    else:
-        users_ref = db.collection("users")
-        users = users_ref.get()
-        leaderboard = []
+    users_ref = db.collection("users")
+    leaderboard = []
 
-        for user in users:
-            user_data = user.to_dict()
-            scores_ref = db.collection("users").document(user.id).collection("scores")
-            scores = scores_ref.get()
-            for score in scores:
-                score_data = score.to_dict()
-                leaderboard.append(
-                    {
-                        "user_id": user.id,
-                        "name": user_data.get("name", "Unknown"),
-                        "points": score_data.get("score", 0),
-                        "date": score_data.get("timestamp", "N/A"),
-                    }
-                )
+    # Retrieve all documents in the collection
+    docs = users_ref.get()
+    print("-------------", docs)
 
-        # Sort the leaderboard by points in descending order
-        leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
+    # Iterate through the documents
+    for doc in docs:
+        user_data = doc.to_dict()
+        leaderboard.append(user_data)
+        print("User:", user_data)
+    #     user_data = user.to_dict()
+    #     scores_ref = db.collection("users").document(user.id).collection("scores")
+    #     scores = scores_ref.get()
+    #     print("-------------")
+    #     print("user_id", user.id)   
+    #     for score in scores:
+    #         score_data = score.to_dict()
+    #         leaderboard.append(
+    #             {
+    #                 "name": "Player",
+    #                 "points": score_data.get("score", 0),
+    #                 "date": score_data.get("timestamp", "N/A"),
+    #             }
+    #         )
 
-        return jsonify(leaderboard)
+    # # Sort the leaderboard by points in descending order
+    # leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
+    # print(">>>>>>>>>>>>>>")
+    # print(leaderboard)
+    return jsonify("leaderboard")
 
 
 if __name__ == "__main__":

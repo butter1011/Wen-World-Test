@@ -462,7 +462,7 @@
                     console.log("all_Data----------->", res);
                     res.forEach((index) => { total_points += parseInt(index.points); });
                     const today_score = res.filter(item => new Date(item.date).toLocaleDateString() === today).sort((a, b) => b.points - a.points);
-
+                    
                     console.log("today_score----------->", today_score);
                     console.log("total_points--------->", total_points);
                     totalPointsDiv.innerText = `Total Points: ${total_points}`
