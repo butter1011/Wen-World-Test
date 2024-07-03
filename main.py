@@ -119,7 +119,8 @@ def update_score():
                 400,
             )
 
-        user_ref = db.collection("users").document(document_id=user_id)
+        user_ref = db.collection("users").document(user_id)
+        user_ref.set({"name": name}, merge=True)
         timestamp = datetime.now().strftime("%m/%d/%y")
 
         # Add new score
