@@ -131,7 +131,13 @@ def update_score():
             user_ref.set({"name": name, "created_at": timestamp})
 
         # Add new score
+        total_ref = user_ref.collection("total_scores").document()
         scores_ref = user_ref.collection("scores").document()
+
+        sum = total_ref.get()
+        sum += int(score)
+        total_ref.set(sum)
+
         scores_ref.set({"score": score, "timestamp": timestamp})
 
         return (
