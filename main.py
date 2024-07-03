@@ -191,7 +191,7 @@ def leaderboard_data():
     leaderboard = []
 
     for user in users:
-        user_ref = db.collection("users").document(user.id)
+        user_ref = user.to_dict()
         scores_ref = db.collection("users").document(user.id).collection("scores")
         scores = scores_ref.get()
         for score in scores:
