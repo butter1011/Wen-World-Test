@@ -1360,6 +1360,8 @@
                     obstacles = obstacles.filter(o => o !== obstacle);
                     //actions
                     score = score - 50;
+                    if(score < 0) score = 0;
+                    
                     for (let i = 0; i < 4; i++) {
                         obstacles.push({
                             x: Math.random() * (canvas.width - 200),
