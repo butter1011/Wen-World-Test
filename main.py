@@ -124,14 +124,9 @@ def update_score():
 
         # Add new score
         totals_ref = user_ref.collection("totals").document()
-        totals_doc = totals_ref.get()
 
         # totals update
-        if totals_doc.exists:
-            current_total = totals_doc.to_dict().get("total", 0)
-        else:
-            current_total = 0
-
+        current_total = totals_ref.get("total", 0)
         totals_ref.set({"total": int(current_total) + int(score)})
 
         # scores update
