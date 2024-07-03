@@ -1068,24 +1068,24 @@
                     console.error('Error:', error);
                 });
 
-            fetch('https://wen-world-test.onrender.com//api/v1/totalscore_data', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // const today_data = data.filter(entry => entry.date === todayFormatDate);
-                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
-                        const totallistItem = document.createElement('tr');
-                        totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
-                        totalScorelist.appendChild(totallistItem);
-                    });
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+            // fetch('https://wen-world-test.onrender.com//api/v1/totalscore_data', {
+            //     method: 'GET',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            // })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // const today_data = data.filter(entry => entry.date === todayFormatDate);
+            //         data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+            //             const totallistItem = document.createElement('tr');
+            //             totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
+            //             totalScorelist.appendChild(totallistItem);
+            //         });
+            //     })
+            //     .catch((error) => {
+            //         console.error('Error:', error);
+            //     });
         }
 
         function saveScore() {
