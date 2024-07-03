@@ -156,6 +156,7 @@ def update_score():
 # Endpoint to get the leaderboard
 @app.route("/api/v1/highscore_data", methods=["GET"])
 def highscore_data():
+    timestamp = datetime.now().strftime("%m/%d/%y")
     users_ref = db.collection("users")
     users = users_ref.get()
     highscoredata = []
@@ -173,7 +174,8 @@ def highscore_data():
             })
 
     # Sort the highscoredata by points in descending order
-    highscoredata = sorted(highscoredata,
+    highscore_data = [ data for data in highscoredata if data["date"] == timestamp ]
+    highscoredata = sorted(highscore_data,
                             key=lambda x: x["points"],
                             reverse=True)
 
