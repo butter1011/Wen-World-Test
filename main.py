@@ -120,24 +120,22 @@ def update_score():
             )
 
         user_ref = db.collection("users").document(user_id)
-        user_doc = user_ref.get()
         timestamp = datetime.now().strftime("%m/%d/%y")
 
-        if user_doc.exists:
-            # Update existing user
-            user_ref.set({"name": name}, merge=True)
-        else:
-            # Create new user
-            user_ref.set({"name": name, "created_at": timestamp})
-
         # Add new score
-        total_ref = user_ref.collection("total_scores").document()
+        totals_ref = user_ref.collection("totals").document()
+        totals_doc = totals_ref.get()
+
+        # totals update
+        if totals_doc.exists:
+            current_total = totals_doc.to_dict().get("total", 0)
+        else:
+            current_total = 0
+
+        totals_ref.set({"total": int(current_total) + int(score)})
+
+        # scores update
         scores_ref = user_ref.collection("scores").document()
-
-        sum = total_ref.get()
-        sum += int(score)
-        total_ref.set(sum)
-
         scores_ref.set({"score": score, "timestamp": timestamp})
 
         return (
@@ -161,10 +159,10 @@ def leaderboard_data():
         user_id = request.args.get("user_id")
         user_ref = db.collection("users").document(user_id)
         user_doc = user_ref.get()
-        
+
         if not user_doc.exists:
             return jsonify({"error": "User not found"}), 404
-        
+
         user_data = user_doc.to_dict()
 
         scores_ref = user_ref.collection("scores")
@@ -212,6 +210,7 @@ def leaderboard_data():
         leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
 
         return jsonify(leaderboard)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
