@@ -421,26 +421,52 @@
 
         // get the all the score value
         function displayLeaderboard(leaderboard) {
-            const highScorelist = document.getElementById('high-scores-list');
-            highScorelist.innerHTML = '';
-            // fetch('http://127.0.0.1:5000/leaderboard_data', {
-            fetch('https://wen-world-test.onrender.com/leaderboard_data', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
-                        const listItem = document.createElement('tr');
-                        listItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
-                        highScorelist.appendChild(listItem);
-                    });
+            function displayLeaderboard(leaderboard) {
+                const highScorelist = document.getElementById('high-scores-list');
+                const totalScorelist = document.getElementById('total-points-list');
+                const today = new Date();
+
+                highScorelist.innerHTML = '';
+                totalScorelist.innerHTML = '';
+
+                fetch('https://wen-world-test.onrender.com//api/v1/highscore_data', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                 })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        const today_data = data.filter(entry => entry.date === todayFormatDate);
+                        today_data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+                            const highlistItem = document.createElement('tr');
+                            highlistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
+                            highScorelist.appendChild(highlistItem);
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
+                fetch('https://wen-world-test.onrender.com//api/v1/totalscore_data', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // const today_data = data.filter(entry => entry.date === todayFormatDate);
+                        today_data.forEach((entry, index) => {
+                            const totallistItem = document.createElement('tr');
+                            totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
+                            totalScorelist.appendChild(totallistItem);
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            }
         }
 
         // init top score and total score
@@ -463,12 +489,12 @@
                     console.log("all_Data----------->", res);
                     res.forEach((index) => { total_points += parseInt(index.points); });
                     const today_score = res.filter(item => new Date(item.date).toLocaleDateString() === today).sort((a, b) => b.points - a.points);
-                    
+
                     console.log("today_score----------->", today_score);
                     console.log("total_points--------->", total_points);
                     totalPointsDiv.innerText = `Total Points: ${total_points}`
                     if (today_score.length != 0)
-                        top_scoreDiv.innerText = `Today's Top Score: ${today_score[0].points}`;
+                        top_scoreDiv.innerText = `Today's Top Score: ${total_points}`;
                 })
                 .catch((error) => {
                     console.error(error);

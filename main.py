@@ -104,7 +104,7 @@ def test_page():
 
 
 # Endpoint to update the score
-@app.route("/update_score", methods=["POST"])
+@app.route("/api/v2/update_score", methods=["POST"])
 def update_score():
     try:
         data = request.get_json()
@@ -154,41 +154,11 @@ def update_score():
 
 
 # Endpoint to get the leaderboard
-@app.route("/leaderboard_data", methods=["GET"])
-def leaderboard_data():
-    # if request.args.get("user_id"):
-    #     user_id = request.args.get("user_id")
-    #     user_ref = db.collection("users").document(user_id)
-    #     user_doc = user_ref.get()
-
-    #     if not user_doc.exists:
-    #         return jsonify({"error": "User not found"}), 404
-
-    #     user_data = user_doc.to_dict()
-
-    #     scores_ref = user_ref.collection("scores")
-    #     scores = scores_ref.get()
-
-    #     leaderboard = []
-
-    #     for score in scores:
-    #         score_data = score.to_dict()
-    #         leaderboard.append(
-    #             {
-    #                 "name": "Player",
-    #                 "points": score_data.get("score", 0),
-    #                 "date": score_data.get("timestamp", "N/A"),
-    #             }
-    #         )
-
-    #     # Sort the leaderboard by points in descending order
-    #     leaderboard = sorted(leaderboard, key=lambda x: x["points"], reverse=True)
-
-    #     return jsonify(leaderboard)
-
+@app.route("/api/v1/highscore_data", methods=["GET"])
+def highscore_data():
     users_ref = db.collection("users")
     users = users_ref.get()
-    leaderboard = []
+    highscoredata = []
 
     for user in users:
         user_ref = user.to_dict()
@@ -196,19 +166,41 @@ def leaderboard_data():
         scores = scores_ref.get()
         for score in scores:
             score_data = score.to_dict()
-            leaderboard.append({
+            highscoredata.append({
                 "name": user_ref.get("name", "Player"),
                 "points": score_data.get("score", 0),
                 "date": score_data.get("timestamp", "N/A"),
             })
 
-    # Sort the leaderboard by points in descending order
-    leaderboard = sorted(leaderboard,
+    # Sort the highscoredata by points in descending order
+    highscoredata = sorted(highscoredata,
                             key=lambda x: x["points"],
                             reverse=True)
 
-    return jsonify(leaderboard)
+    return jsonify(highscoredata)
 
+# Endpoint to get the leaderboard
+@app.route("/api/v1/totalscore_data", methods=["GET"])
+def totalscore_data():
+    users_ref = db.collection("users")
+    users = users_ref.get()
+    totalScoredata = []
+
+    for user in users:
+        user_ref = user.to_dict()
+        total_ref = db.collection("users").document(user.id).collection("totals").document("total")
+        total_doc = total_ref.get()
+        total_data = total_doc.to_dict() if total_doc.exists else {}
+
+        totalScoredata.append(
+            {
+                "name": user_ref.get("name", "Player"),
+                "total": total_data.get("total", 0),
+            }
+        )
+
+    totalScoredata = sorted(totalScoredata, key=lambda x: x["total"], reverse=True)
+    return {"totalscores": totalScoredata}
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

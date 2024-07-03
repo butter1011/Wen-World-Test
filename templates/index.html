@@ -558,49 +558,49 @@
             <div class="tabs">
                 <div class="tab active" onclick="showTab('high-scores')">High Scores</div>
                 <div class="tab" onclick="showTab('total-points')">Total Points</div>
-                </div>
-                <div class="game-stats">
-                    <div id="high-scores" class="tab-content active">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Player</th>
-                                    <th>Score</th>
-                                </tr>
-                            </thead>
-                            <tbody id="high-scores-list">
-                                <!-- High scores data will be appended here -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="total-points" class="tab-content">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Player</th>
-                                    <th>Total Points</th>
-                                </tr>
-                            </thead>
-                            <tbody id="total-points-list">
-                                <!-- Total points data will be appended here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
-            <div class="buttons">
-                <div id="add-points-button" class="my-progress">Add Points
-                    <div id="share-dropdown" class="share-dropdown">
-                        <a href="#" onclick="shareOnDiscord()">Discord</a>
-                        <a href="#" onclick="shareOnTelegram()">Telegram</a>
-                        <a href="#" onclick="shareOnTwitter()">Twitter</a>
-                    </div>
+            <div class="game-stats">
+                <div id="high-scores" class="tab-content active">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="high-scores-list">
+                            <!-- High scores data will be appended here -->
+                        </tbody>
+                    </table>
                 </div>
-                <button class="my-progress" onclick="restartGame()">Play Again</button>
+                <div id="total-points" class="tab-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Total Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="total-points-list">
+                            <!-- Total points data will be appended here -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+        <div class="buttons">
+            <div id="add-points-button" class="my-progress">Add Points
+                <div id="share-dropdown" class="share-dropdown">
+                    <a href="#" onclick="shareOnDiscord()">Discord</a>
+                    <a href="#" onclick="shareOnTelegram()">Telegram</a>
+                    <a href="#" onclick="shareOnTwitter()">Twitter</a>
+                </div>
+            </div>
+            <button class="my-progress" onclick="restartGame()">Play Again</button>
+        </div>
+    </div>
     </div>
     <div id="info-modal">
         <div id="info-modal-content">
@@ -1037,13 +1037,11 @@
             const highScorelist = document.getElementById('high-scores-list');
             const totalScorelist = document.getElementById('total-points-list');
             const today = new Date();
-            const todayFormatDate = `${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getDate().toString().padStart(2, '0')}/${today.getFullYear().toString().slice(-2)}`;
 
             highScorelist.innerHTML = '';
             totalScorelist.innerHTML = '';
 
-            // fetch('http://127.0.0.1:5000/leaderboard_data', {
-            fetch('https://wen-world-test.onrender.com/leaderboard_data', {
+            fetch('https://wen-world-test.onrender.com//api/v1/highscore_data', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1052,17 +1050,29 @@
                 .then(response => response.json())
                 .then(data => {
                     const today_data = data.filter(entry => entry.date === todayFormatDate);
-                    console.log("today_data-------------->", today_data);
+                    today_data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+                        const highlistItem = document.createElement('tr');
+                        highlistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
+                        highScorelist.appendChild(highlistItem);
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+            fetch('https://wen-world-test.onrender.com//api/v1/totalscore_data', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // const today_data = data.filter(entry => entry.date === todayFormatDate);
                     today_data.forEach((entry, index) => {
                         const totallistItem = document.createElement('tr');
                         totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
                         totalScorelist.appendChild(totallistItem);
-                    });
-
-                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
-                        const highlistItem = document.createElement('tr');
-                        highlistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
-                        highScorelist.appendChild(highlistItem);
                     });
                 })
                 .catch((error) => {
@@ -1082,7 +1092,7 @@
                 console.log(playerId, playerName, score);
                 console.log("-------------------------------------");
 
-                fetch('https://wen-world-test.onrender.com/update_score', {
+                fetch('https://wen-world-test.onrender.com//api/v2/update_score', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1328,7 +1338,7 @@
                         breakdownMessage = `<span style="color:green;">5 Triend points collected</span>`;
                     } else {
                         let shitCoinPoints = Math.floor(Math.random() * 81) - 40; // -40 to +40 points for shit coins
-                        
+
                         if (bullhit) shitCoinPoints = Math.abs(shitCoinPoints);
                         score += shitCoinPoints;
 
@@ -1374,8 +1384,8 @@
                     obstacles = obstacles.filter(o => o !== obstacle);
                     //actions
                     score = score - 50;
-                    if(score < 0) score = 0;
-                    
+                    if (score < 0) score = 0;
+
                     for (let i = 0; i < 4; i++) {
                         obstacles.push({
                             x: Math.random() * (canvas.width - 200),
