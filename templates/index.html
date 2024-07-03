@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Game</title>
     <style>
-        @font-face {
+        /* @font-face {
             font-family: 'PixelFont';
             src: url('https://example.com/path-to-your-pixel-font.ttf') format('truetype');
-        }
+        } */
 
         body,
         html {
@@ -1057,8 +1057,8 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    let todayData = data.filter(item => item.date === todayFormatted);
-                    today_data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+                    data = data.filter(item => item.date === todayFormatted);
+                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
                         const highlistItem = document.createElement('tr');
                         highlistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
                         highScorelist.appendChild(highlistItem);
@@ -1077,7 +1077,7 @@
                 .then(response => response.json())
                 .then(data => {
                     // const today_data = data.filter(entry => entry.date === todayFormatDate);
-                    today_data.forEach((entry, index) => {
+                    data.forEach((entry, index) => {
                         const totallistItem = document.createElement('tr');
                         totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
                         totalScorelist.appendChild(totallistItem);
