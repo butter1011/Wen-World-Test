@@ -1049,7 +1049,7 @@
             highScorelist.innerHTML = '';
             totalScorelist.innerHTML = '';
 
-            fetch('https://wen-world-test.onrender.com//api/v1/highscore_data', {
+            fetch('http://localhost:5000/api/v1/highscore_data', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1057,7 +1057,10 @@
             })
                 .then(response => response.json())
                 .then(data => {
+                    console.log("-----------previous_data----------", data);
                     data = data.filter(item => item.date === todayFormatted);
+                    console.log("----------------HighScoreList------------------");
+                    console.log(data);
                     data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
                         const highlistItem = document.createElement('tr');
                         highlistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
@@ -1068,24 +1071,26 @@
                     console.error('Error:', error);
                 });
 
-            // fetch('https://wen-world-test.onrender.com//api/v1/totalscore_data', {
-            //     method: 'GET',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            // })
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         // const today_data = data.filter(entry => entry.date === todayFormatDate);
-            //         data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
-            //             const totallistItem = document.createElement('tr');
-            //             totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
-            //             totalScorelist.appendChild(totallistItem);
-            //         });
-            //     })
-            //     .catch((error) => {
-            //         console.error('Error:', error);
-            //     });
+            fetch('http://localhost:5000/api/v1/totalscore_data', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // const today_data = data.filter(entry => entry.date === todayFormatDate);
+                    console.log("----------------TotalScore_data------------------");
+                    console.log(data.totalscores);
+                    data.totalscores.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+                        const totallistItem = document.createElement('tr');
+                        totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.total}</td>`;
+                        totalScorelist.appendChild(totallistItem);
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
 
         function saveScore() {
@@ -1100,7 +1105,7 @@
                 console.log(playerId, playerName, score);
                 console.log("-------------------------------------");
 
-                fetch('https://wen-world-test.onrender.com//api/v2/update_score', {
+                fetch('http://localhost:5000//api/v2/update_score', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
