@@ -123,11 +123,11 @@ def update_score():
         timestamp = datetime.now().strftime("%m/%d/%y")
 
         # Add new score
-        totals_ref = user_ref.collection("totals").document()
+        # totals_ref = user_ref.collection("totals").document()
 
         # totals update
-        current_total = totals_ref.get("total", 0)
-        totals_ref.set({"total": int(current_total) + int(score)})
+        # current_total = totals_ref.get("total", 0)
+        # totals_ref.set({"total": int(current_total) + int(score)})
 
         # scores update
         scores_ref = user_ref.collection("scores").document()
