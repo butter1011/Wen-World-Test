@@ -467,18 +467,22 @@
             </div>
         </div>
     </div>
-    <div class="footer">
-        <div class="footer-item" onclick="navigateToHome()">
+    <div class="footer" id="navigation-bar">
+        <div class="footer-item active" onclick="navigateToHome()">
             <div class="icon">🌍</div>
             <div>Wen</div>
         </div>
-        <div class="footer-item active" onclick="navigateTo('tasks')">
+        <div class="footer-item" onclick="navigateTo('tasks')">
             <div class="icon">📋</div>
             <div>Tasks</div>
         </div>
         <div class="footer-item" onclick="navigateTo('leaderboard')">
             <div class="icon">🤝</div>
             <div>Leaderboard</div>
+        </div>
+        <div class="footer-item" onclick="navigateTo('profile')">
+            <div class="icon">👤</div>
+            <div>Profile</div>
         </div>
     </div>
 

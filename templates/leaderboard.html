@@ -15,6 +15,7 @@
 
         body,
         html {
+            width: 100%;
             margin: 0;
             padding: 0;
             background-color: black;
@@ -30,6 +31,7 @@
         }
 
         .leaderboard-container {
+            margin-top: 3rem;
             width: 100%;
             max-width: 400px;
             background-color: rgba(0, 0, 0, 0.8);
@@ -38,7 +40,6 @@
             text-align: center;
             padding: 20px;
             color: white;
-            margin-top: 10px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -58,110 +59,6 @@
             top: 0;
             z-index: 1000;
             text-align: center;
-        }
-
-        .profile-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 10px;
-            margin-top: 70px;
-        }
-
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background-color: #444;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4vh;
-            color: white;
-            margin-bottom: 10px;
-            position: relative;
-            border: 3px solid #00FFCF;
-            /* Added border to make profile picture stand out */
-        }
-
-        .profile-pic img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-        }
-
-        .profile-pic input {
-            display: none;
-        }
-
-        .profile-pic label {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            background-color: #00FFCF;
-            border-radius: 50%;
-            padding: 5px;
-            cursor: pointer;
-        }
-
-        .nickname {
-            font-size: 3vh;
-            /* Increased font size for nickname */
-            margin-bottom: 10px;
-        }
-
-        .nickname input {
-            font-size: 3vh;
-            /* Increased font size for nickname input */
-            padding: 5px;
-            margin-left: 10px;
-            border: none;
-            border-radius: 5px;
-            text-align: center;
-            background-color: #333;
-            color: #fff;
-            display: none;
-        }
-
-        .tridend-amount {
-            font-size: 5vh;
-            /* Increased font size for points */
-            margin-bottom: 5px;
-            color: #00FFCF;
-            font-weight: bold;
-        }
-
-        .top-score {
-            font-size: 3vh;
-            /* Increased font size for top score */
-            margin-bottom: 10px;
-            color: white;
-        }
-
-        .checkin-count {
-            font-size: 3vh;
-            /* Increased font size for check-ins */
-            margin-bottom: 10px;
-            color: white;
-        }   
-
-        .daily-checkin {
-            margin-top: 10px;
-            position: relative;
-        }
-
-        .daily-checkin button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 2.5vh;
-            background-color: #00FFCF;
-            color: black;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .game-stats {
@@ -308,120 +205,15 @@
                 opacity: 1;
             }
         }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: #1e1e1e;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            max-width: 90%;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-content img {
-            width: 50px;
-            height: 50px;
-        }
-
-        .modal-content h2 {
-            margin: 20px 0;
-            color: white;
-            font-size: 4vh;
-        }
-
-        .modal-content p {
-            color: #ccc;
-            font-size: 2.5vh;
-        }
-
-        .modal-content .rewards {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-
-        .modal-content .rewards .reward {
-            background: #333;
-            border-radius: 10px;
-            padding: 10px;
-            margin: 5px;
-            width: 70px;
-            text-align: center;
-            color: white;
-            font-size: 2vh;
-        }
-
-        .modal-content .rewards .reward.current {
-            border: 2px solid #00FFCF;
-        }
-
-        .modal-content button {
-            background: linear-gradient(135deg, #FF0092, #00FFCF);
-            color: black;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 2.5vh;
-        }
-
-        .modal-content button:hover {
-            background: linear-gradient(135deg, #00FFCF, #FF0092);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            font-size: 3vh;
-            color: white;
-            cursor: pointer;
-        }
     </style>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
     <div class="leaderboard-header">
-        My Wen
+        Leaderboard
     </div>
     <div class="leaderboard-container">
-        <div class="profile-section">
-            <div class="profile-pic">
-                <img id="profile-img"
-                    src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1"
-                    alt="Profile Picture">
-                <input type="file" id="upload-img" accept="image/*">
-                <label for="upload-img">📷</label>
-            </div>
-            <div class="nickname">
-                <span id="nickname-display">Player</span>
-                <input type="text" id="nickname-input" value="Player Name" style="display: none;">
-            </div>
-            <div class="tridend-amount" id="tridend-amount">0</div>
-            <div class="top-score" id="top-score">Today's Top Score: 0</div>
-            <div class="checkin-count" id="checkin-count">Check-ins: 0</div>
-            <div class="button-container">
-                <button class="button" id="farming-btn" onclick="startFarming()">Start Farming</button>
-                <button class="button" onclick="showModal()">Check-in</button>
-            </div>
-        </div>
         <div class="tabs">
             <div class="tab active" onclick="showTab('high-scores')">High Scores</div>
             <div class="tab" onclick="showTab('total-points')">Total Points</div>
@@ -457,8 +249,8 @@
             </div>
         </div>
     </div>
-    <div class="footer">
-        <div class="footer-item" onclick="navigateToHome()">
+    <div class="footer" id="navigation-bar">
+        <div class="footer-item active" onclick="navigateToHome()">
             <div class="icon">🌍</div>
             <div>Wen</div>
         </div>
@@ -466,33 +258,16 @@
             <div class="icon">📋</div>
             <div>Tasks</div>
         </div>
-        <div class="footer-item active" onclick="navigateTo('leaderboard')">
+        <div class="footer-item" onclick="navigateTo('leaderboard')">
             <div class="icon">🤝</div>
             <div>Leaderboard</div>
         </div>
-    </div>
-
-    <div class="modal" id="daily-checkin-modal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal()">✖</button>
-            <img src="https://www.dropbox.com/scl/fi/gzty0eqjdl9zhp4x9u53n/Add-a-subheading-8.svg?rlkey=et9y8o1nx36jlyy0e8qwssbo7&raw=1" alt="Daily Check-in">
-            <h2>Daily Reward</h2>
-            <p>Accrue coins for logging into the game daily without skipping</p>
-            <div class="rewards">
-                <div class="reward current">Day 1<br>500</div>
-                <div class="reward">Day 2<br>1K</div>
-                <div class="reward">Day 3<br>2.5K</div>
-                <div class="reward">Day 4<br>5K</div>
-                <div class="reward">Day 5<br>15K</div>
-                <div class="reward">Day 6<br>25K</div>
-                <div class="reward">Day 7<br>100K</div>
-                <div class="reward">Day 8<br>500K</div>
-                <div class="reward">Day 9<br>1M</div>
-                <div class="reward">Day 10<br>5M</div>
-            </div>
-            <button>Claim</button>
+        <div class="footer-item" onclick="navigateTo('profile')">
+            <div class="icon">👤</div>
+            <div>Profile</div>
         </div>
     </div>
+
     <script>
         let farmingInterval;
         const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
@@ -504,93 +279,6 @@
 
         function navigateToHome() {
             window.location.href = '/';
-        }
-
-        function startFarming() {
-            const now = new Date().getTime();
-            const lastStart = localStorage.setItem('lastStart', now);
-            if (lastStart && (now - lastStart) < farmingDuration) {
-                return;
-            } else {
-                document.getElementById('farming-btn').innerHTML = `⌛<span id="farming-timer" class="timer">-- : -- : --</span>`;
-                localStorage.setItem('lastStart', now);
-                startFarmingTimer(farmingDuration);
-                farmingInterval = setInterval(updatePoints, 1000);
-            }
-        }
-
-        function updatePoints() {
-            const lastStart = localStorage.getItem('lastStart');
-            const now = new Date().getTime();
-            const elapsed = now - lastStart;
-            // const points = Math.min(1000, (elapsed / farmingDuration) * 1000);
-            // localStorage.setItem('pendingPoints', points);
-            // updateTotalPointsDisplay(points);
-            if (elapsed >= farmingDuration) {
-                clearInterval(farmingInterval);
-                document.getElementById('farming-btn').innerHTML = `Farming <span class="farming-circle" id="farming-circle"></span>`
-                document.getElementById('farming-btn').onclick = claimPoints;
-            }
-        }
-
-        async function claimPoints() {
-            const user = window.Telegram.WebApp.initDataUnsafe.user;
-            localStorage.removeItem('lastStart');
-            document.getElementById('farming-btn').innerHTML = `Farming`;
-            document.getElementById('farming-btn').onclick = startFarming;
-
-            fetch('https://wen-world-test.onrender.com/api/v2/farmingPoint', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: {
-                    'user_id': user.id,
-                    'point': 1000,
-                }
-            })
-                .then(response => response.json())
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-
-            await initScore();
-        }
-
-        function dailyCheckIn() {
-            const lastLogin = localStorage.getItem('lastLogin');
-            const today = new Date().toLocaleDateString();
-            let loginStreak = parseInt(localStorage.getItem('loginStreak')) || 0;
-            let totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
-
-            if (lastLogin !== today) {
-                loginStreak = (lastLogin === new Date(new Date().setDate(new Date().getDate() - 1)).toLocaleDateString()) ? loginStreak + 1 : 1;
-                const reward = dailyLoginRewards[Math.min(loginStreak - 1, dailyLoginRewards.length - 1)];
-                totalPoints += reward;
-                localStorage.setItem('totalPoints', totalPoints);
-                localStorage.setItem('lastLogin', today);
-                localStorage.setItem('loginStreak', loginStreak);
-                updateTotalPointsDisplay(totalPoints);
-                updateCheckinCount(loginStreak);
-            }
-        }
-
-        function updateTotalPointsDisplay(points) {
-            const totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
-            const totalDisplayedPoints = Math.floor(totalPoints + points);
-            // document.getElementById('tridend-amount').innerText = `${totalDisplayedPoints}`;
-        }
-
-        function updateCheckinCount(count) {
-            document.getElementById('checkin-count').innerText = `Check-ins: ${count}`;
-        }
-
-        function showModal() {
-            document.getElementById('daily-checkin-modal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('daily-checkin-modal').style.display = 'none';
         }
 
         // get the all the score value
@@ -690,26 +378,6 @@
             document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
         }
 
-        function startFarmingTimer(duration) {
-            const timerElement = document.getElementById('farming-timer');
-            // timerElement.style.display = 'block';
-            let timeRemaining = duration;
-
-            const timerInterval = setInterval(() => {
-                const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
-                const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-                timerElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-                if (timeRemaining <= 0) {
-                    clearInterval(timerInterval);
-                    timerElement.style.display = 'none';
-                } else {
-                    timeRemaining -= 1000;
-                }
-            }, 1000);
-        }
-
         document.addEventListener('DOMContentLoaded', async function () {
             const storedImage = localStorage.getItem('profileImage');
             const storedNickname = localStorage.getItem('nickname');
@@ -732,52 +400,6 @@
 
             await displayLeaderboard();
             await initScore();
-
-            const today = new Date().toLocaleDateString();
-            if (storedImage) {
-                document.getElementById('profile-img').src = storedImage;
-            }
-            if (storedNickname) {
-                document.getElementById('nickname-display').textContent = storedNickname;
-                document.getElementById('nickname-input').value = storedNickname;
-            }
-            // updateTotalPointsDisplay(pendingPoints);
-            updateCheckinCount(checkinCount);
-            dailyCheckIn();
-        });
-
-        document.getElementById('upload-img').addEventListener('change', function () {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById('profile-img').src = e.target.result;
-                localStorage.setItem('profileImage', e.target.result);
-            }
-            reader.readAsDataURL(this.files[0]);
-        });
-
-        document.getElementById('nickname-display').addEventListener('click', function () {
-            document.getElementById('nickname-display').style.display = 'none';
-            document.getElementById('nickname-input').style.display = 'inline-block';
-            document.getElementById('nickname-input').focus();
-        });
-
-        document.getElementById('nickname-input').addEventListener('blur', function () {
-            const nickname = document.getElementById('nickname-input').value;
-            document.getElementById('nickname-display').textContent = nickname;
-            document.getElementById('nickname-display').style.display = 'inline-block';
-            document.getElementById('nickname-input').style.display = 'none';
-            localStorage.setItem('nickname', nickname);
-        });
-
-        document.getElementById('nickname-input').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const nickname = document.getElementById('nickname-input').value;
-                document.getElementById('nickname-display').textContent = nickname;
-                document.getElementById('nickname-display').style.display = 'inline-block';
-                document.getElementById('nickname-input').style.display = 'none';
-                localStorage.setItem('nickname', nickname);
-            }
         });
     </script>
 </body>

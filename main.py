@@ -52,9 +52,9 @@ def tasks_page():
 
 
 # Test route
-@app.route("/test")
-def test_page():
-    return "<h1>Test Page</h1>"
+@app.route("/profile")
+def profile_page():
+    return render_template("profile.html")
 
 
 # Route to handle referral links and display custom message
