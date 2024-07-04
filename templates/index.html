@@ -1066,10 +1066,7 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    // const today_data = data.filter(entry => entry.date === todayFormatDate);
-                    console.log("----------------TotalScore_data------------------");
-                    console.log(data.totalscores);
-                    data.totalscores.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
                         const totallistItem = document.createElement('tr');
                         totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.total}</td>`;
                         totalScorelist.appendChild(totallistItem);
