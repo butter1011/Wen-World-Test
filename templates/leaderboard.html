@@ -412,7 +412,7 @@
         function updateTotalPointsDisplay(points) {
             const totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
             const totalDisplayedPoints = Math.floor(totalPoints + points);
-            document.getElementById('tridend-amount').innerText = `${totalDisplayedPoints}`;
+            // document.getElementById('tridend-amount').innerText = `${totalDisplayedPoints}`;
         }
 
         function updateCheckinCount(count) {
@@ -470,7 +470,6 @@
             const totalPointsDiv = document.getElementById('tridend-amount');
             const top_scoreDiv = document.getElementById("top-score");
             const player_name = document.getElementById("nickname-display");
-            let total_points = 0;
 
             // Total Score
             await fetch(`https://wen-world-test.onrender.com/api/v1/totalscore_data?user_id=${user.id}`, {
