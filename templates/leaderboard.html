@@ -495,7 +495,7 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    top_scoreDiv.innerText = `Today's Top Score: ${data}`
+                    top_scoreDiv.innerText = `Today's Top Score: ${data.score_data}`
                 })
                 .catch((error) => {
                     console.error(error);
