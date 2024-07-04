@@ -130,7 +130,7 @@ def update_score():
         if not current_score_doc.exists:
             scores_ref.document(currentTime).set({"score": score})
         else:
-            current_score = current_score_doc.to_dict().get('score', 0)
+            current_score = current_score_doc.to_dict().get("score", 0)
             if score > current_score:
                 scores_ref.document(currentTime).set({"score": score})
 
@@ -152,58 +152,86 @@ def update_score():
 @app.route("/api/v1/highscore_data", methods=["GET"])
 def highscore_data():
     currentTime = datetime.utcnow().strftime("%m-%d-%y")
-    highscoredata = []
 
-    users_ref = db.collection("users")
-    users = users_ref.get()
-
-    for user in users:
-        user_ref = user.to_dict()
+    if request.args.get("user_id"):
+        user_id = request.args.get("user_id")
         # Get Scores
-        scores_ref = db.collection("users").document(user.id).collection("scores")
+        scores_ref = db.collection("users").document(user_id).collection("scores")
         current_score_doc = scores_ref.document(currentTime).get()
         if current_score_doc.exists:
             score_data = current_score_doc.to_dict()
-            highscoredata.append(
-                {
-                    "name": user_ref.get("name", "Player"),
-                    "points": score_data.get("score", 0),
-                }
-            )
+            user_ref = db.collection("users").document(user_id).get()
+            return {
+                "name": user_ref.to_dict().get("name", "Player"),
+                "points": score_data.get("score", 0),
+            }
+    else:
+        highscoredata = []
+        users_ref = db.collection("users")
+        users = users_ref.get()
 
-    highscoredata = sorted(highscoredata, key=lambda x: x["points"], reverse=True)
-    return jsonify(highscoredata)
+        for user in users:
+            user_ref = user.to_dict()
+            # Get Scores
+            scores_ref = db.collection("users").document(user.id).collection("scores")
+            current_score_doc = scores_ref.document(currentTime).get()
+            if current_score_doc.exists:
+                score_data = current_score_doc.to_dict()
+                highscoredata.append(
+                    {
+                        "name": user_ref.get("name", "Player"),
+                        "points": score_data.get("score", 0),
+                    }
+                )
 
+        highscoredata = sorted(highscoredata, key=lambda x: x["points"], reverse=True)
+        return jsonify(highscoredata)
 
 # Endpoint to get the leaderboard
 @app.route("/api/v1/totalscore_data", methods=["GET"])
 def totalscore_data():
-    users_ref = db.collection("users")
-    users = users_ref.get()
-    totalScoredata = []
-
-    for user in users:
-        user_ref = user.to_dict()
-        total_data = 0
-
-        scores_ref = db.collection("users").document(user.id).collection("scores")
+    total_data = 0
+    if request.args.get("user_id"):
+        user_id = request.args.get("user_id")
+        # Get Scores
+        scores_ref = db.collection("users").document(user_id).collection("scores")
         current_score_docs = scores_ref.get()
-
         if current_score_docs:
             for current_score_doc in current_score_docs:
-                current_score = current_score_doc.to_dict().get('score', 0)
+                current_score = current_score_doc.to_dict().get("score", 0)
                 total_data += current_score
+        
+        user_ref = db.collection("users").document(user_id).get()
 
-        totalScoredata.append(
-            {
-                "name": user_ref.get("name", "Player"),
-                "total": total_data,
-            }
-        )
+        return {
+            "name": user_ref.to_dict().get("name", "Player"),
+            "total": total_data,
+        }
+    
+    else:
+        users_ref = db.collection("users")
+        users = users_ref.get()
+        totalScoredata = []
 
-    totalScoredata = sorted(totalScoredata, key=lambda x: x["total"], reverse=True)
-    return jsonify(totalScoredata)
+        for user in users:
+            user_ref = user.to_dict()
+            scores_ref = db.collection("users").document(user.id).collection("scores")
+            current_score_docs = scores_ref.get()
 
+            if current_score_docs:
+                for current_score_doc in current_score_docs:
+                    current_score = current_score_doc.to_dict().get("score", 0)
+                    total_data += current_score
+
+            totalScoredata.append(
+                {
+                    "name": user_ref.get("name", "Player"),
+                    "total": total_data,
+                }
+            )
+
+        totalScoredata = sorted(totalScoredata, key=lambda x: x["total"], reverse=True)
+        return jsonify(totalScoredata)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

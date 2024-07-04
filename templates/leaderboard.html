@@ -469,10 +469,11 @@
             const user = window.Telegram.WebApp.initDataUnsafe.user;
             const totalPointsDiv = document.getElementById('tridend-amount');
             const top_scoreDiv = document.getElementById("top-score");
+            const player_name = document.getElementById("nickname-display");
             let total_points = 0;
 
             // Total Score
-            await fetch(`https://wen-world-test.onrender.com/api/v1/totalscore_data`, {
+            await fetch(`https://wen-world-test.onrender.com/api/v1/totalscore_data?user_id=${user.id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -480,14 +481,15 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    totalPointsDiv.innerText = `Total Points: ${data}`
+                    totalPointsDiv.innerText = `Total Points: ${data.total}`;
+                    player_name.innerText = `${data.name}`;
                 })
                 .catch((error) => {
                     console.error(error);
                 });
             
             // High Score
-            await fetch(`https://wen-world-test.onrender.com/api/v1/highscore_data`, {
+            await fetch(`https://wen-world-test.onrender.com/api/v1/highscore_data?user_id=${user.id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -495,7 +497,7 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    top_scoreDiv.innerText = `Today's Top Score: ${data.score_data}`
+                    top_scoreDiv.innerText = `Today's Top Score: ${data.points}`
                 })
                 .catch((error) => {
                     console.error(error);
