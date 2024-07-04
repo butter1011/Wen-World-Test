@@ -73,34 +73,49 @@ def test_page():
 
 
 # Function to collect a coin
-# @app.route("/collect_coin", methods=["POST"])
-# def collect_coin():
+@app.route("/api/v2/farmingPoint", methods=["POST"])
+def farmingPoint():
+    user_id = str(request.json.get("user_id"))
+    name = request.json.get("name")
+    add_point = request.json.get("point")
+    currentTime = datetime.utcnow().strftime("%m-%d-%y-%H-%M-%S")
+
+    # userlist creation
+    user_ref = db.collection("users").document(user_id)
+    user_ref.set({"name": name}, merge=True)
+
+    farming_ref = user_ref.collection("farming")
+    farming_ref.document().set({"point": add_point, "timestamp": currentTime})
+    return (
+        jsonify(
+            {
+                "status": "success",
+                "message": "Point updated",
+            }
+        ),
+        200,
+    )
+
+# @app.route("/api/v2/farmingPoint", methods=["POST"])
+# def farmingPoint():
 #     user_id = request.json.get("user_id")
-#     coin_id = request.json.get("coin_id")
+#     add_point = request.json.get("point")
+#     currentTime = datetime.utcnow().strftime("%m-%d-%y")
 
-#     print(f"Collecting coin: {coin_id} for user: {user_id}")
+#     doc_ref = db.collection("users").document(user_id).collection("farming")
+#     doc_ref.set({"FarmingPoint": "Point"}, merge=True)
 
-#     doc_ref = db.collection("collected_coins").document(coin_id)
-#     doc = doc_ref.get()
-#     if doc.exists():
-#         print("Coin already collected")
-#         return jsonify({"status": "fail", "message": "Coin already collected"})
-
-#     doc_ref.set({"user_id": user_id})
-#     print(f"Coin {coin_id} collected")
-
-#     user_ref = db.collection("users").document(user_id)
-#     user_doc = user_ref.get()
-#     if user_doc.exists():
-#         user_data = user_doc.to_dict()
-#         user_data["points"] += 10
-#     else:
-#         user_data = {"points": 10}
-
-#     user_ref.set(user_data)
-#     print(f"Updated points for user {user_id}: {user_data['points']}")
-
-#     return jsonify({"status": "success", "message": f"Coin {coin_id} collected"})
+#     doc = doc_ref.document(currentTime).get()
+#     doc.set({"point": add_point, "timestamp": currentTime})
+#     return (
+#         jsonify(
+#             {
+#                 "status": "success",
+#                 "message": "Point updated",
+#             }
+#         ),
+#         200,
+#     )
 
 
 # Endpoint to update the score
@@ -187,6 +202,7 @@ def highscore_data():
         highscoredata = sorted(highscoredata, key=lambda x: x["points"], reverse=True)
         return jsonify(highscoredata)
 
+
 # Endpoint to get the leaderboard
 @app.route("/api/v1/totalscore_data", methods=["GET"])
 def totalscore_data():
@@ -201,13 +217,20 @@ def totalscore_data():
                 current_score = current_score_doc.to_dict().get("score", 0)
                 total_data += current_score
         
-        user_ref = db.collection("users").document(user_id).get()
+        # Get Farming
+        farming_ref = db.collection("users").document(user_id).collection("farming")
+        farming_score_docs = farming_ref.get()
+        if farming_score_docs:
+            for farming_score_doc in farming_score_docs:
+                farming_score = farming_score_doc.to_dict().get("point", 0)
+                total_data += farming_score
 
+        user_ref = db.collection("users").document(user_id).get()
         return {
             "name": user_ref.to_dict().get("name", "Player"),
             "total": total_data,
         }
-    
+
     else:
         users_ref = db.collection("users")
         users = users_ref.get()
@@ -232,6 +255,7 @@ def totalscore_data():
 
         totalScoredata = sorted(totalScoredata, key=lambda x: x["total"], reverse=True)
         return jsonify(totalScoredata)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

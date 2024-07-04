@@ -256,9 +256,36 @@
         }
 
         .timer {
-            font-size: 2vh;
-            color: #FFD700;
+            color: #FFF;
             margin-left: 10px;
+        }
+
+        .farming-circle {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            animation: sparkle 1.5s infinite;
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
     </style>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -285,7 +312,10 @@
             <div class="top-score" id="top-score">Today's Top Score: 0</div>
             <div class="checkin-count" id="checkin-count">Check-ins: 0</div>
             <div class="daily-checkin">
-                <button id="farming-btn" onclick="startFarming()">Start Farming</button>
+                <button id="farming-btn" onclick="startFarming()"
+                    style="display: flex; align-items: center; vertical-align: middle;">
+                    Farming
+                </button>
             </div>
         </div>
         <div class="tabs">
@@ -313,7 +343,7 @@
                         <tr>
                             <th>Rank</th>
                             <th>Player</th>
-                            <th>Total Points</th>
+                            <th>Score</th>
                         </tr>
                     </thead>
                     <tbody id="total-points-list">
@@ -340,7 +370,8 @@
     <script>
         let farmingInterval;
         const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
-        const farmingDuration = 6 * 60 * 60 * 1000;
+        // const farmingDuration = 6 * 60 * 60 * 1000;
+        const farmingDuration = 6 * 1000;
 
         function navigateTo(page) {
             window.location.href = `/${page}`;
@@ -351,12 +382,12 @@
         }
 
         function startFarming() {
-            const lastStart = localStorage.getItem('lastStart');
             const now = new Date().getTime();
-            if (lastStart && now - lastStart < farmingDuration) {
-                alert("You've already started farming recently!");
+            const lastStart = localStorage.setItem('lastStart', now);
+            if (lastStart && (now - lastStart) < farmingDuration) {
+                return;
             } else {
-                alert("Farming started successfully!");
+                document.getElementById('farming-btn').innerHTML = `⌛<span id="farming-timer" class="timer">-- : -- : --</span>`;
                 localStorage.setItem('lastStart', now);
                 startFarmingTimer(farmingDuration);
                 farmingInterval = setInterval(updatePoints, 1000);
@@ -367,28 +398,39 @@
             const lastStart = localStorage.getItem('lastStart');
             const now = new Date().getTime();
             const elapsed = now - lastStart;
-            const points = Math.min(1000, (elapsed / farmingDuration) * 1000);
-            localStorage.setItem('pendingPoints', points);
-            updateTotalPointsDisplay(points);
-            document.getElementById('farming-btn').innerHTML = `Farming... ${Math.floor(points)} points <span id="farming-timer" class="timer"></span>`;
+            // const points = Math.min(1000, (elapsed / farmingDuration) * 1000);
+            // localStorage.setItem('pendingPoints', points);
+            // updateTotalPointsDisplay(points);
             if (elapsed >= farmingDuration) {
                 clearInterval(farmingInterval);
-                document.getElementById('farming-btn').innerText = 'Claim Points';
+                document.getElementById('farming-btn').innerHTML = `Farming <span class="farming-circle" id="farming-circle"></span>`
                 document.getElementById('farming-btn').onclick = claimPoints;
             }
         }
 
-        function claimPoints() {
-            const pendingPoints = parseFloat(localStorage.getItem('pendingPoints')) || 0;
-            let totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
-            totalPoints += pendingPoints;
-            localStorage.setItem('totalPoints', totalPoints);
-            localStorage.removeItem('pendingPoints');
+        async function claimPoints() {
+            const user = window.Telegram.WebApp.initDataUnsafe.user;
             localStorage.removeItem('lastStart');
-            updateTotalPointsDisplay(totalPoints);
-            alert(`You have claimed ${Math.floor(pendingPoints)} points!`);
-            document.getElementById('farming-btn').innerText = 'Start Farming';
+            document.getElementById('farming-btn').innerHTML = `Farming`;
             document.getElementById('farming-btn').onclick = startFarming;
+
+            fetch('https://wen-world-test.onrender.com/api/v2/farmingPoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: {
+                    'user_name': user.username,
+                    'user_id': user.id,
+                    'point': 1000,
+                }
+            })
+                .then(response => response.json())
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+            await initScore();
         }
 
         function dailyCheckIn() {
@@ -470,6 +512,7 @@
             const totalPointsDiv = document.getElementById('tridend-amount');
             const top_scoreDiv = document.getElementById("top-score");
             const player_name = document.getElementById("nickname-display");
+            const start_farming = document.getElementById("farming-btn");
 
             // Total Score
             await fetch(`https://wen-world-test.onrender.com/api/v1/totalscore_data?user_id=${user.id}`, {
@@ -486,7 +529,7 @@
                 .catch((error) => {
                     console.error(error);
                 });
-            
+
             // High Score
             await fetch(`https://wen-world-test.onrender.com/api/v1/highscore_data?user_id=${user.id}`, {
                 method: 'GET',
@@ -517,15 +560,14 @@
 
         function startFarmingTimer(duration) {
             const timerElement = document.getElementById('farming-timer');
-            timerElement.style.display = 'block';
+            // timerElement.style.display = 'block';
             let timeRemaining = duration;
 
             const timerInterval = setInterval(() => {
                 const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
                 const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-                timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                timerElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
                 if (timeRemaining <= 0) {
                     clearInterval(timerInterval);
@@ -537,8 +579,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', async function () {
-            await displayLeaderboard();
-            await initScore();
             const storedImage = localStorage.getItem('profileImage');
             const storedNickname = localStorage.getItem('nickname');
             const totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
@@ -546,6 +586,21 @@
             const pendingPoints = parseFloat(localStorage.getItem('pendingPoints')) || 0;
             const lastStart = localStorage.getItem('lastStart');
             const lastLogin = localStorage.getItem('lastLogin');
+            // Farming action
+            if (lastStart && (new Date().getTime() - lastStart) < farmingDuration) {
+                document.getElementById('farming-btn').onclick = "";
+                document.getElementById('farming-btn').innerHTML = `⌛<span id="farming-timer" class="timer">-- : -- : --</span>`;
+                const elapsed = new Date().getTime() - lastStart;
+                startFarmingTimer(farmingDuration - elapsed);
+                farmingInterval = setInterval(updatePoints, 1000);
+            } else if (lastStart && (new Date().getTime() - lastStart) > farmingDuration) {
+                document.getElementById('farming-btn').innerHTML = `Farming <span class="farming-circle" id="farming-circle"></span>`
+                document.getElementById('farming-btn').onclick = claimPoints;
+            }
+
+            await displayLeaderboard();
+            await initScore();
+
             const today = new Date().toLocaleDateString();
             if (storedImage) {
                 document.getElementById('profile-img').src = storedImage;
@@ -554,16 +609,8 @@
                 document.getElementById('nickname-display').textContent = storedNickname;
                 document.getElementById('nickname-input').value = storedNickname;
             }
-            updateTotalPointsDisplay(pendingPoints);
+            // updateTotalPointsDisplay(pendingPoints);
             updateCheckinCount(checkinCount);
-            if (lastStart && (new Date().getTime() - lastStart) < farmingDuration) {
-                const elapsed = new Date().getTime() - lastStart;
-                startFarmingTimer(farmingDuration - elapsed);
-                farmingInterval = setInterval(updatePoints, 1000);
-            } else if (pendingPoints > 0) {
-                document.getElementById('farming-btn').innerText = 'Claim Points';
-                document.getElementById('farming-btn').onclick = claimPoints;
-            }
             dailyCheckIn();
         });
 
