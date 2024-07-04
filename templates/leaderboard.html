@@ -370,8 +370,7 @@
     <script>
         let farmingInterval;
         const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
-        // const farmingDuration = 6 * 60 * 60 * 1000;
-        const farmingDuration = 6 * 1000;
+        const farmingDuration = 6 * 60 * 60 * 1000;
 
         function navigateTo(page) {
             window.location.href = `/${page}`;
@@ -420,7 +419,6 @@
                     'Content-Type': 'application/json',
                 },
                 body: {
-                    'user_name': user.username,
                     'user_id': user.id,
                     'point': 1000,
                 }
