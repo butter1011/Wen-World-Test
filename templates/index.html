@@ -1230,11 +1230,13 @@
             gameLoop(lastTime);
         }
 
-        function endAndBank() {
+        async function endAndBank() {
             bankedScore += score;
             todayScore += score;
             score = 0;
             gameOver = true;
+            await saveScore();
+
             updateScore();
             document.getElementById('final-score').innerText = todayScore;
             document.getElementById('game-over-screen').style.display = 'block';
@@ -1246,7 +1248,6 @@
             if (todayScore > allTimeTopScore) {
                 allTimeTopScore = todayScore;
             }
-            saveScore();
         }
 
         function drawHitbox(ctx, x, y, width, height, color = 'red') {
@@ -1409,6 +1410,7 @@
                     }
                     if (player.health <= 0) {
                         gameOver = true;
+                        saveScore();
                         document.getElementById('game-over-screen').style.display = 'block';
                         document.getElementById('score').style.display = 'none';
                         document.getElementById('score-breakdown').style.display = 'none';
@@ -1418,7 +1420,6 @@
                         if (todayScore > allTimeTopScore) {
                             allTimeTopScore = todayScore;
                         }
-                        saveScore();
                         return;
                     }
                 }
