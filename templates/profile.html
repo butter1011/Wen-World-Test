@@ -143,7 +143,7 @@
             /* Increased font size for check-ins */
             margin-bottom: 10px;
             color: white;
-        }   
+        }
 
         .daily-checkin {
             margin-top: 10px;
@@ -218,10 +218,10 @@
         }
 
         .button-container {
-            display: flex;
-            justify-content: space-around;
+            gap: 20px;
+            display: grid;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 20px;
         }
 
         .button {
@@ -231,7 +231,7 @@
             cursor: pointer;
             font-size: 2.5vh;
             background: linear-gradient(135deg, #FF0092, #00FFCF);
-            color: black;
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -391,7 +391,8 @@
     <div class="modal" id="daily-checkin-modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal()">✖</button>
-            <img src="https://www.dropbox.com/scl/fi/gzty0eqjdl9zhp4x9u53n/Add-a-subheading-8.svg?rlkey=et9y8o1nx36jlyy0e8qwssbo7&raw=1" alt="Daily Check-in">
+            <img src="https://www.dropbox.com/scl/fi/gzty0eqjdl9zhp4x9u53n/Add-a-subheading-8.svg?rlkey=et9y8o1nx36jlyy0e8qwssbo7&raw=1"
+                alt="Daily Check-in">
             <h2>Daily Reward</h2>
             <p>Accrue coins for logging into the game daily without skipping</p>
             <div class="rewards">
@@ -428,7 +429,8 @@
             if (lastStart && (now - lastStart) < farmingDuration) {
                 return;
             } else {
-                document.getElementById('farming-btn').innerHTML = `⌛<span id="farming-timer" class="timer">-- : -- : --</span>`;
+                document.getElementById('farming-btn').innerHTML = `⌛Farming... <span id="farming-timer" class="timer">-- : -- : --</span> <span id="claim-point" class="timer"></span>`;
+                document.getElementById('farming-btn').onclick = "";
                 localStorage.setItem('lastStart', now);
                 startFarmingTimer(farmingDuration);
                 farmingInterval = setInterval(updatePoints, 1000);
@@ -437,10 +439,13 @@
 
         function updatePoints() {
             const lastStart = localStorage.getItem('lastStart');
+            const claimPoint = document.getElementById('claim-point');
             const now = new Date().getTime();
             const elapsed = now - lastStart;
-            // const points = Math.min(1000, (elapsed / farmingDuration) * 1000);
-            // localStorage.setItem('pendingPoints', points);
+            let points = Math.min(1000, (elapsed / farmingDuration) * 1000);
+            
+            claimPoint.innerHTML = points.toFixed(1);
+            localStorage.setItem('pendingPoints', points);
             // updateTotalPointsDisplay(points);
             if (elapsed >= farmingDuration) {
                 clearInterval(farmingInterval);
