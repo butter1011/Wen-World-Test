@@ -239,7 +239,7 @@
                         <tr>
                             <th>Rank</th>
                             <th>Player</th>
-                            <th>Score</th>
+                            <th>Score</th>  
                         </tr>
                     </thead>
                     <tbody id="total-points-list">
@@ -386,17 +386,6 @@
             const pendingPoints = parseFloat(localStorage.getItem('pendingPoints')) || 0;
             const lastStart = localStorage.getItem('lastStart');
             const lastLogin = localStorage.getItem('lastLogin');
-            // Farming action
-            if (lastStart && (new Date().getTime() - lastStart) < farmingDuration) {
-                document.getElementById('farming-btn').onclick = "";
-                document.getElementById('farming-btn').innerHTML = `⌛<span id="farming-timer" class="timer">-- : -- : --</span>`;
-                const elapsed = new Date().getTime() - lastStart;
-                startFarmingTimer(farmingDuration - elapsed);
-                farmingInterval = setInterval(updatePoints, 1000);
-            } else if (lastStart && (new Date().getTime() - lastStart) > farmingDuration) {
-                document.getElementById('farming-btn').innerHTML = `Farming <span class="farming-circle" id="farming-circle"></span>`
-                document.getElementById('farming-btn').onclick = claimPoints;
-            }
 
             await displayLeaderboard();
             await initScore();
