@@ -72,13 +72,65 @@ def profile_page():
 #     return f"<html><body>{custom_message}</body></html>"
 
 
-# Function to collect a coin
-@app.route("/api/v2/farmingPoint", methods=["POST"])
+# Get FarmingTime
+@app.route("/api/v1/farmingTime", methods=["GET"])
+def farmingTime():
+    if request.args.get("user_id"):
+        user_id = str(request.args.get("user_id"))
+        user_ref = db.collection("users").document(user_id)
+        user_data = user_ref.get().to_dict()
+        farmingTime = user_data.get("startFarming", 0)
+
+    return (jsonify({"farmingTime": farmingTime}), 200)
+
+# Get CurrentTime
+@app.route("/api/v1/currentTime", methods=["GET"])
+def currentTime():
+    currentTime = int(datetime.utcnow().timestamp() * 1000)
+    print("---------------------------->")
+    print(currentTime)
+    return (jsonify({"currentTime": currentTime}), 200)
+
+# farmingpoint start api
+@app.route("/api/v2/farmingStart", methods=["POST"])
+def farmingStart():
+    currentTime = int(datetime.utcnow().timestamp() * 1000)
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_ref.set({"startFarming": currentTime}, merge=True)
+
+    return (jsonify({"message": "start the farming!"}), 200)
+
+# farmingClaim api
+@app.route("/api/v2/farmingClaim", methods=["POST"])
+def farmingClaim():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+
+    user_data = user_ref.get().to_dict()
+
+    # get the time difference
+    currentTime = int(datetime.utcnow().timestamp() * 1000)
+    oldTime = user_data.get("startFarming")
+
+    if (currentTime - oldTime) > (6 * 3600 * 1000):
+        # set farmingflag false
+        user_ref.set({"startFarming": False}, merge=True)
+        
+        # get total value & set the total value
+        total_value = user_data.get("totals", 0)
+        total_value += 1000
+        user_data.set({"totals", total_value}, merge=True)
+        return jsonify({"message": "Added the farming reward!"})
+    
+    return jsonify({"message": "failed to add the farming reward!"}), 200
+
+# farmingpoint API
+@app.route("/api/v2/farmingPoint", methods=["POSxT"])
 def farmingPoint():
     user_id = str(request.json.get("user_id"))
     name = request.json.get("name")
     add_point = request.json.get("point")
-    currentTime = datetime.utcnow().strftime("%m-%d-%y-%H-%M-%S")
 
     # userlist creation
     user_ref = db.collection("users").document(user_id)
@@ -95,27 +147,6 @@ def farmingPoint():
         ),
         200,
     )
-
-# @app.route("/api/v2/farmingPoint", methods=["POST"])
-# def farmingPoint():
-#     user_id = request.json.get("user_id")
-#     add_point = request.json.get("point")
-#     currentTime = datetime.utcnow().strftime("%m-%d-%y")
-
-#     doc_ref = db.collection("users").document(user_id).collection("farming")
-#     doc_ref.set({"FarmingPoint": "Point"}, merge=True)
-
-#     doc = doc_ref.document(currentTime).get()
-#     doc.set({"point": add_point, "timestamp": currentTime})
-#     return (
-#         jsonify(
-#             {
-#                 "status": "success",
-#                 "message": "Point updated",
-#             }
-#         ),
-#         200,
-#     )
 
 
 # Endpoint to update the score
@@ -134,20 +165,33 @@ def update_score():
                 jsonify({"status": "error", "message": "Missing required fields"}),
                 400,
             )
+
         # userlist creation
         user_ref = db.collection("users").document(user_id)
-        user_ref.set({"name": name}, merge=True)
 
-        # scores update
+        # user creation
+        if not user_ref.get().exists:
+            user_ref.set({"name": name, "totals": 0, "dailyCheckin": 0, "startFarming": 0}, merge=True)
+
+        # get total score & scores data
         scores_ref = user_ref.collection("scores")
+        user_data = user_ref.get().to_dict()
+        total_value = user_data.get("totals", 0)
+        
         current_score_doc = scores_ref.document(currentTime).get()
 
+        # update total score & scores data
         if not current_score_doc.exists:
             scores_ref.document(currentTime).set({"score": score})
+            total_value += int(score)
+            user_ref.set({"totals": total_value}, merge=True)
+
         else:
             current_score = current_score_doc.to_dict().get("score", 0)
             if score > current_score:
                 scores_ref.document(currentTime).set({"score": score})
+                total_value += int(score) - int(current_score)
+                user_ref.set({"totals": total_value}, merge=True)
 
         return (
             jsonify(
@@ -216,7 +260,7 @@ def totalscore_data():
             for current_score_doc in current_score_docs:
                 current_score = current_score_doc.to_dict().get("score", 0)
                 total_data += current_score
-        
+
         # Get Farming
         farming_ref = db.collection("users").document(user_id).collection("farming")
         farming_score_docs = farming_ref.get()
