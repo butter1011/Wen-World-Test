@@ -83,13 +83,13 @@ def farmingTime():
 
     return (jsonify({"farmingTime": farmingTime}), 200)
 
+
 # Get CurrentTime
 @app.route("/api/v1/currentTime", methods=["GET"])
 def currentTime():
     currentTime = int(datetime.utcnow().timestamp() * 1000)
-    print("---------------------------->")
-    print(currentTime)
     return (jsonify({"currentTime": currentTime}), 200)
+
 
 # farmingpoint start api
 @app.route("/api/v2/farmingStart", methods=["POST"])
@@ -100,6 +100,7 @@ def farmingStart():
     user_ref.set({"startFarming": currentTime}, merge=True)
 
     return (jsonify({"message": "start the farming!"}), 200)
+
 
 # farmingClaim api
 @app.route("/api/v2/farmingClaim", methods=["POST"])
@@ -113,17 +114,16 @@ def farmingClaim():
     currentTime = int(datetime.utcnow().timestamp() * 1000)
     oldTime = user_data.get("startFarming")
 
-    if (currentTime - oldTime) > (6 * 3600 * 1000):
-        # set farmingflag false
-        user_ref.set({"startFarming": False}, merge=True)
-        
+    if oldTime != 0 and (currentTime - oldTime) > (6 * 3600 * 1000):
         # get total value & set the total value
         total_value = user_data.get("totals", 0)
         total_value += 1000
-        user_data.set({"totals", total_value}, merge=True)
+        user_ref.set({"totals": int(total_value)}, merge=True)
+        user_ref.set({"startFarming": 0}, merge=True)
         return jsonify({"message": "Added the farming reward!"})
-    
+
     return jsonify({"message": "failed to add the farming reward!"}), 200
+
 
 # farmingpoint API
 @app.route("/api/v2/farmingPoint", methods=["POSxT"])
@@ -171,13 +171,16 @@ def update_score():
 
         # user creation
         if not user_ref.get().exists:
-            user_ref.set({"name": name, "totals": 0, "dailyCheckin": 0, "startFarming": 0}, merge=True)
+            user_ref.set(
+                {"name": name, "totals": 0, "dailyCheckin": 0, "startFarming": 0},
+                merge=True,
+            )
 
         # get total score & scores data
         scores_ref = user_ref.collection("scores")
         user_data = user_ref.get().to_dict()
         total_value = user_data.get("totals", 0)
-        
+
         current_score_doc = scores_ref.document(currentTime).get()
 
         # update total score & scores data

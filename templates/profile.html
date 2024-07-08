@@ -203,13 +203,14 @@
 
         .timer {
             color: #FFF;
+            font-size: 2vh;
             margin-left: 10px;
         }
 
         .farming-circle {
             position: absolute;
-            top: 3px;
-            right: 3px;
+            top: 5px;
+            right: 5px;
             width: 10px;
             height: 10px;
             background-color: red;
@@ -218,6 +219,7 @@
         }
 
         .button-container {
+            position: relative;
             gap: 20px;
             display: grid;
             width: 100%;
@@ -364,7 +366,7 @@
             <div class="top-score" id="top-score">Today's Top Score: 0</div>
             <div class="checkin-count" id="checkin-count">Check-ins: 0</div>
             <div class="button-container">
-                <button class="button" id="farming-btn" onclick="startFarming()">Start Farming</button>
+                <button class="button" id="farming-btn" onclick="">-- : -- : --</button>
                 <button class="button" onclick="showModal()">Check-in</button>
             </div>
         </div>
@@ -414,30 +416,28 @@
         async function init() {
             const storedImage = localStorage.getItem('profileImage');
             const storedNickname = localStorage.getItem('nickname');
-            const totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
             const checkinCount = localStorage.getItem('checkinCount') || 0;
-            const pendingPoints = parseFloat(localStorage.getItem('pendingPoints')) || 0;
 
             const user = window.Telegram.WebApp.initDataUnsafe.user;
-            const user_id = user.id;
 
             // startfarming button init
-            const currentTime = await getCurrentTime(user_id);
-            const lastTime = await getfarmingTime(user_id);
-            const farmingDuration = lastTime - currentTime;
+            const currentTime = await getCurrentTime();
+            const lastTime = await getfarmingTime();
+            const farmingDuration = currentTime - lastTime;
 
             if (lastTime === 0) {
-                document.getElementById('farming-btn').innerHTML = `⌛Farming... <span id="farming-timer" class="timer">-- : -- : --</span> <span id="claim-point" class="timer"></span>`;
+                document.getElementById('farming-btn').innerHTML = `Start Farming`;
                 document.getElementById('farming-btn').onclick = startFarming;
-                startFarmingTimer(farmingDuration);
-            } else {
+            }
+
+            else {
                 if (farmingDuration > 6 * 1000 * 3600) {
-                    document.getElementById('farming-btn').innerHTML = `Farming <span class="farming-circle" id="farming-circle"></span>`
+                    document.getElementById('farming-btn').innerHTML = `Claim Point <span class="farming-circle"></span><span id="claim-point" class="timer">1000</span>`;
                     document.getElementById('farming-btn').onclick = claimPoints;
                 } else {
-                    document.getElementById('farming-btn').innerHTML = `⌛Farming... <span id="farming-timer" class="timer">-- : -- : --</span> <span id="claim-point" class="timer"></span>`;
+                    document.getElementById('farming-btn').innerHTML = `⌛Farming <span id="farming-timer" class="timer">-- : -- : --</span> <span id="claim-point" class="timer"></span>`;
                     document.getElementById('farming-btn').onclick = "";
-                    startFarmingTimer(farmingDuration);
+                    startFarmingTimer(6 * 1000 * 3600 - farmingDuration);
                 }
             }
 
@@ -454,13 +454,11 @@
         }
 
         document.addEventListener('DOMContentLoaded', async (event) => {
-            console.log("DOM fully loaded and parsed");
-            if (window.Telegram.WebApp.ready()) {
-                init();
-            }
+            // if (window.Telegram.WebApp.ready()) {
+            init();
+            // }
         });
 
-        let farmingInterval;
         const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
         const farmingDuration = 6 * 60 * 60 * 1000;
 
@@ -472,72 +470,86 @@
             window.location.href = '/';
         }
 
-        function startFarming() {
-            const now = new Date().getTime();
-            const lastStart = localStorage.setItem('lastStart', now);
-            if (lastStart && (now - lastStart) < farmingDuration) {
-                return;
-            } else {
-                document.getElementById('farming-btn').innerHTML = `⌛Farming... <span id="farming-timer" class="timer">-- : -- : --</span> <span id="claim-point" class="timer"></span>`;
-                document.getElementById('farming-btn').onclick = "";
-                localStorage.setItem('lastStart', now);
-                startFarmingTimer(farmingDuration);
-                farmingInterval = setInterval(updatePoints, 1000);
-            }
+        async function startFarming() {
+            await setFarmingTime();
+            document.getElementById('farming-btn').innerHTML = `⌛Farming <span id="farming-timer" class="timer">-- : -- : --</span> <span id="claim-point" class="timer"></span>`;
+            document.getElementById('farming-btn').onclick = "";
+            startFarmingTimer(6 * 60 * 60 * 1000);
         }
 
-        function updatePoints() {
-            const lastStart = localStorage.getItem('lastStart');
-            const claimPoint = document.getElementById('claim-point');
-            const now = new Date().getTime();
-            const elapsed = now - lastStart;
-            let points = Math.min(1000, (elapsed / farmingDuration) * 1000);
+        // async function updatePoints() {
+        //     // get the current time
+        //     const lastStart = await getfarmingTime();
+        //     // const now = new Date().getUTCMilliseconds();
+        //     const now = await getCurrentTime();
+        //     // const claimPoint = document.getElementById('claim-point');
+        //     const elapsed = now - lastStart;
 
-            claimPoint.innerHTML = points.toFixed(1);
-            localStorage.setItem('pendingPoints', points);
-            // updateTotalPointsDisplay(points);
-            if (elapsed >= farmingDuration) {
-                clearInterval(farmingInterval);
-                document.getElementById('farming-btn').innerHTML = `Farming <span class="farming-circle" id="farming-circle"></span>`
-                document.getElementById('farming-btn').onclick = claimPoints;
-            }
-        }
+        //     // let points = Math.min(1000, (elapsed / farmingDuration) * 1000);
+
+        //     // claimPoint.innerHTML = points.toFixed(1);
+        //     // updateTotalPointsDisplay(points);
+        //     if (elapsed >= farmingDuration) {
+        //         clearInterval(farmingInterval);
+        //         document.getElementById('farming-btn').innerHTML = `Farming <span class="farming-circle" id="farming-circle"></span><span id="claim-point" class="claim-point"></span>`
+        //         document.getElementById('farming-btn').onclick = claimPoints;
+        //     }
+        // }
 
         async function claimPoints() {
             const user = window.Telegram.WebApp.initDataUnsafe.user;
-            localStorage.removeItem('lastStart');
+            const user_id = 7069393465;
             document.getElementById('farming-btn').innerHTML = `Farming`;
             document.getElementById('farming-btn').onclick = startFarming;
 
-            fetch('http://localhost:5000/api/v2/farmingPoint', {
+            await fetch('http://localhost:5000/api/v2/farmingClaim', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: {
-                    'user_id': user.id,
-                    'point': 1000,
+                    'user_id': user_id,
                 }
             })
                 .then(response => response.json())
                 .catch((error) => {
                     console.error('Error:', error);
                 });
-
-            await initScore();
         }
 
-        async function getCurrentTime(user_id) {
-            const response = await fetch(`http://localhost:5000/api/v1/currentTime?user_id=${user_id}`);
-            const data = response.json();
-            alert(data.currentTime);
+        async function setFarmingTime() {
+            const user_id = 7069393465;
+            const response = await fetch(`http://localhost:5000/api/v2/farmingStart`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user_id: user_id })
+            });
+            return response;
+        }
+
+        async function getCurrentTime() {
+            const user_id = 7069393465;
+            const response = await fetch(`http://localhost:5000/api/v1/currentTime?user_id=${user_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
             return data.currentTime;
         }
 
-        async function getfarmingTime(user_id) {
-            const response = await fetch(`http://localhost:5000/api/v1/farmingTime?user_id=${user_id}`);
-            const data = response.json();
-            alert(data.farmingTime);
+        async function getfarmingTime() {
+            const user_id = 7069393465;
+            const response = await fetch(`http://localhost:5000/api/v1/farmingTime?user_id=${user_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
             return data.farmingTime;
         }
 
@@ -579,13 +591,21 @@
 
         function startFarmingTimer(duration) {
             const timerElement = document.getElementById('farming-timer');
-            // timerElement.style.display = 'block';
+            const pointElement = document.getElementById('claim-point');
             let timeRemaining = duration;
 
-            const timerInterval = setInterval(() => {
+            const timerInterval = setInterval(async () => {
                 const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
                 const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                const lastStart = await getfarmingTime();
+                const now = await getCurrentTime();
+
+                const elapsed = now - lastStart;
+                let points = Math.min(1000, (elapsed / (1000 * 6 * 3600)) * 1000);
+
+                pointElement.innerHTML = points.toFixed(1);
                 timerElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
                 if (timeRemaining <= 0) {
