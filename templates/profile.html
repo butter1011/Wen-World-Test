@@ -498,7 +498,7 @@
 
         async function claimPoints() {
             const user = window.Telegram.WebApp.initDataUnsafe.user;
-            const user_id = 7069393465;
+            const user_id = user.id;
             document.getElementById('farming-btn').innerHTML = `Farming`;
             document.getElementById('farming-btn').onclick = startFarming;
 
@@ -518,7 +518,8 @@
         }
 
         async function setFarmingTime() {
-            const user_id = 7069393465;
+            const user = window.Telegram.WebApp.initDataUnsafe.user;
+            const user_id = user.id;
             const response = await fetch(`https://wen-world-test.onrender.com/api/v2/farmingStart`, {
                 method: 'POST',
                 headers: {
@@ -530,7 +531,8 @@
         }
 
         async function getCurrentTime() {
-            const user_id = 7069393465;
+            const user = window.Telegram.WebApp.initDataUnsafe.user;
+            const user_id = user.id;
             const response = await fetch(`https://wen-world-test.onrender.com/api/v1/currentTime?user_id=${user_id}`, {
                 method: 'GET',
                 headers: {
@@ -542,7 +544,8 @@
         }
 
         async function getfarmingTime() {
-            const user_id = 7069393465;
+            const user = window.Telegram.WebApp.initDataUnsafe.user;
+            const user_id = user.id;
             const response = await fetch(`https://wen-world-test.onrender.com/api/v1/farmingTime?user_id=${user_id}`, {
                 method: 'GET',
                 headers: {
