@@ -502,7 +502,7 @@
             document.getElementById('farming-btn').innerHTML = `Farming`;
             document.getElementById('farming-btn').onclick = startFarming;
 
-            await fetch('http://localhost:5000/api/v2/farmingClaim', {
+            await fetch('https://wen-world-test.onrender.com/api/v2/farmingClaim', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -519,7 +519,7 @@
 
         async function setFarmingTime() {
             const user_id = 7069393465;
-            const response = await fetch(`http://localhost:5000/api/v2/farmingStart`, {
+            const response = await fetch(`https://wen-world-test.onrender.com/api/v2/farmingStart`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -531,7 +531,7 @@
 
         async function getCurrentTime() {
             const user_id = 7069393465;
-            const response = await fetch(`http://localhost:5000/api/v1/currentTime?user_id=${user_id}`, {
+            const response = await fetch(`https://wen-world-test.onrender.com/api/v1/currentTime?user_id=${user_id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -543,7 +543,7 @@
 
         async function getfarmingTime() {
             const user_id = 7069393465;
-            const response = await fetch(`http://localhost:5000/api/v1/farmingTime?user_id=${user_id}`, {
+            const response = await fetch(`https://wen-world-test.onrender.com/api/v1/farmingTime?user_id=${user_id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

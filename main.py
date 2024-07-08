@@ -124,7 +124,7 @@ def farmingClaim():
 
     return jsonify({"message": "failed to add the farming reward!"}), 200
 
-
+    
 # farmingpoint API
 @app.route("/api/v2/farmingPoint", methods=["POSxT"])
 def farmingPoint():
