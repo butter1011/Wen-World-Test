@@ -240,6 +240,7 @@ def invite():
 # Init the User Database
 @app.route("/api/v2/initUser", methods=["POST"])
 def initUser():
+    currentTime = datetime.utcnow().strftime("%m-%d-%y")
     user_id = str(request.json.get("user_id"))
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get().to_dict()
@@ -257,11 +258,15 @@ def initUser():
         )
 
         total_ref = user_ref.collection("totals")
+        score_ref = user_ref.collection("scores")
         highscore_doc = total_ref.document("highscore")
         dailyscore_doc = total_ref.document("dailyscore")
         farmingscore_doc = total_ref.document("farmingscore")
+        
         taskscore_doc = total_ref.document("taskscore")
-
+        score_doc = score_ref.document(currentTime)
+        
+        score_doc.set({"score": 0}, merge=True)
         highscore_doc.set({"score": 0}, merge=True)
         dailyscore_doc.set({"score": 0}, merge=True)
         farmingscore_doc.set({"score": 0}, merge=True)
@@ -575,7 +580,7 @@ def farmingPoint():
 def update_score():
     try:
         # get User data
-        user_id = request.json.get("user_id")
+        user_id = str(request.json.get("user_id"))
         score = request.json.get("score")
         currentTime = datetime.utcnow().strftime("%m-%d-%y")
 
@@ -584,10 +589,8 @@ def update_score():
                 jsonify({"status": "error", "message": "Missing required fields"}),
                 400,
             )
-
         # userlist creation
         user_ref = db.collection("users").document(user_id)
-
         # get total score & scores data
         scores_ref = user_ref.collection("scores")
         user_data = user_ref.get().to_dict()
@@ -596,12 +599,12 @@ def update_score():
         total_score_doc = total_ref.document("highscore")
         total_data = total_score_doc.get().to_dict()
         highscore_total_value = total_data.get("score", 0)
-
         total_value = user_data.get("totals", 0)
         current_score_doc = scores_ref.document(currentTime).get()
 
         # update total score & scores data
         if not current_score_doc.exists:
+            print("-------------------------->ok")
             scores_ref.document(currentTime).set({"score": score})
             total_value += int(score)
             highscore_total_value += int(score)
@@ -609,13 +612,14 @@ def update_score():
             total_score_doc.update({"score": highscore_total_value})
             # user_ref.set({"totals": total_value}, merge=True)
         else:
+            print("-------------------------->no")
             current_score = current_score_doc.to_dict().get("score", 0)
             if score > current_score:
                 scores_ref.document(currentTime).set({"score": score})
                 total_value += int(score) - int(current_score)
-                daily_total_value += int(score) - int(current_score)
+                highscore_total_value += int(score) - int(current_score)
                 user_ref.update({"totals": total_value})
-                total_score_doc.update({"score": daily_total_value})
+                total_score_doc.update({"score": highscore_total_value})
 
         return (
             jsonify(
