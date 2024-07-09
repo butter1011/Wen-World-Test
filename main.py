@@ -73,7 +73,19 @@ def profile_page():
 #     return f"<html><body>{custom_message}</body></html>"
 
 
+# Get the User info
+@app.route("/api/v1/getUserInfo", methods=["POST"])
+def getUserInfo():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_doc = user_ref.get().to_dict()
+    
+    high_ref = user_ref.collection("scores").document()
+    high_doc = high_ref.document()
 
+    total_score = user_doc.get("totals", 0)
+    dailyCheckin = user_doc.get("dailyCheckin", 0)
+    return jsonify({"message": "Success", "data": {"total_score": total_score, "dailyCheckin": dailyCheckin}})
 
 # Init the Task Page
 @app.route("/api/v1/getTaskStatus", methods=["POST"])

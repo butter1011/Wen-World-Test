@@ -414,13 +414,25 @@
             const storedImage = localStorage.getItem('profileImage');
             const storedNickname = localStorage.getItem('nickname');
             const checkinCount = localStorage.getItem('checkinCount') || 0;
-
             const user = window.Telegram.WebApp.initDataUnsafe.user;
+
+            await fetch('https://wen-world-test.onrender.com/api/v1/getUserInfo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 'user_id': user_id })
+            })
+                .then(response => response.json())
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
 
             // startfarming button init
             const currentTime = await getCurrentTime();
             const lastTime = await getfarmingTime();
             const farmingDuration = currentTime - lastTime;
+            const topScoreElement = document.getElementById("top-score");
 
             if (lastTime === 0) {
                 document.getElementById('farming-btn').innerHTML = `Start Farming`;
