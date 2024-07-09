@@ -181,7 +181,8 @@
         .score-section h2 {
             margin: 5px 0;
             font-size: 5vh;
-            color: #00FFCF; /* Updated color */
+            color: #00FFCF;
+            /* Updated color */
         }
 
         .game-stats {
@@ -212,7 +213,8 @@
         }
 
         .tab.active {
-            background-color: #00FFCF; /* Updated color */
+            background-color: #00FFCF;
+            /* Updated color */
             color: black;
         }
 
@@ -240,7 +242,8 @@
             border-radius: 10px;
             cursor: pointer;
             font-size: 3vh;
-            background: linear-gradient(90deg, #FF0092, #00FFCF); /* Linear gradient color */
+            background: linear-gradient(90deg, #FF0092, #00FFCF);
+            /* Linear gradient color */
             color: black;
             text-align: center;
         }
@@ -346,7 +349,8 @@
             right: 2vh;
             width: 5vh;
             height: 5vh;
-            background-color: #00FFCF; /* Updated color */
+            background-color: #00FFCF;
+            /* Updated color */
             color: black;
             border: none;
             border-radius: 50%;
@@ -606,7 +610,8 @@
         <div id="info-modal-content">
             <span class="close">&times;</span>
             <h2>🚀 Welcome to Wen World!</h2>
-            <p>Click to jump and get as high of a score as you can! Check where you stand on the leaderboard and boost your total score by completing tasks!</p>
+            <p>Click to jump and get as high of a score as you can! Check where you stand on the leaderboard and boost
+                your total score by completing tasks!</p>
 
 
             <p>💰Coins: +5 TP</p>
@@ -1059,17 +1064,16 @@
         async function saveScore() {
             // const playerName = "matt"; 
             const user = window.Telegram.WebApp.initDataUnsafe.user;
-
+            const user_id = user.id
             if (user) {
-                const playerName = user.username || null;
-                const playerId = user.id;
+                // const playerName = user.username || null;
 
-                await fetch('https://wen-world-test.onrender.com//api/v2/update_score', {
+                await fetch('https://wen-world-test.onrender.com/api/v2/update_score', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ 'user_id': playerId, 'name': playerName, 'score': score }),
+                    body: JSON.stringify({ 'user_id': user_id, 'score': score }),
                 })
                     .then(response => response.json())
                     .then(data => {

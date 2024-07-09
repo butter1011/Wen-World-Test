@@ -56,6 +56,7 @@ def tasks_page():
 def profile_page():
     return render_template("profile.html")
 
+
 # # Invite friends
 # @app.route("/referral/<ref_code>")
 # def referral(ref_code):
@@ -63,344 +64,25 @@ def profile_page():
 #         f"Hey there! You were invited by @{ref_code} to join World of Wen! 🌟 Your go-to game for navigating the crypto market - "
 #         "travel the world, navigate the bull and bear market, and dodge the SEC! 🌍📈🚀\n\n"
 #         "Start farming points now, and who knows what cool stuff you'll snag with them soon! 🚀\n\n"
-#         "Got friends? Bring 'em in! The more, the merrier! 🌱\n\n"
+#         "Got friends? Bring 'em in! The more, the \
+# errier! 🌱\n\n"
 #         "Remember: World of Wen is where growth thrives and endless opportunities are discovered! 🌼\n\n"
 #         f"<a href='https://t.me/Wenworldbot'>Launch Wen</a>\n"
 #         "<a href='https://t.me/WenworldCommunity'>Join Community</a>"
 #     )
 #     return f"<html><body>{custom_message}</body></html>"
 
-# Learn about the triend app
-@app.route("/api/v2/learnAbout", methods=["POST"])
-def learnAbout():
+
+
+
+# Init the Task Page
+@app.route("/api/v1/getTaskStatus", methods=["POST"])
+def getTaskStatus():
     user_id = str(request.json.get("user_id"))
     user_ref = db.collection("users").document(user_id)
-    user_data = user_ref.get().to_dict()
-    learnAbout = user_data.get("learnAbout", False)
-    if(learnAbout != True):
-        user_ref.update({"learnAbout": True})
-        totals = user_data.get("totals", 0)
-        totals += 3500
+    task_ref = user_ref.collection("totals").document("taskscore").get().to_dict()
 
-        user_ref.update({"totals": totals})
-        return jsonify({"message": "Success"})
-    return jsonify({"message": "Failed"})
-
-# Learn about the triend app
-@app.route("/api/v2/followTelegram", methods=["POST"])
-def followTelegram():
-    user_id = str(request.json.get("user_id"))
-    user_ref = db.collection("users").document(user_id)
-    user_data = user_ref.get().to_dict()
-    learnAbout = user_data.get("followTelegram", False)
-    if(learnAbout != True):
-        user_ref.update({"followTelegram": True})
-        totals = user_data.get("totals", 0)
-        totals += 4000
-
-        user_ref.update({"totals": totals})
-        return jsonify({"message": "Success"})
-    return jsonify({"message": "Failed"})
-
-# Learn about the followTeam
-@app.route("/api/v2/followTeam", methods=["POST"])
-def followTeam():
-    user_id = str(request.json.get("user_id"))
-    user_ref = db.collection("users").document(user_id)
-    user_data = user_ref.get().to_dict()
-    learnAbout = user_data.get("followTeam", False)
-    if(learnAbout != True):
-        user_ref.update({"followTeam": True})
-        totals = user_data.get("totals", 0)
-        totals += 2500
-        
-        user_ref.update({"totals": totals})
-        return jsonify({"message": "Success"})
-    return jsonify({"message": "Failed"})
-
-# Learn about the followTeam
-@app.route("/api/v2/joinDiscord", methods=["POST"])
-def joinDiscord():
-    user_id = str(request.json.get("user_id"))
-    user_ref = db.collection("users").document(user_id)
-    user_data = user_ref.get().to_dict()
-    learnAbout = user_data.get("joinDiscord", False)
-    if(learnAbout != True):
-        user_ref.update({"joinDiscord": True})
-        totals = user_data.get("totals", 0)
-        totals += 3500
-        
-        user_ref.update({"totals": totals})
-        return jsonify({"message": "Success"})
-    return jsonify({"message": "Failed"})
-
-# Learn about the joinInstagram
-@app.route("/api/v2/joinInstagram", methods=["POST"])
-def joinInstagram():
-    user_id = str(request.json.get("user_id"))
-    user_ref = db.collection("users").document(user_id)
-    user_data = user_ref.get().to_dict()
-    learnAbout = user_data.get("joinInstagram", False)
-    if(learnAbout != True):
-        user_ref.update({"joinInstagram": True})
-        totals = user_data.get("totals", 0)
-        totals += 3500
-        
-        user_ref.update({"totals": totals})
-        return jsonify({"message": "Success"})
-    return jsonify({"message": "Failed"})
-
-
-# Learn about the joinInstagram
-@app.route("/api/v2/joinTikTok", methods=["POST"])
-def joinTikTok():
-    user_id = str(request.json.get("user_id"))
-    user_ref = db.collection("users").document(user_id)
-    user_data = user_ref.get().to_dict()
-    learnAbout = user_data.get("joinTikTok", False)
-    if(learnAbout != True):
-        user_ref.update({"joinTikTok": True})
-        totals = user_data.get("totals", 0)
-        totals += 3500
-        
-        user_ref.update({"totals": totals})
-        return jsonify({"message": "Success"})
-    return jsonify({"message": "Failed"})
-
-# Learn about the joinInstagram
-@app.route("/api/v2/joinX", methods=["POST"])
-def joinX():
-    user_id = str(request.json.get("user_id"))
-    user_ref = db.collection("users").document(user_id)
-    user_data = user_ref.get().to_dict()
-    learnAbout = user_data.get("joinX", False)
-    if(learnAbout != True):
-        user_ref.update({"joinX": True})
-        totals = user_data.get("totals", 0)
-        totals += 3500
-        
-        user_ref.update({"totals": totals})
-        return jsonify({"message": "Success"})
-    return jsonify({"message": "Failed"})
-
-# Daily Checkin
-@app.route("/api/v2/dailyCheckin", methods=["POST"])
-def dailyCheckin():
-    currentTime = int(datetime.utcnow().timestamp() * 1000)
-    user_id = str(request.json.get("user_id"))
-    user_ref = db.collection("users").document(user_id)
-    user_data = user_ref.get().to_dict()
-    dailyCheckin = user_data.get("dailyCheckin", 0)
-    claimable = False
-
-    last_reward = user_data.get("last_reward", None)
-    if last_reward:
-        last_reward = int(last_reward)
-        currentTime = int(currentTime)
-
-        if currentTime - last_reward > 86400000 and currentTime - last_reward < 86400000 * 2:
-            dailyCheckin += 1
-            claimable = True
-
-        if currentTime - last_reward > 86400000 * 2:
-            dailyCheckin = 1
-            claimable = True
-            user_ref.update({"dailyCheckin": dailyCheckin})
-
-    return jsonify(
-        {
-            "dailyCheckin": int(dailyCheckin),
-            "claimable": claimable,
-            "message": "You already received your daily reward",
-        }
-    )
-
-# Daily CheckinClaim
-@app.route("/api/v2/dailyClaim", methods=["POST"])
-def dailyClaim():
-    currentTime = int(datetime.utcnow().timestamp() * 1000)
-
-    reward_array = [100, 200, 400, 800, 1600, 3200, 5000]
-    user_id = str(request.json.get("user_id"))
-    user_ref = db.collection("users").document(user_id)
-    user_data = user_ref.get().to_dict()
-    dailyCheckin = user_data.get("dailyCheckin", 0)
-    last_reward = user_data.get("last_reward", None)
-
-    if last_reward:
-        last_reward = int(last_reward)
-        currentTime = int(currentTime)
-
-        if currentTime - last_reward < 86400000:
-            return (jsonify({"message": "failed to claim the daily checkin"}), 400)
-    
-    if dailyCheckin > 6:
-        dailyReward = 5000
-    else:
-        dailyReward = reward_array[dailyCheckin]
-
-    dailyCheckin += 1
-    user_ref.update({"dailyCheckin": dailyCheckin})
-    user_ref.update({"last_reward": currentTime})
-
-    totals = user_data.get("totals", 0)
-    totals += dailyReward
-    user_ref.update({"totals": totals})
-    return (jsonify({"message": "successfully checked for dailyReward"}), 200)
-
-
-# Get FarmingTime
-@app.route("/api/v1/farmingTime", methods=["GET"])
-def farmingTime():
-    if request.args.get("user_id"):
-        user_id = str(request.args.get("user_id"))
-        user_ref = db.collection("users").document(user_id)
-        user_data = user_ref.get().to_dict()
-        farmingTime = user_data.get("startFarming", 0)
-
-    return (jsonify({"farmingTime": farmingTime}), 200)
-
-
-# Get CurrentTime
-@app.route("/api/v1/currentTime", methods=["GET"])
-def currentTime():
-    currentTime = int(datetime.utcnow().timestamp() * 1000)
-    return (jsonify({"currentTime": currentTime}), 200)
-
-
-# farmingpoint start api
-@app.route("/api/v2/farmingStart", methods=["POST"])
-def farmingStart():
-    currentTime = int(datetime.utcnow().timestamp() * 1000)
-    user_id = str(request.json.get("user_id"))
-    user_ref = db.collection("users").document(user_id)
-    user_ref.set({"startFarming": currentTime}, merge=True)
-
-    return (jsonify({"message": "start the farming!"}), 200)
-
-
-# farmingClaim api
-@app.route("/api/v2/farmingClaim", methods=["POST"])
-def farmingClaim():
-    user_id = str(request.json.get("user_id"))
-    user_ref = db.collection("users").document(user_id)
-    print(user_id)
-
-    user_data = user_ref.get().to_dict()
-
-    # get the time difference
-    currentTime = int(datetime.utcnow().timestamp() * 1000)
-    oldTime = user_data.get("startFarming")
-
-    if oldTime != 0 and (currentTime - oldTime) > (6 * 3600 * 1000):
-        # get total value & set the total value
-        total_value = user_data.get("totals", 0)
-        total_value += 1000
-        user_ref.update({"totals": int(total_value)})
-        user_ref.update({"startFarming": 0})
-        return jsonify({"message": "Added the farming reward!"})
-
-    return jsonify({"message": "failed to add the farming reward!"}), 200
-
-
-# farmingpoint API
-@app.route("/api/v2/farmingPoint", methods=["POSxT"])
-def farmingPoint():
-    user_id = str(request.json.get("user_id"))
-    name = request.json.get("name")
-    add_point = request.json.get("point")
-
-    # userlist creation
-    user_ref = db.collection("users").document(user_id)
-    user_ref.set({"name": name}, merge=True)
-
-    farming_ref = user_ref.collection("farming")
-    farming_ref.document().set({"point": add_point, "timestamp": currentTime})
-    return (
-        jsonify(
-            {
-                "status": "success",
-                "message": "Point updated",
-            }
-        ),
-        200,
-    )
-
-
-# Endpoint to update the score
-@app.route("/api/v2/update_score", methods=["POST"])
-def update_score():
-    try:
-        # get User data
-        data = request.get_json()
-        user_id = str(data.get("user_id"))
-        name = data.get("name")
-        score = data.get("score")
-        currentTime = datetime.utcnow().strftime("%m-%d-%y")
-
-        if not all([user_id, name, score]):
-            return (
-                jsonify({"status": "error", "message": "Missing required fields"}),
-                400,
-            )
-
-        # userlist creation
-        user_ref = db.collection("users").document(user_id)
-
-        # user creation
-        if not user_ref.get().exists:
-            user_ref.set(
-                {
-                    "name": name,
-                    "totals": 0,
-                    "dailyCheckin": 0,
-                    "startFarming": 0,
-                    "last_reward": None,
-                    "learnAbout": False,
-                    "followTeam": False,
-                    "joinDiscord": False,
-                    "joinInstagram": False,
-                    "joinTikTok": False,
-                    "joinX": False,
-                    "followTeam": False,
-                    "followTelegram": False,
-                    "inviteFriend": 0
-                },
-                merge=True,
-            )
-
-        # get total score & scores data
-        scores_ref = user_ref.collection("scores")
-        user_data = user_ref.get().to_dict()
-        total_value = user_data.get("totals", 0)
-
-        current_score_doc = scores_ref.document(currentTime).get()
-
-        # update total score & scores data
-        if not current_score_doc.exists:
-            scores_ref.document(currentTime).set({"score": score})
-            total_value += int(score)
-            user_ref.set({"totals": total_value}, merge=True)
-
-        else:
-            current_score = current_score_doc.to_dict().get("score", 0)
-            if score > current_score:
-                scores_ref.document(currentTime).set({"score": score})
-                total_value += int(score) - int(current_score)
-                user_ref.set({"totals": total_value}, merge=True)
-
-        return (
-            jsonify(
-                {
-                    "status": "success",
-                    "message": "Score updated and user data saved",
-                }
-            ),
-            200,
-        )
-
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
+    return jsonify({"message": "Success", "data": task_ref})
 
 
 # Endpoint to get the leaderboard
@@ -495,6 +177,447 @@ def totalscore_data():
 
         totalScoredata = sorted(totalScoredata, key=lambda x: x["total"], reverse=True)
         return jsonify(totalScoredata)
+
+
+# Get FarmingTime
+@app.route("/api/v1/farmingTime", methods=["GET"])
+def farmingTime():
+    if request.args.get("user_id"):
+        user_id = str(request.args.get("user_id"))
+        user_ref = db.collection("users").document(user_id)
+        user_data = user_ref.get().to_dict()
+        farmingTime = user_data.get("startFarming", 0)
+
+    return (jsonify({"farmingTime": farmingTime}), 200)
+
+
+# Get CurrentTime
+@app.route("/api/v1/currentTime", methods=["GET"])
+def currentTime():
+    currentTime = int(datetime.utcnow().timestamp() * 1000)
+    return (jsonify({"currentTime": currentTime}), 200)
+
+
+# Invite the User
+@app.route("/api/v2/invite", methods=["POST"])
+def invite():
+    data = request.json.get("data")
+    user_id = str(data['user_id'])
+    inviter_id = str(data['inviter_id'])
+
+    # Get Scores
+    user_ref = db.collection("users").document(inviter_id)
+    
+    if db.collection("user").document(inviter_id) and inviter_id != user_id:
+        task_ref = user_ref.collection("totals").document("taskscore")
+        task_data = task_ref.get().to_dict()
+
+        inviteFriend = task_data.get("inviteFriend", 0)
+        friendList = task_data.get("friendList", [])
+
+        if inviteFriend < 10:
+            friendList.append(user_id)
+            inviteFriend += 1
+
+            task_ref.update({'inviteFriend': inviteFriend})
+            task_ref.update({'friendList': friendList})
+            return (jsonify({"message": "success"}), 200)
+    
+    return (jsonify({"message": "failed"}), 400)
+
+# Init the User Database
+@app.route("/api/v2/initUser", methods=["POST"])
+def initUser():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    if user_data is None:
+        user_ref.set(
+            {
+                "name": None,
+                "avatar": None,
+                "totals": 0,
+                "dailyCheckin": 0,
+                "last_reward": 0,
+                "startFarming": 0,
+            },
+            merge=True,
+        )
+
+        total_ref = user_ref.collection("totals")
+        highscore_doc = total_ref.document("highscore")
+        dailyscore_doc = total_ref.document("dailyscore")
+        farmingscore_doc = total_ref.document("farmingscore")
+        taskscore_doc = total_ref.document("taskscore")
+
+        highscore_doc.set({"score": 0}, merge=True)
+        dailyscore_doc.set({"score": 0}, merge=True)
+        farmingscore_doc.set({"score": 0}, merge=True)
+        taskscore_doc.set(
+            {
+                "learnAbout": False,
+                "joinDiscord": False,
+                "joinInstagram": False,
+                "joinTikTok": False,
+                "joinX": False,
+                "followTelegram": False,
+                "inviteFriend": 0,
+                "score": 0,
+                "friendList": []
+            },
+            merge=True,
+        )
+    return jsonify({"message": "Success"})
+
+
+# Learn about the triend app
+@app.route("/api/v2/learnAbout", methods=["POST"])
+def learnAbout():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    
+    task_ref = user_ref.collection("totals").document("taskscore")
+    task_data = task_ref.get().to_dict()
+    learnAbout = task_data.get("learnAbout", False)
+    
+    if learnAbout != True:
+        task_ref.update({"learnAbout": True})
+        totals = user_data.get("totals", 0)
+        task_total = task_data.get("score", 0)
+        totals += 3500
+        task_total += 3500
+
+        user_ref.update({"totals": totals})
+        task_ref.update({"score": task_total})
+        
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
+
+
+# Learn about the triend app
+@app.route("/api/v2/followTelegram", methods=["POST"])
+def followTelegram():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+
+    task_ref = user_ref.collection("totals").document("taskscore")
+    task_data = task_ref.get().to_dict()
+    followTelegram = task_data.get("followTelegram", False)
+
+    if followTelegram != True:
+        task_ref.update({"followTelegram": True})
+        totals = user_data.get("totals", 0)
+        task_total = task_data.get("score", 0)
+        totals += 4000
+        task_total += 4000
+
+        user_ref.update({"totals": totals})
+        task_ref.update({"score": task_total})
+
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
+
+
+# Learn about the followTeam
+@app.route("/api/v2/joinDiscord", methods=["POST"])
+def joinDiscord():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+
+    task_ref = user_ref.collection("totals").document("taskscore")
+    task_data = task_ref.get().to_dict()
+    joinDiscord = task_data.get("joinDiscord", False)
+
+    if joinDiscord != True:
+        task_ref.update({"joinDiscord": True})
+        totals = user_data.get("totals", 0)
+        task_total = task_data.get("score", 0)
+        totals += 3500
+        task_total += 3500
+
+        user_ref.update({"totals": totals})
+        task_ref.update({"score": task_total})
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
+
+
+# Learn about the joinInstagram
+@app.route("/api/v2/joinInstagram", methods=["POST"])
+def joinInstagram():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    
+    task_ref = user_ref.collection("totals").document("taskscore")
+    task_data = task_ref.get().to_dict()
+    joinInstagram = task_data.get("joinInstagram", False)
+    
+    if joinInstagram != True:
+        task_ref.update({"joinInstagram": True})
+        totals = user_data.get("totals", 0)
+        task_total = task_data.get("score", 0)
+        totals += 3500
+        task_total += 3500
+
+        user_ref.update({"totals": totals})
+        task_ref.update({"score": task_total})
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
+
+
+# Learn about the joinInstagram
+@app.route("/api/v2/joinTikTok", methods=["POST"])
+def joinTikTok():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+
+    task_ref = user_ref.collection("totals").document("taskscore")
+    task_data = task_ref.get().to_dict()
+    joinTikTok = task_data.get("joinTikTok", False)
+
+    if joinTikTok != True:
+        task_ref.update({"joinTikTok": True})
+        totals = user_data.get("totals", 0)
+        task_total = task_data.get("score", 0)
+        totals += 3500
+        task_total += 3500
+
+        user_ref.update({"totals": totals})
+        task_ref.update({"score": task_total})
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
+
+
+# Learn about the joinInstagram
+@app.route("/api/v2/joinX", methods=["POST"])
+def joinX():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+
+    task_ref = user_ref.collection("totals").document("taskscore")
+    task_data = task_ref.get().to_dict()
+    joinX = task_data.get("joinX", False)
+
+    if joinX != True:
+        task_ref.update({"joinX": True})
+        totals = user_data.get("totals", 0)
+        task_total = task_data.get("score", 0)
+        totals += 3500
+        task_total += 3500
+
+        user_ref.update({"totals": totals})
+        task_ref.update({"score": task_total})
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
+
+
+# Daily Checkin
+@app.route("/api/v2/dailyCheckin", methods=["POST"])
+def dailyCheckin():
+    currentTime = int(datetime.utcnow().timestamp() * 1000)
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    dailyCheckin = user_data.get("dailyCheckin", 0)
+    claimable = False
+
+    last_reward = user_data.get("last_reward", None)
+    if last_reward:
+        last_reward = int(last_reward)
+        currentTime = int(currentTime)
+
+        if (
+            currentTime - last_reward > 86400000
+            and currentTime - last_reward < 86400000 * 2
+        ):
+            dailyCheckin += 1
+            claimable = True
+
+        if currentTime - last_reward > 86400000 * 2:
+            dailyCheckin = 1
+            claimable = True
+            user_ref.update({"dailyCheckin": dailyCheckin})
+
+    return jsonify(
+        {
+            "dailyCheckin": int(dailyCheckin),
+            "claimable": claimable,
+            "message": "You already received your daily reward",
+        }
+    )
+
+
+# Daily CheckinClaim
+@app.route("/api/v2/dailyClaim", methods=["POST"])
+def dailyClaim():
+    currentTime = int(datetime.utcnow().timestamp() * 1000)
+
+    reward_array = [100, 200, 400, 800, 1600, 3200, 5000]
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    dailyCheckin = user_data.get("dailyCheckin", 0)
+    last_reward = user_data.get("last_reward", None)
+
+    total_ref = user_ref.collection("totals")
+    total_score_doc = total_ref.document("dailyscore")
+    total_data = total_score_doc.get().to_dict()
+    daily_total_value = total_data.get("score", 0)
+
+    if last_reward:
+        last_reward = int(last_reward)
+        currentTime = int(currentTime)
+
+        if currentTime - last_reward < 86400000:
+            return (jsonify({"message": "failed to claim the daily checkin"}), 400)
+
+    if dailyCheckin > 6:
+        dailyReward = 5000
+    else:
+        dailyReward = reward_array[dailyCheckin]
+
+    dailyCheckin += 1
+    user_ref.update({"dailyCheckin": dailyCheckin})
+    user_ref.update({"last_reward": currentTime})
+
+    daily_total_value += dailyReward
+    total_score_doc.update({"score": daily_total_value})
+
+    totals = user_data.get("totals", 0)
+    totals += dailyReward
+    user_ref.update({"totals": totals})
+    return (jsonify({"message": "successfully checked for dailyReward"}), 200)
+
+
+# farmingpoint start api
+@app.route("/api/v2/farmingStart", methods=["POST"])
+def farmingStart():
+    currentTime = int(datetime.utcnow().timestamp() * 1000)
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_ref.set({"startFarming": currentTime}, merge=True)
+
+    return (jsonify({"message": "start the farming!"}), 200)
+
+
+# farmingClaim api
+@app.route("/api/v2/farmingClaim", methods=["POST"])
+def farmingClaim():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+
+    total_ref = user_ref.collection("totals")
+    total_score_doc = total_ref.document("farmingscore")
+    total_data = total_score_doc.get().to_dict()
+    farming_total_value = total_data.get("score", 0)
+
+    # get the time difference
+    currentTime = int(datetime.utcnow().timestamp() * 1000)
+    oldTime = user_data.get("startFarming")
+
+    if oldTime != 0 and (currentTime - oldTime) > (6 * 3600 * 1000):
+        # get total value & set the total value
+        total_value = user_data.get("totals", 0)
+        total_value += 1000
+        farming_total_value += 1000
+        total_score_doc.update({"score": int(farming_total_value)})
+        user_ref.update({"totals": int(total_value)})
+        user_ref.update({"startFarming": 0})
+        return jsonify({"message": "Added the farming reward!"})
+
+    return jsonify({"message": "failed to add the farming reward!"}), 200
+
+
+# farmingpoint API
+@app.route("/api/v2/farmingPoint", methods=["POST"])
+def farmingPoint():
+    user_id = str(request.json.get("user_id"))
+    name = request.json.get("name")
+    add_point = request.json.get("point")
+
+    # userlist creation
+    user_ref = db.collection("users").document(user_id)
+    user_ref.set({"name": name}, merge=True)
+
+    farming_ref = user_ref.collection("farming")
+    farming_ref.document().set({"point": add_point, "timestamp": currentTime})
+    return (
+        jsonify(
+            {
+                "status": "success",
+                "message": "Point updated",
+            }
+        ),
+        200,
+    )
+
+
+# Endpoint to update the score
+@app.route("/api/v2/update_score", methods=["POST"])
+def update_score():
+    try:
+        # get User data
+        data = request.get_json()
+        user_id = str(data.get("user_id"))
+        score = data.get("score")
+        currentTime = datetime.utcnow().strftime("%m-%d-%y")
+
+        if not all([user_id, score]):
+            return (
+                jsonify({"status": "error", "message": "Missing required fields"}),
+                400,
+            )
+
+        # userlist creation
+        user_ref = db.collection("users").document(user_id)
+
+        # get total score & scores data
+        scores_ref = user_ref.collection("scores")
+        user_data = user_ref.get().to_dict()
+
+        total_ref = user_ref.collection("totals")
+        total_score_doc = total_ref.document("highscore")
+        total_data = total_score_doc.get().to_dict()
+        highscore_total_value = total_data.get("score", 0)
+
+        total_value = user_data.get("totals", 0)
+        current_score_doc = scores_ref.document(currentTime).get()
+
+        # update total score & scores data
+        if not current_score_doc.exists:
+            scores_ref.document(currentTime).set({"score": score})
+            total_value += int(score)
+            highscore_total_value += int(score)
+            user_ref.update({"totals": total_value})
+            total_score_doc.update({"score": highscore_total_value})
+            # user_ref.set({"totals": total_value}, merge=True)
+        else:
+            current_score = current_score_doc.to_dict().get("score", 0)
+            if score > current_score:
+                scores_ref.document(currentTime).set({"score": score})
+                total_value += int(score) - int(current_score)
+                daily_total_value += int(score) - int(current_score)
+                user_ref.update({"totals": total_value})
+                total_score_doc.update({"score": daily_total_value})
+
+        return (
+            jsonify(
+                {
+                    "status": "success",
+                    "message": "Score updated and user data saved",
+                }
+            ),
+            200,
+        )
+
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 
 if __name__ == "__main__":
