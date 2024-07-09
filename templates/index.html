@@ -1265,7 +1265,7 @@
 
             coins.forEach(coin => {
                 const coinImg = coin.img || (coin.type === 'good' ? imageElements.goodCoinImg : imageElements.badCoinImg);
-                const coinSize = coin.type === 'good' ? 20 : 40;
+                const coinSize = 40;
                 ctx.drawImage(coinImg, coin.x, coin.y, coinSize, coinSize);
                 drawHitbox(ctx, coin.x, coin.y, coinSize, coinSize); // Draw hitbox if debugMode is true
 

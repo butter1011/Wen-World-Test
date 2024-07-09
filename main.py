@@ -56,8 +56,7 @@ def tasks_page():
 def profile_page():
     return render_template("profile.html")
 
-
-# Route to handle referral links and display custom message
+# # Invite friends
 # @app.route("/referral/<ref_code>")
 # def referral(ref_code):
 #     custom_message = (
@@ -71,6 +70,118 @@ def profile_page():
 #     )
 #     return f"<html><body>{custom_message}</body></html>"
 
+# Learn about the triend app
+@app.route("/api/v2/learnAbout", methods=["POST"])
+def learnAbout():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    learnAbout = user_data.get("learnAbout", False)
+    if(learnAbout != True):
+        user_ref.update({"learnAbout": True})
+        totals = user_data.get("totals", 0)
+        totals += 3500
+
+        user_ref.update({"totals": totals})
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
+
+# Learn about the triend app
+@app.route("/api/v2/followTelegram", methods=["POST"])
+def followTelegram():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    learnAbout = user_data.get("followTelegram", False)
+    if(learnAbout != True):
+        user_ref.update({"followTelegram": True})
+        totals = user_data.get("totals", 0)
+        totals += 4000
+
+        user_ref.update({"totals": totals})
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
+
+# Learn about the followTeam
+@app.route("/api/v2/followTeam", methods=["POST"])
+def followTeam():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    learnAbout = user_data.get("followTeam", False)
+    if(learnAbout != True):
+        user_ref.update({"followTeam": True})
+        totals = user_data.get("totals", 0)
+        totals += 2500
+        
+        user_ref.update({"totals": totals})
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
+
+# Learn about the followTeam
+@app.route("/api/v2/joinDiscord", methods=["POST"])
+def joinDiscord():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    learnAbout = user_data.get("joinDiscord", False)
+    if(learnAbout != True):
+        user_ref.update({"joinDiscord": True})
+        totals = user_data.get("totals", 0)
+        totals += 3500
+        
+        user_ref.update({"totals": totals})
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
+
+# Learn about the joinInstagram
+@app.route("/api/v2/joinInstagram", methods=["POST"])
+def joinInstagram():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    learnAbout = user_data.get("joinInstagram", False)
+    if(learnAbout != True):
+        user_ref.update({"joinInstagram": True})
+        totals = user_data.get("totals", 0)
+        totals += 3500
+        
+        user_ref.update({"totals": totals})
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
+
+
+# Learn about the joinInstagram
+@app.route("/api/v2/joinTikTok", methods=["POST"])
+def joinTikTok():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    learnAbout = user_data.get("joinTikTok", False)
+    if(learnAbout != True):
+        user_ref.update({"joinTikTok": True})
+        totals = user_data.get("totals", 0)
+        totals += 3500
+        
+        user_ref.update({"totals": totals})
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
+
+# Learn about the joinInstagram
+@app.route("/api/v2/joinX", methods=["POST"])
+def joinX():
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    learnAbout = user_data.get("joinX", False)
+    if(learnAbout != True):
+        user_ref.update({"joinX": True})
+        totals = user_data.get("totals", 0)
+        totals += 3500
+        
+        user_ref.update({"totals": totals})
+        return jsonify({"message": "Success"})
+    return jsonify({"message": "Failed"})
 
 # Daily Checkin
 @app.route("/api/v2/dailyCheckin", methods=["POST"])
@@ -245,6 +356,15 @@ def update_score():
                     "dailyCheckin": 0,
                     "startFarming": 0,
                     "last_reward": None,
+                    "learnAbout": False,
+                    "followTeam": False,
+                    "joinDiscord": False,
+                    "joinInstagram": False,
+                    "joinTikTok": False,
+                    "joinX": False,
+                    "followTeam": False,
+                    "followTelegram": False,
+                    "inviteFriend": 0
                 },
                 merge=True,
             )
