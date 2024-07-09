@@ -76,16 +76,32 @@ def profile_page():
 # Get the User info
 @app.route("/api/v1/getUserInfo", methods=["POST"])
 def getUserInfo():
+    currentTime = datetime.utcnow().strftime("%m-%d-%y")
     user_id = str(request.json.get("user_id"))
     user_ref = db.collection("users").document(user_id)
     user_doc = user_ref.get().to_dict()
-    
-    high_ref = user_ref.collection("scores").document()
-    high_doc = high_ref.document()
+    high_ref = user_ref.collection("scores").document(currentTime)
 
+    high_doc = high_ref.get().to_dict()
+    if high_doc:
+        high_score = high_doc.get("high_score", 0)
+
+    user_name = user_doc.get("name", "Player")
     total_score = user_doc.get("totals", 0)
     dailyCheckin = user_doc.get("dailyCheckin", 0)
-    return jsonify({"message": "Success", "data": {"total_score": total_score, "dailyCheckin": dailyCheckin}})
+
+    return jsonify(
+        {
+            "message": "Success",
+            "data": {
+                "total_score": total_score,
+                "user_name": user_name,
+                "high_score": high_score,
+                "dailyCheckin": dailyCheckin,
+            },
+        }
+    )
+
 
 # Init the Task Page
 @app.route("/api/v1/getTaskStatus", methods=["POST"])
@@ -214,12 +230,12 @@ def currentTime():
 @app.route("/api/v2/invite", methods=["POST"])
 def invite():
     data = request.json.get("data")
-    user_id = str(data['user_id'])
-    inviter_id = str(data['inviter_id'])
+    user_id = str(data["user_id"])
+    inviter_id = str(data["inviter_id"])
 
     # Get Scores
     user_ref = db.collection("users").document(inviter_id)
-    
+
     if db.collection("user").document(inviter_id) and inviter_id != user_id:
         task_ref = user_ref.collection("totals").document("taskscore")
         task_data = task_ref.get().to_dict()
@@ -231,24 +247,26 @@ def invite():
             friendList.append(user_id)
             inviteFriend += 1
 
-            task_ref.update({'inviteFriend': inviteFriend})
-            task_ref.update({'friendList': friendList})
+            task_ref.update({"inviteFriend": inviteFriend})
+            task_ref.update({"friendList": friendList})
             return (jsonify({"message": "success"}), 200)
-    
+
     return (jsonify({"message": "failed"}), 400)
+
 
 # Init the User Database
 @app.route("/api/v2/initUser", methods=["POST"])
 def initUser():
     currentTime = datetime.utcnow().strftime("%m-%d-%y")
     user_id = str(request.json.get("user_id"))
+    user_name = str(request.json.get("user_name"))
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get().to_dict()
+
     if user_data is None:
         user_ref.set(
             {
-                "name": None,
-                "avatar": None,
+                "name": user_name,
                 "totals": 0,
                 "dailyCheckin": 0,
                 "last_reward": 0,
@@ -262,10 +280,10 @@ def initUser():
         highscore_doc = total_ref.document("highscore")
         dailyscore_doc = total_ref.document("dailyscore")
         farmingscore_doc = total_ref.document("farmingscore")
-        
+
         taskscore_doc = total_ref.document("taskscore")
         score_doc = score_ref.document(currentTime)
-        
+
         score_doc.set({"score": 0}, merge=True)
         highscore_doc.set({"score": 0}, merge=True)
         dailyscore_doc.set({"score": 0}, merge=True)
@@ -280,7 +298,7 @@ def initUser():
                 "followTelegram": False,
                 "inviteFriend": 0,
                 "score": 0,
-                "friendList": []
+                "friendList": [],
             },
             merge=True,
         )
@@ -293,11 +311,11 @@ def learnAbout():
     user_id = str(request.json.get("user_id"))
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get().to_dict()
-    
+
     task_ref = user_ref.collection("totals").document("taskscore")
     task_data = task_ref.get().to_dict()
     learnAbout = task_data.get("learnAbout", False)
-    
+
     if learnAbout != True:
         task_ref.update({"learnAbout": True})
         totals = user_data.get("totals", 0)
@@ -307,7 +325,7 @@ def learnAbout():
 
         user_ref.update({"totals": totals})
         task_ref.update({"score": task_total})
-        
+
         return jsonify({"message": "Success"})
     return jsonify({"message": "Failed"})
 
@@ -367,11 +385,11 @@ def joinInstagram():
     user_id = str(request.json.get("user_id"))
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get().to_dict()
-    
+
     task_ref = user_ref.collection("totals").document("taskscore")
     task_data = task_ref.get().to_dict()
     joinInstagram = task_data.get("joinInstagram", False)
-    
+
     if joinInstagram != True:
         task_ref.update({"joinInstagram": True})
         totals = user_data.get("totals", 0)
@@ -633,6 +651,17 @@ def update_score():
 
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+
+
+# Get the User info
+@app.route("/api/v2/updateName", methods=["POST"])
+def updateName():
+    user_id = str(request.json.get("user_id"))
+    name = request.json.get("name")
+    user_ref = db.collection("users").document(user_id)
+    user_ref.update({"name": name})
+
+    return jsonify({"message": "Success"})
 
 
 if __name__ == "__main__":

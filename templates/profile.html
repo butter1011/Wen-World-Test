@@ -359,7 +359,7 @@
                 <label for="upload-img">📷</label>
             </div>
             <div class="nickname">
-                <span id="nickname-display">Player</span>
+                <span id="nickname-display">- - -</span>
                 <input type="text" id="nickname-input" value="Player Name" style="display: none;">
             </div>
             <div class="tridend-amount" id="tridend-amount">0</div>
@@ -411,10 +411,13 @@
     </div>
     <script>
         async function init() {
-            const storedImage = localStorage.getItem('profileImage');
-            const storedNickname = localStorage.getItem('nickname');
-            const checkinCount = localStorage.getItem('checkinCount') || 0;
+            const scoreElement = document.getElementById("top-score");
+            const checkinCountElement = document.getElementById("checkin-count");
+            const highScoreElement = document.getElementById("tridend-amount");
+            const nicknameDisplayElement = document.getElementById("nickname-display");
+            const nicknameInputELement = document.getElementById("nickname-input");
             const user = window.Telegram.WebApp.initDataUnsafe.user;
+            const user_id = user.id;
 
             await fetch('https://wen-world-test.onrender.com/api/v1/getUserInfo', {
                 method: 'POST',
@@ -424,6 +427,13 @@
                 body: JSON.stringify({ 'user_id': user_id })
             })
                 .then(response => response.json())
+                .then((data) => {
+                    scoreElement.innerHTML = `Today's Top Score: ${data.data.total_score}`;
+                    checkinCountElement.innerHTML = `Check-ins: ${data.data.dailyCheckin}`;
+                    highScoreElement.innerHTML = data.data.high_score;
+                    nicknameDisplayElement.innerHTML = data.data.user_name;
+                    nicknameInputELement.value = data.data.user_name;
+                })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
@@ -432,7 +442,6 @@
             const currentTime = await getCurrentTime();
             const lastTime = await getfarmingTime();
             const farmingDuration = currentTime - lastTime;
-            const topScoreElement = document.getElementById("top-score");
 
             if (lastTime === 0) {
                 document.getElementById('farming-btn').innerHTML = `Start Farming`;
@@ -653,24 +662,38 @@
             document.getElementById('nickname-input').focus();
         });
 
-        document.getElementById('nickname-input').addEventListener('blur', function () {
+        document.getElementById('nickname-input').addEventListener('blur', async function () {
             const nickname = document.getElementById('nickname-input').value;
             document.getElementById('nickname-display').textContent = nickname;
             document.getElementById('nickname-display').style.display = 'inline-block';
             document.getElementById('nickname-input').style.display = 'none';
-            localStorage.setItem('nickname', nickname);
+            await update_name(nickname);
         });
 
-        document.getElementById('nickname-input').addEventListener('keypress', function (e) {
+        document.getElementById('nickname-input').addEventListener('keypress', async function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 const nickname = document.getElementById('nickname-input').value;
                 document.getElementById('nickname-display').textContent = nickname;
                 document.getElementById('nickname-display').style.display = 'inline-block';
                 document.getElementById('nickname-input').style.display = 'none';
-                localStorage.setItem('nickname', nickname);
+                await update_name(nickname);
             }
         });
+
+        async function update_name(username) {
+            const user = window.Telegram.WebApp.initDataUnsafe.user;
+            const user_id = user.id;
+            const response = await fetch(`https://wen-world-test.onrender.com/api/v2/updateName`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user_id: user_id, name: username}) 
+            });
+
+            init();
+        }
     </script>
 </body>
 
