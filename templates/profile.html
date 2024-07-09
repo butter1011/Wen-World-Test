@@ -398,18 +398,15 @@
             <h2>Daily Reward</h2>
             <p>Accrue coins for logging into the game daily without skipping</p>
             <div class="rewards">
-                <div class="reward current">Day 1<br>500</div>
-                <div class="reward">Day 2<br>1K</div>
-                <div class="reward">Day 3<br>2.5K</div>
-                <div class="reward">Day 4<br>5K</div>
-                <div class="reward">Day 5<br>15K</div>
-                <div class="reward">Day 6<br>25K</div>
-                <div class="reward">Day 7<br>100K</div>
-                <div class="reward">Day 8<br>500K</div>
-                <div class="reward">Day 9<br>1M</div>
-                <div class="reward">Day 10<br>5M</div>
+                <div class="reward current">Day 1<br>100</div>
+                <div class="reward">Day 2<br>200</div>
+                <div class="reward">Day 3<br>400</div>
+                <div class="reward">Day 4<br>800</div>
+                <div class="reward">Day 5<br>1600</div>
+                <div class="reward">Day 6<br>3200</div>
+                <div class="reward">Day 7+<br>5000</div>
             </div>
-            <button>Claim</button>
+            <button onclick="dailyClaim()" id="daily_claim">Claim</button>
         </div>
     </div>
     <script>
@@ -437,7 +434,13 @@
                 } else {
                     document.getElementById('farming-btn').innerHTML = `⌛Farming <span id="farming-timer" class="timer">-- : -- : --</span> <span id="claim-point" class="timer"></span>`;
                     document.getElementById('farming-btn').onclick = "";
-                    startFarmingTimer(6 * 1000 * 3600 - farmingDuration);
+
+                    if (6 * 1000 * 3600 - farmingDuration > 0)
+                        startFarmingTimer(6 * 1000 * 3600 - farmingDuration);
+                    else {
+                        document.getElementById('farming-btn').innerHTML = `Claim Point <span class="farming-circle"></span><span id="claim-point" class="timer">1000</span>`;
+                        document.getElementById('farming-btn').onclick = claimPoints;
+                    }
                 }
             }
 
@@ -448,15 +451,14 @@
                 document.getElementById('nickname-display').textContent = storedNickname;
                 document.getElementById('nickname-input').value = storedNickname;
             }
-            // updateTotalPointsDisplay(pendingPoints);
             updateCheckinCount(checkinCount);
             dailyCheckIn();
         }
 
         document.addEventListener('DOMContentLoaded', async (event) => {
-            // if (window.Telegram.WebApp.ready()) {
-            init();
-            // }
+            if (window.Telegram.WebApp.ready()) {
+                init();
+            }
         });
 
         const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
@@ -469,32 +471,12 @@
         function navigateToHome() {
             window.location.href = '/';
         }
-
         async function startFarming() {
             await setFarmingTime();
             document.getElementById('farming-btn').innerHTML = `⌛Farming <span id="farming-timer" class="timer">-- : -- : --</span> <span id="claim-point" class="timer"></span>`;
             document.getElementById('farming-btn').onclick = "";
             startFarmingTimer(6 * 60 * 60 * 1000);
         }
-
-        // async function updatePoints() {
-        //     // get the current time
-        //     const lastStart = await getfarmingTime();
-        //     // const now = new Date().getUTCMilliseconds();
-        //     const now = await getCurrentTime();
-        //     // const claimPoint = document.getElementById('claim-point');
-        //     const elapsed = now - lastStart;
-
-        //     // let points = Math.min(1000, (elapsed / farmingDuration) * 1000);
-
-        //     // claimPoint.innerHTML = points.toFixed(1);
-        //     // updateTotalPointsDisplay(points);
-        //     if (elapsed >= farmingDuration) {
-        //         clearInterval(farmingInterval);
-        //         document.getElementById('farming-btn').innerHTML = `Farming <span class="farming-circle" id="farming-circle"></span><span id="claim-point" class="claim-point"></span>`
-        //         document.getElementById('farming-btn').onclick = claimPoints;
-        //     }
-        // }
 
         async function claimPoints() {
             const user = window.Telegram.WebApp.initDataUnsafe.user;
@@ -507,9 +489,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: {
-                    'user_id': user_id,
-                }
+                body: JSON.stringify({ 'user_id': user_id })
             })
                 .then(response => response.json())
                 .catch((error) => {
@@ -556,28 +536,57 @@
             return data.farmingTime;
         }
 
-        function dailyCheckIn() {
-            const lastLogin = localStorage.getItem('lastLogin');
-            const today = new Date().toLocaleDateString();
-            let loginStreak = parseInt(localStorage.getItem('loginStreak')) || 0;
-            let totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
+        async function dailyCheckIn() {
+            const user = window.Telegram.WebApp.initDataUnsafe.user;
+            const user_id = user.id;
+            const response = await fetch(`https://wen-world-test.onrender.com/api/v2/dailyCheckin`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user_id: user_id })
+            });
 
-            if (lastLogin !== today) {
-                loginStreak = (lastLogin === new Date(new Date().setDate(new Date().getDate() - 1)).toLocaleDateString()) ? loginStreak + 1 : 1;
-                const reward = dailyLoginRewards[Math.min(loginStreak - 1, dailyLoginRewards.length - 1)];
-                totalPoints += reward;
-                localStorage.setItem('totalPoints', totalPoints);
-                localStorage.setItem('lastLogin', today);
-                localStorage.setItem('loginStreak', loginStreak);
-                updateTotalPointsDisplay(totalPoints);
-                updateCheckinCount(loginStreak);
+            const data = await response.json();
+            const claimable = data.claimable;
+            let checkinCount = data.dailyCheckin;
+            if (checkinCount > 7) checkinCount = 7;
+
+            const rewards_list = document.getElementsByClassName("reward");
+            const claim_btn = document.getElementById("daily_claim");
+            // delete the class
+            for (let i = 0; i < rewards_list.length; i++) {
+                rewards_list[i].classList.remove("current");
+            }
+
+            // add the class
+            for (let i = 0; i < checkinCount; i++) {
+                rewards_list[i].classList.add("current");
+            }
+
+            // disable the claimbutton
+            if (claimable) {
+                claim_btn.disabled = false;
+                claim_btn.style.background = 'linear-gradient(135deg, #FF0092, #00FFCF)';
+            } else {
+                claim_btn.disabled = true;
+                claim_btn.style.background = 'grey';
             }
         }
 
-        function updateTotalPointsDisplay(points) {
-            const totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
-            const totalDisplayedPoints = Math.floor(totalPoints + points);
-            // document.getElementById('tridend-amount').innerText = `${totalDisplayedPoints}`;
+        async function dailyClaim() {
+            const user = window.Telegram.WebApp.initDataUnsafe.user;
+
+            const user_id = user.id;
+            const response = await fetch(`https://wen-world-test.onrender.com/api/v2/dailyClaim`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user_id: user_id })
+            });
+
+            await dailyCheckIn();
         }
 
         function updateCheckinCount(count) {
@@ -601,11 +610,8 @@
                 const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
                 const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+                const elapsed = 1000 * 6 * 3600 - timeRemaining;
 
-                const lastStart = await getfarmingTime();
-                const now = await getCurrentTime();
-
-                const elapsed = now - lastStart;
                 let points = Math.min(1000, (elapsed / (1000 * 6 * 3600)) * 1000);
 
                 pointElement.innerHTML = points.toFixed(1);
@@ -613,6 +619,8 @@
 
                 if (timeRemaining <= 0) {
                     clearInterval(timerInterval);
+                    document.getElementById('farming-btn').innerHTML = `Claim Point <span class="farming-circle"></span><span id="claim-point" class="timer">1000</span>`;
+                    document.getElementById('farming-btn').onclick = claimPoints;
                     timerElement.style.display = 'none';
                 } else {
                     timeRemaining -= 1000;

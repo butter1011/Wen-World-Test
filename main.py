@@ -72,6 +72,72 @@ def profile_page():
 #     return f"<html><body>{custom_message}</body></html>"
 
 
+# Daily Checkin
+@app.route("/api/v2/dailyCheckin", methods=["POST"])
+def dailyCheckin():
+    currentTime = int(datetime.utcnow().timestamp() * 1000)
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    dailyCheckin = user_data.get("dailyCheckin", 0)
+    claimable = False
+
+    last_reward = user_data.get("last_reward", None)
+    if last_reward:
+        last_reward = int(last_reward)
+        currentTime = int(currentTime)
+
+        if currentTime - last_reward > 86400000 and currentTime - last_reward < 86400000 * 2:
+            dailyCheckin += 1
+            claimable = True
+
+        if currentTime - last_reward > 86400000 * 2:
+            dailyCheckin = 1
+            claimable = True
+            user_ref.update({"dailyCheckin": dailyCheckin})
+
+    return jsonify(
+        {
+            "dailyCheckin": int(dailyCheckin),
+            "claimable": claimable,
+            "message": "You already received your daily reward",
+        }
+    )
+
+# Daily CheckinClaim
+@app.route("/api/v2/dailyClaim", methods=["POST"])
+def dailyClaim():
+    currentTime = int(datetime.utcnow().timestamp() * 1000)
+
+    reward_array = [100, 200, 400, 800, 1600, 3200, 5000]
+    user_id = str(request.json.get("user_id"))
+    user_ref = db.collection("users").document(user_id)
+    user_data = user_ref.get().to_dict()
+    dailyCheckin = user_data.get("dailyCheckin", 0)
+    last_reward = user_data.get("last_reward", None)
+
+    if last_reward:
+        last_reward = int(last_reward)
+        currentTime = int(currentTime)
+
+        if currentTime - last_reward < 86400000:
+            return (jsonify({"message": "failed to claim the daily checkin"}), 400)
+    
+    if dailyCheckin > 6:
+        dailyReward = 5000
+    else:
+        dailyReward = reward_array[dailyCheckin]
+
+    dailyCheckin += 1
+    user_ref.update({"dailyCheckin": dailyCheckin})
+    user_ref.update({"last_reward": currentTime})
+
+    totals = user_data.get("totals", 0)
+    totals += dailyReward
+    user_ref.update({"totals": totals})
+    return (jsonify({"message": "successfully checked for dailyReward"}), 200)
+
+
 # Get FarmingTime
 @app.route("/api/v1/farmingTime", methods=["GET"])
 def farmingTime():
@@ -107,6 +173,7 @@ def farmingStart():
 def farmingClaim():
     user_id = str(request.json.get("user_id"))
     user_ref = db.collection("users").document(user_id)
+    print(user_id)
 
     user_data = user_ref.get().to_dict()
 
@@ -118,13 +185,13 @@ def farmingClaim():
         # get total value & set the total value
         total_value = user_data.get("totals", 0)
         total_value += 1000
-        user_ref.set({"totals": int(total_value)}, merge=True)
-        user_ref.set({"startFarming": 0}, merge=True)
+        user_ref.update({"totals": int(total_value)})
+        user_ref.update({"startFarming": 0})
         return jsonify({"message": "Added the farming reward!"})
 
     return jsonify({"message": "failed to add the farming reward!"}), 200
 
-    
+
 # farmingpoint API
 @app.route("/api/v2/farmingPoint", methods=["POSxT"])
 def farmingPoint():
@@ -172,7 +239,13 @@ def update_score():
         # user creation
         if not user_ref.get().exists:
             user_ref.set(
-                {"name": name, "totals": 0, "dailyCheckin": 0, "startFarming": 0},
+                {
+                    "name": name,
+                    "totals": 0,
+                    "dailyCheckin": 0,
+                    "startFarming": 0,
+                    "last_reward": None,
+                },
                 merge=True,
             )
 
