@@ -575,9 +575,8 @@ def farmingPoint():
 def update_score():
     try:
         # get User data
-        data = request.get_json()
-        user_id = data.get("user_id")
-        score = data.get("score")
+        user_id = request.json.get("user_id")
+        score = request.json.get("score")
         currentTime = datetime.utcnow().strftime("%m-%d-%y")
 
         if not all([user_id, score]):
