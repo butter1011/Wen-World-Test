@@ -576,7 +576,7 @@ def update_score():
     try:
         # get User data
         data = request.get_json()
-        user_id = str(data.get("user_id"))
+        user_id = data.get("user_id")
         score = data.get("score")
         currentTime = datetime.utcnow().strftime("%m-%d-%y")
 
