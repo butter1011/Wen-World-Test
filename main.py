@@ -56,6 +56,7 @@ def tasks_page():
 def profile_page():
     return render_template("profile.html")
 
+
 # Get the User info
 @app.route("/api/v1/getUserInfo", methods=["POST"])
 def getUserInfo():
@@ -139,7 +140,7 @@ def highscore_data():
 # Endpoint to get the leaderboard
 @app.route("/api/v1/totalscore_data", methods=["GET"])
 def totalscore_data():
-    
+
     if request.args.get("user_id"):
         total_data = 0
         user_id = request.args.get("user_id")
@@ -175,7 +176,7 @@ def totalscore_data():
             scores_ref = db.collection("users").document(user.id).collection("scores")
             current_score_docs = scores_ref.get()
             total_data = 0
-            
+
             if current_score_docs:
                 for current_score_doc in current_score_docs:
                     current_score = current_score_doc.to_dict().get("score", 0)
@@ -439,26 +440,27 @@ def joinX():
 # Daily Checkin
 @app.route("/api/v2/dailyCheckin", methods=["POST"])
 def dailyCheckin():
-    currentTime = int(datetime.utcnow().timestamp() * 1000)
     user_id = str(request.json.get("user_id"))
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get().to_dict()
     dailyCheckin = user_data.get("dailyCheckin", 0)
     claimable = False
 
-    last_reward = user_data.get("last_reward", None)
+    currentTime = int(datetime.utcnow())
+    last_reward = datetime.strptime(user_data.get("last_reward"), "%m/%d/%y:%H-%M-%S")
     if last_reward:
-        last_reward = int(last_reward)
-        currentTime = int(currentTime)
+        time_diff = currentTime - last_reward
+        days, seconds = time_diff.days, time_diff.seconds
+        seconds = seconds % 60
 
         if (
-            currentTime - last_reward > 86400000
-            and currentTime - last_reward < 86400000 * 2
+            days > 1
+            and days < 2
         ):
             dailyCheckin += 1
             claimable = True
 
-        if currentTime - last_reward > 86400000 * 2:
+        if currentTime - last_reward > 2:
             dailyCheckin = 1
             claimable = True
             user_ref.update({"dailyCheckin": dailyCheckin})
@@ -475,25 +477,28 @@ def dailyCheckin():
 # Daily CheckinClaim
 @app.route("/api/v2/dailyClaim", methods=["POST"])
 def dailyClaim():
-    currentTime = int(datetime.utcnow().timestamp() * 1000)
+    currentTime = int(datetime.utcnow().strftime("%m/%d/%y:%H-%M-%S"))
 
     reward_array = [100, 200, 400, 800, 1600, 3200, 5000]
     user_id = str(request.json.get("user_id"))
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get().to_dict()
     dailyCheckin = user_data.get("dailyCheckin", 0)
-    last_reward = user_data.get("last_reward", None)
 
     total_ref = user_ref.collection("totals")
     total_score_doc = total_ref.document("dailyscore")
     total_data = total_score_doc.get().to_dict()
     daily_total_value = total_data.get("score", 0)
 
-    if last_reward:
-        last_reward = int(last_reward)
-        currentTime = int(currentTime)
+    currentTime = int(datetime.utcnow())
+    last_reward = datetime.strptime(user_data.get("last_reward"), "%m/%d/%y:%H-%M-%S")
 
-        if currentTime - last_reward < 86400000:
+    if last_reward:
+        time_diff = currentTime - last_reward
+        days, seconds = time_diff.days, time_diff.seconds
+        seconds = seconds % 60
+
+        if days < 1:
             return (jsonify({"message": "failed to claim the daily checkin"}), 400)
 
     if dailyCheckin > 6:
@@ -503,7 +508,7 @@ def dailyClaim():
 
     dailyCheckin += 1
     user_ref.update({"dailyCheckin": dailyCheckin})
-    user_ref.update({"last_reward": currentTime})
+    user_ref.update({"last_reward": datetime.utcnow().strftime("%m/%d/%y:%H-%M-%S")})
 
     daily_total_value += dailyReward
     total_score_doc.update({"score": daily_total_value})
@@ -517,7 +522,7 @@ def dailyClaim():
 # farmingpoint start api
 @app.route("/api/v2/farmingStart", methods=["POST"])
 def farmingStart():
-    currentTime = int(datetime.utcnow().timestamp() * 1000)
+    currentTime = int(datetime.utcnow().strftime("%m/%d/%y:%H-%M-%S"))
     user_id = str(request.json.get("user_id"))
     user_ref = db.collection("users").document(user_id)
     user_ref.set({"startFarming": currentTime}, merge=True)
@@ -538,10 +543,13 @@ def farmingClaim():
     farming_total_value = total_data.get("score", 0)
 
     # get the time difference
-    currentTime = int(datetime.utcnow().timestamp() * 1000)
-    oldTime = user_data.get("startFarming")
+    currentTime = int(datetime.utcnow())
+    oldTime = datetime.strptime(user_data.get("startFarming"), "%m/%d/%y:%H-%M-%S")
+    time_diff = currentTime - oldTime
+    days, seconds = time_diff.days, time_diff.seconds
+    seconds = seconds % 60
 
-    if oldTime != 0 and (currentTime - oldTime) > (6 * 3600 * 1000):
+    if oldTime != 0 and seconds > (6 * 3600):
         # get total value & set the total value
         total_value = user_data.get("totals", 0)
         total_value += 1000
@@ -607,7 +615,6 @@ def update_score():
 
         # update total score & scores data
         if not current_score_doc.exists:
-            print("-------------------------->ok")
             scores_ref.document(currentTime).set({"score": score})
             total_value += int(score)
             highscore_total_value += int(score)
@@ -615,7 +622,6 @@ def update_score():
             total_score_doc.update({"score": highscore_total_value})
             # user_ref.set({"totals": total_value}, merge=True)
         else:
-            print("-------------------------->no")
             current_score = current_score_doc.to_dict().get("score", 0)
             if score > current_score:
                 scores_ref.document(currentTime).set({"score": score})
