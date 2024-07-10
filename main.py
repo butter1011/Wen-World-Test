@@ -447,7 +447,7 @@ def dailyCheckin():
     claimable = False
 
     currentTime = int(datetime.utcnow())
-    last_reward = datetime.strptime(user_data.get("last_reward"), "%m/%d/%y:%H-%M-%S")
+    last_reward = datetime.strptime(user_data.get("last_reward", 0), "%m/%d/%y:%H-%M-%S")
     if last_reward:
         time_diff = currentTime - last_reward
         days, seconds = time_diff.days, time_diff.seconds
@@ -477,8 +477,6 @@ def dailyCheckin():
 # Daily CheckinClaim
 @app.route("/api/v2/dailyClaim", methods=["POST"])
 def dailyClaim():
-    currentTime = int(datetime.utcnow().strftime("%m/%d/%y:%H-%M-%S"))
-
     reward_array = [100, 200, 400, 800, 1600, 3200, 5000]
     user_id = str(request.json.get("user_id"))
     user_ref = db.collection("users").document(user_id)
@@ -491,7 +489,7 @@ def dailyClaim():
     daily_total_value = total_data.get("score", 0)
 
     currentTime = int(datetime.utcnow())
-    last_reward = datetime.strptime(user_data.get("last_reward"), "%m/%d/%y:%H-%M-%S")
+    last_reward = datetime.strptime(user_data.get("last_reward", 0), "%m/%d/%y:%H-%M-%S")
 
     if last_reward:
         time_diff = currentTime - last_reward
@@ -522,7 +520,7 @@ def dailyClaim():
 # farmingpoint start api
 @app.route("/api/v2/farmingStart", methods=["POST"])
 def farmingStart():
-    currentTime = int(datetime.utcnow().strftime("%m/%d/%y:%H-%M-%S"))
+    currentTime = datetime.utcnow().strftime("%m/%d/%y:%H-%M-%S")
     user_id = str(request.json.get("user_id"))
     user_ref = db.collection("users").document(user_id)
     user_ref.set({"startFarming": currentTime}, merge=True)
@@ -544,7 +542,7 @@ def farmingClaim():
 
     # get the time difference
     currentTime = int(datetime.utcnow())
-    oldTime = datetime.strptime(user_data.get("startFarming"), "%m/%d/%y:%H-%M-%S")
+    oldTime = datetime.strptime(user_data.get("startFarming", 0), "%m/%d/%y:%H-%M-%S")
     time_diff = currentTime - oldTime
     days, seconds = time_diff.days, time_diff.seconds
     seconds = seconds % 60
