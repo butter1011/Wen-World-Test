@@ -446,7 +446,7 @@ def dailyCheckin():
     dailyCheckin = user_data.get("dailyCheckin", 0)
     claimable = False
 
-    currentTime = int(datetime.utcnow())
+    currentTime = datetime.utcnow()
     last_reward = datetime.strptime(user_data.get("last_reward", 0), "%m/%d/%y:%H-%M-%S")
     if last_reward:
         time_diff = currentTime - last_reward
@@ -488,7 +488,7 @@ def dailyClaim():
     total_data = total_score_doc.get().to_dict()
     daily_total_value = total_data.get("score", 0)
 
-    currentTime = int(datetime.utcnow())
+    currentTime = datetime.utcnow()
     last_reward = datetime.strptime(user_data.get("last_reward", 0), "%m/%d/%y:%H-%M-%S")
 
     if last_reward:

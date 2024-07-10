@@ -379,14 +379,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', async function () {
-            const storedImage = localStorage.getItem('profileImage');
-            const storedNickname = localStorage.getItem('nickname');
-            const totalPoints = parseFloat(localStorage.getItem('totalPoints')) || 0;
-            const checkinCount = localStorage.getItem('checkinCount') || 0;
-            const pendingPoints = parseFloat(localStorage.getItem('pendingPoints')) || 0;
-            const lastStart = localStorage.getItem('lastStart');
-            const lastLogin = localStorage.getItem('lastLogin');
-
             await displayLeaderboard();
             await initScore();
         });
