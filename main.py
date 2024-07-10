@@ -56,23 +56,6 @@ def tasks_page():
 def profile_page():
     return render_template("profile.html")
 
-
-# # Invite friends
-# @app.route("/referral/<ref_code>")
-# def referral(ref_code):
-#     custom_message = (
-#         f"Hey there! You were invited by @{ref_code} to join World of Wen! 🌟 Your go-to game for navigating the crypto market - "
-#         "travel the world, navigate the bull and bear market, and dodge the SEC! 🌍📈🚀\n\n"
-#         "Start farming points now, and who knows what cool stuff you'll snag with them soon! 🚀\n\n"
-#         "Got friends? Bring 'em in! The more, the \
-# errier! 🌱\n\n"
-#         "Remember: World of Wen is where growth thrives and endless opportunities are discovered! 🌼\n\n"
-#         f"<a href='https://t.me/Wenworldbot'>Launch Wen</a>\n"
-#         "<a href='https://t.me/WenworldCommunity'>Join Community</a>"
-#     )
-#     return f"<html><body>{custom_message}</body></html>"
-
-
 # Get the User info
 @app.route("/api/v1/getUserInfo", methods=["POST"])
 def getUserInfo():
@@ -156,8 +139,9 @@ def highscore_data():
 # Endpoint to get the leaderboard
 @app.route("/api/v1/totalscore_data", methods=["GET"])
 def totalscore_data():
-    total_data = 0
+    
     if request.args.get("user_id"):
+        total_data = 0
         user_id = request.args.get("user_id")
         # Get Scores
         scores_ref = db.collection("users").document(user_id).collection("scores")
@@ -190,7 +174,8 @@ def totalscore_data():
             user_ref = user.to_dict()
             scores_ref = db.collection("users").document(user.id).collection("scores")
             current_score_docs = scores_ref.get()
-
+            total_data = 0
+            
             if current_score_docs:
                 for current_score_doc in current_score_docs:
                     current_score = current_score_doc.to_dict().get("score", 0)
