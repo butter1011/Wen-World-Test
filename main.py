@@ -445,10 +445,11 @@ def dailyCheckin():
     user_data = user_ref.get().to_dict()
     dailyCheckin = user_data.get("dailyCheckin", 0)
     claimable = False
+    last_reward = str(user_data.get("last_reward", ""))
 
     currentTime = datetime.utcnow()
-    last_reward = datetime.strptime(user_data.get("last_reward", 0), "%m/%d/%y:%H-%M-%S")
-    if last_reward:
+    if last_reward !="":
+        last_reward = datetime.strptime(last_reward, "%m/%d/%y:%H-%M-%S")
         time_diff = currentTime - last_reward
         days, seconds = time_diff.days, time_diff.seconds
         seconds = seconds % 60
@@ -482,6 +483,7 @@ def dailyClaim():
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get().to_dict()
     dailyCheckin = user_data.get("dailyCheckin", 0)
+    last_reward = user_data.get("last_reward", 0)
 
     total_ref = user_ref.collection("totals")
     total_score_doc = total_ref.document("dailyscore")
@@ -489,9 +491,9 @@ def dailyClaim():
     daily_total_value = total_data.get("score", 0)
 
     currentTime = datetime.utcnow()
-    last_reward = datetime.strptime(user_data.get("last_reward", 0), "%m/%d/%y:%H-%M-%S")
+    last_reward = datetime.strptime(last_reward, "%m/%d/%y:%H-%M-%S")
 
-    if last_reward:
+    if last_reward != "":
         time_diff = currentTime - last_reward
         days, seconds = time_diff.days, time_diff.seconds
         seconds = seconds % 60
@@ -539,23 +541,25 @@ def farmingClaim():
     total_score_doc = total_ref.document("farmingscore")
     total_data = total_score_doc.get().to_dict()
     farming_total_value = total_data.get("score", 0)
+    startFarming = user_data.get("startFarming", 0)
 
     # get the time difference
     currentTime = int(datetime.utcnow())
-    oldTime = datetime.strptime(user_data.get("startFarming", 0), "%m/%d/%y:%H-%M-%S")
-    time_diff = currentTime - oldTime
-    days, seconds = time_diff.days, time_diff.seconds
-    seconds = seconds % 60
+    if startFarming != "":
+        oldTime = datetime.strptime(startFarming, "%m/%d/%y:%H-%M-%S")
+        time_diff = currentTime - oldTime
+        days, seconds = time_diff.days, time_diff.seconds
+        seconds = seconds % 60
 
-    if oldTime != 0 and seconds > (6 * 3600):
-        # get total value & set the total value
-        total_value = user_data.get("totals", 0)
-        total_value += 1000
-        farming_total_value += 1000
-        total_score_doc.update({"score": int(farming_total_value)})
-        user_ref.update({"totals": int(total_value)})
-        user_ref.update({"startFarming": 0})
-        return jsonify({"message": "Added the farming reward!"})
+        if oldTime != 0 and seconds > (6 * 3600):
+            # get total value & set the total value
+            total_value = user_data.get("totals", 0)
+            total_value += 1000
+            farming_total_value += 1000
+            total_score_doc.update({"score": int(farming_total_value)})
+            user_ref.update({"totals": int(total_value)})
+            user_ref.update({"startFarming": 0})
+            return jsonify({"message": "Added the farming reward!"})
 
     return jsonify({"message": "failed to add the farming reward!"}), 200
 
