@@ -255,8 +255,8 @@ def initUser():
                 "name": user_name,
                 "totals": 0,
                 "dailyCheckin": 0,
-                "last_reward": 0,
-                "startFarming": 0,
+                "last_reward": "",
+                "startFarming": "",
             },
             merge=True,
         )
@@ -446,22 +446,21 @@ def dailyCheckin():
     dailyCheckin = user_data.get("dailyCheckin", 0)
     claimable = False
     last_reward = str(user_data.get("last_reward", ""))
+    print("------------->last_reward", last_reward)
 
     currentTime = datetime.utcnow()
-    if last_reward !="":
+    if last_reward != "":
         last_reward = datetime.strptime(last_reward, "%m/%d/%y:%H-%M-%S")
         time_diff = currentTime - last_reward
         days, seconds = time_diff.days, time_diff.seconds
         seconds = seconds % 60
-
-        if (
-            days > 1
-            and days < 2
-        ):
+        print("------------->", last_reward)
+        print("------------->", days, seconds)
+        if days > 1 and days < 2:
             dailyCheckin += 1
             claimable = True
 
-        if currentTime - last_reward > 2:
+        if days > 2:
             dailyCheckin = 1
             claimable = True
             user_ref.update({"dailyCheckin": dailyCheckin})
@@ -470,7 +469,6 @@ def dailyCheckin():
         {
             "dailyCheckin": int(dailyCheckin),
             "claimable": claimable,
-            "message": "You already received your daily reward",
         }
     )
 
@@ -483,29 +481,31 @@ def dailyClaim():
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get().to_dict()
     dailyCheckin = user_data.get("dailyCheckin", 0)
-    last_reward = user_data.get("last_reward", 0)
+    last_reward = str(user_data.get("last_reward", 0))
 
     total_ref = user_ref.collection("totals")
     total_score_doc = total_ref.document("dailyscore")
     total_data = total_score_doc.get().to_dict()
     daily_total_value = total_data.get("score", 0)
 
-    currentTime = datetime.utcnow()
-    last_reward = datetime.strptime(last_reward, "%m/%d/%y:%H-%M-%S")
-
+    print("last_reward------------->1", last_reward)
     if last_reward != "":
+        currentTime = datetime.utcnow()
+        last_reward = datetime.strptime(last_reward, "%m/%d/%y:%H-%M-%S")
         time_diff = currentTime - last_reward
         days, seconds = time_diff.days, time_diff.seconds
         seconds = seconds % 60
-
+        print("------------->2", last_reward)
         if days < 1:
             return (jsonify({"message": "failed to claim the daily checkin"}), 400)
 
+    print("last_reward------------->", last_reward)
     if dailyCheckin > 6:
         dailyReward = 5000
     else:
         dailyReward = reward_array[dailyCheckin]
 
+    print("dailyReward------------->", dailyReward)
     dailyCheckin += 1
     user_ref.update({"dailyCheckin": dailyCheckin})
     user_ref.update({"last_reward": datetime.utcnow().strftime("%m/%d/%y:%H-%M-%S")})
