@@ -446,7 +446,6 @@ def dailyCheckin():
     dailyCheckin = user_data.get("dailyCheckin", 0)
     claimable = False
     last_reward = str(user_data.get("last_reward", ""))
-    print("------------->last_reward", last_reward)
 
     currentTime = datetime.utcnow()
     if last_reward != "":
@@ -454,8 +453,6 @@ def dailyCheckin():
         time_diff = currentTime - last_reward
         days, seconds = time_diff.days, time_diff.seconds
         seconds = seconds % 60
-        print("------------->", last_reward)
-        print("------------->", days, seconds)
         if days > 1 and days < 2:
             dailyCheckin += 1
             claimable = True
@@ -488,7 +485,6 @@ def dailyClaim():
     total_data = total_score_doc.get().to_dict()
     daily_total_value = total_data.get("score", 0)
 
-    print("last_reward------------->1", last_reward)
     if last_reward != "":
         currentTime = datetime.utcnow()
         last_reward = datetime.strptime(last_reward, "%m/%d/%y:%H-%M-%S")
@@ -499,13 +495,11 @@ def dailyClaim():
         if days < 1:
             return (jsonify({"message": "failed to claim the daily checkin"}), 400)
 
-    print("last_reward------------->", last_reward)
     if dailyCheckin > 6:
         dailyReward = 5000
     else:
         dailyReward = reward_array[dailyCheckin]
 
-    print("dailyReward------------->", dailyReward)
     dailyCheckin += 1
     user_ref.update({"dailyCheckin": dailyCheckin})
     user_ref.update({"last_reward": datetime.utcnow().strftime("%m/%d/%y:%H-%M-%S")})
@@ -541,7 +535,7 @@ def farmingClaim():
     total_score_doc = total_ref.document("farmingscore")
     total_data = total_score_doc.get().to_dict()
     farming_total_value = total_data.get("score", 0)
-    startFarming = user_data.get("startFarming", 0)
+    startFarming = user_data.get("startFarming", '')
 
     # get the time difference
     currentTime = int(datetime.utcnow())
@@ -558,10 +552,10 @@ def farmingClaim():
             farming_total_value += 1000
             total_score_doc.update({"score": int(farming_total_value)})
             user_ref.update({"totals": int(total_value)})
-            user_ref.update({"startFarming": 0})
-            return jsonify({"message": "Added the farming reward!"})
+            user_ref.update({"startFarming": ''})
+            return jsonify({"message": "Added the farming reward!"}), 200
 
-    return jsonify({"message": "failed to add the farming reward!"}), 200
+    return jsonify({"message": "failed to add the farming reward!"}), 400
 
 
 # farmingpoint API
