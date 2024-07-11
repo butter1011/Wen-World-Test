@@ -200,7 +200,11 @@ def farmingTime():
         user_id = str(request.args.get("user_id"))
         user_ref = db.collection("users").document(user_id)
         user_data = user_ref.get().to_dict()
-        farmingTime = user_data.get("startFarming", 0)
+        farmingTime = user_data.get("startFarming", '')
+        if farmingTime == '':
+            farmingTime = 0
+        else:
+            farmingTime = datetime.strptime(farmingTime, "%m/%d/%y:%H-%M-%S")
 
     return (jsonify({"farmingTime": farmingTime}), 200)
 
