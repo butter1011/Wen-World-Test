@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Game</title>
+    <!-- Telegram Web Apps JavaScript API -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         /* @font-face {
             font-family: 'PixelFont';
@@ -17,6 +19,7 @@
             padding: 0;
             overflow: hidden;
             background-color: black;
+            background-image: url("{{url_for('static', filename='img/background_index.png')}}");
             font-family: 'Avenir', sans-serif;
             font-weight: bold;
             display: flex;
@@ -349,7 +352,7 @@
             right: 2vh;
             width: 5vh;
             height: 5vh;
-            background-color: #00FFCF;
+            background: #575757;
             /* Updated color */
             color: black;
             border: none;
@@ -415,7 +418,7 @@
 
         #opening-page {
             position: absolute;
-            top: 50%;
+            top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
             color: white;
@@ -457,75 +460,69 @@
         /* Footer styles from tasks.html */
         .footer {
             display: flex;
-            justify-content: space-around;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
             padding: 5px 0;
             border-top: 1px solid #333;
             position: fixed;
-            bottom: 10px;
             width: 100%;
+            height: 250px;
+            gap: 20px;
+            border-radius: 50px 50px 0px 0px;
+            opacity: 0px;
+            bottom: 0px;
+            background: linear-gradient(180deg, #2A3A37 0%, #000000 100%);
+            box-shadow: 0px -4px 4px 0px #00FFCF;
             background-color: black;
-            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5);
-            height: 50px;
             z-index: 1000;
-            border-radius: 10px 10px 0 0;
         }
 
-        .footer .footer-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 2vh;
-            color: #aaa;
-            cursor: pointer;
-            padding: 2px 0;
-            flex: 1;
+        /* Start Game Button */
+        .start-game {
+            width: 90%;
+            height: 50px;
+            padding: 12px 0px 0px 0px;
+            border-radius: 16px 16px 16px 16px;
+            font-family: Inter;
+            font-size: 20px;
+            font-weight: 700;
+            background: #00FFCF;
+            color: black;
+            text-align: center;
         }
 
-        .footer .footer-item .icon {
-            font-size: 3vh;
-            margin-bottom: 2px;
+        .start-game:hover {
+            opacity: 90%;
         }
 
-        .footer .footer-item.active {
-            color: #fff;
+        .start-game:active {
+            box-shadow: 0 1px #fff;
+            transform: translateY(1px);
         }
     </style>
-    <!-- Telegram Web Apps JavaScript API -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
     <div id="opening-page">
+        <h3>WELCOME <br />TO WEN WORLD</h3>
         <div id="characters">
-            <img id="player-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1"
-                alt="Player">
-            <img id="good-coin-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/lpmmzradg397jl3uk0faf/Add-a-subheading-6.svg?rlkey=oyxoux29ln5qfjhm2chexir3d&raw=1"
+            <img id="good-coin-img" loading="lazy" src="{{url_for('static', filename='img/good-coin-img.png')}}"
                 alt="Good Coin">
-            <img id="bad-coin-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/ffprp1gne2k3qi9s65diq/Add-a-subheading-3.svg?rlkey=44ro7mwowu390lkjbyilkoqb8&raw=1"
+            <img id="bad-coin-img" loading="lazy" src="{{url_for('static', filename='img/bad-coin-img.png')}}"
                 alt="Bad Coin">
-            <img id="bull-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/dslt1d1kd7xwp6hypdgw8/.svg?rlkey=6g1snhasrq5fklpknwlsvpmes&raw=1"
-                alt="Bull">
-            <img id="bear-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/73ioipk50ixg9qld604rs/Add-a-subheading-32.png?rlkey=f24ub3dcyz2wbokphi5pg2l12&raw=1"
-                alt="Bear">
-            <img id="sam-bankman-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/tlsn0iioa257wbtf58lso/Add-a-subheading-29.png?rlkey=vwr7rc5m23ecjcc4dk443g9h4&raw=1"
+            <img id="bull-img" loading="lazy" src="{{url_for('static', filename='img/bull-img.png')}}" alt="Bull">
+            <img id="bear-img" loading="lazy" src="{{url_for('static', filename='img/bear-img.png')}}" alt="Bear">
+            <img id="sam-bankman-img" loading="lazy" src="{{url_for('static', filename='img/sam-bankman-img.png')}}"
                 alt="Sam Bankman">
-            <img id="triend-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/g2o9xn1qnshg54oupj38l/Add-a-subheading-7.svg?rlkey=lp9evhxzdwvxit2dik3qi0j9x&raw=1"
-                alt="Triend">
-            <img id="zkp-img" loading="lazy"
-                src="https://www.dropbox.com/scl/fi/4h2xc3pwt20dgcro6g9q8/Add-a-subheading-11.svg?rlkey=2se4mwne0p256k5rzh86l74zl&raw=1"
-                alt="ZKP">
+            <img id="triend-img" loading="lazy" src="{{url_for('static', filename='img/triend-img.png')}}" alt="Triend">
+            <img id="zkp-img" loading="lazy" src="{{url_for('static', filename='img/zkp-img.png')}}" alt="ZKP">
+            <img id="symbol-green" loading="lazy" src="{{url_for('static', filename='img/symbol_candle_green.png')}}"
+                alt="Green">
+            <img id="symbol-red" loading="lazy" src="{{url_for('static', filename='img/symbol_candle_red.png')}}"
+                alt="Red">
         </div>
-        <h1>Enter Wen World?</h1>
-        <button id="yes-button" onclick="startCountdown()">Yes</button>
-        <button id="no-button" onclick="showNoMessage()">No</button>
     </div>
     <div id="game-container">
         <canvas id="gameCanvas"></canvas>
@@ -1117,13 +1114,13 @@
             window.open(twitterUrl, 'Share on Twitter', 'height=600,width=800,resizable,scrollbars');
         }
 
-        function hideNavigationBar() {
-            document.getElementById('navigation-bar').style.display = 'none';
-        }
+        // function hideNavigationBar() {
+        //     document.getElementById('navigation-bar').style.display = 'none';
+        // }
 
-        function showNavigationBar() {
-            document.getElementById('navigation-bar').style.display = 'flex';
-        }
+        // function showNavigationBar() {
+        //     document.getElementById('navigation-bar').style.display = 'flex';
+        // }
 
         function startGame() {
             document.getElementById('opening-page').style.display = 'none';
@@ -1133,7 +1130,7 @@
             document.getElementById('score-breakdown').style.display = 'block';
             document.getElementById('health-container').style.display = 'flex';
             document.getElementById('end-and-bank-button').style.display = 'block';
-            hideNavigationBar();  // Hide the navigation bar when the game starts
+            // hideNavigationBar();  // Hide the navigation bar when the game starts
             resizeCanvas();
             changeTerrain(); // Set the initial terrain
             resetScores();
@@ -1154,6 +1151,7 @@
 
         function startCountdown() {
             document.getElementById('opening-page').style.display = 'none';
+            document.getElementById('footer').style.display = 'none';
             const countdownElement = document.getElementById('countdown');
             countdownElement.style.display = 'block';
             let countdown = 3;
@@ -1694,9 +1692,6 @@
 
         // displayLeaderboard();
 
-        document.getElementById('add-points-button').addEventListener('click', () => {
-            window.location.href = '/tasks';
-        });
         window.onclick = function (event) {
             if (!event.target.matches('#add-points-button') && !event.target.closest('#share-dropdown')) {
                 const dropdowns = document.getElementsByClassName("share-dropdown");
@@ -1746,33 +1741,22 @@
             }
         }
     </script>
-    <div class="footer" id="navigation-bar">
-        <div class="footer-item active" onclick="navigateToHome()">
-            <div class="icon">🌍</div>
-            <div>Wen</div>
-        </div>
-        <div class="footer-item" onclick="navigateTo('tasks')">
-            <div class="icon">📋</div>
-            <div>Tasks</div>
-        </div>
-        <div class="footer-item" onclick="navigateTo('leaderboard')">
-            <div class="icon">🤝</div>
-            <div>Leaderboard</div>
-        </div>
-        <div class="footer-item" onclick="navigateTo('profile')">
-            <div class="icon">👤</div>
-            <div>Profile</div>
-        </div>
-    </div>
-    <script>
-        function navigateTo(page) {
-            window.location.href = `/${page}`;
-        }
 
-        function navigateToHome() {
-            window.location.href = '/';
-        }
-    </script>
+    <div class="footer" id="footer">
+        <div
+            style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-left: 10px; margin-right: 10px;">
+            <img id="player-img" loading="lazy" src="{{url_for('static', filename='img/player-img.png')}}" alt="Player"
+                width="120px" height="120px">
+            <p style="font-family: Inter;
+            font-size: 20px;
+            line-height: 2rem;
+            font-weight: 400;
+            color: white;
+            text-align: left;
+            ">Welcome! Play to earn points. Tap to jump and get as high score as you can.</p>
+        </div>
+        <button class="start-game" onclick="startCountdown()">ENTER WEN WORLD</button>
+    </div>
 </body>
 
 </html>

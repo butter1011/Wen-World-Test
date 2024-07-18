@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    line-height: normal;
+  }
+  
+  :root {
+    /* fonts */
+    --font-inter: Inter;
+  
+    /* Colors */
+    --color-black: #000;
+    --color-white: #fff;
+  
+    /* Paddings */
+    --padding-2xs: 11px;
+    --padding-xl: 20px;
+    --padding-6xl: 25px;
+    --padding-3xs-3: 9.3px;
+    --padding-11xs-5: 1.5px;
+  
+    /* Border radiuses */
+    --br-31xl: 50px;
+  }

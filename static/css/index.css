@@ -1,0 +1,362 @@
+.bg-pattern-icon {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    margin: 0 !important;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+  }
+  .healthiconsinfo {
+    height: 64px;
+    width: 64px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+  .health-icons {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 0 6px;
+  }
+  .to-wen-world,
+  .welcome1 {
+    margin: 0;
+  }
+  .welcome-to-wen-container1 {
+    width: 100%;
+  }
+  .welcome-to-wen-container {
+    margin: 0;
+    width: 437px;
+    position: relative;
+    font-size: inherit;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    max-width: 100%;
+    z-index: 1;
+  }
+  .title {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0 var(--padding-6xl) 0 var(--padding-xl);
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+  .add-a-subheading-6 {
+    width: 56px;
+    height: 56px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .chart-elements {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-11xs-5) 0 0;
+  }
+  .add-a-subheading-3 {
+    width: 56px;
+    height: 56px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .chart-elements1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-11xs-5) 0 0;
+  }
+  .add-a-subheading-11 {
+    width: 56px;
+    height: 56px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+  .chart-elements2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-11xs-5) 0 0;
+  }
+  .chart-elements-child {
+    width: 56px;
+    height: 56px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+  .chart-elements3 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-11xs-5) 0 0;
+  }
+  .icon {
+    width: 56px;
+    height: 56px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .chart-elements4 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-11xs-5) 0 0;
+  }
+  .add-a-subheading-32 {
+    width: 56px;
+    height: 56px;
+    position: relative;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .chart-elements5 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-11xs-5) 0 0;
+  }
+  .add-a-subheading-29-1 {
+    width: 56px;
+    height: 56px;
+    position: relative;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .chart-elements6 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-11xs-5) 0 0;
+  }
+  .vector-icon {
+    height: 44px;
+    width: 38px;
+    position: relative;
+  }
+  .material-symbolscandlestick-c {
+    height: 59px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: var(--padding-3xs-3) var(--padding-2xs);
+    box-sizing: border-box;
+    z-index: 1;
+  }
+  .vector-icon1 {
+    height: 44px;
+    width: 38px;
+    position: relative;
+    object-fit: contain;
+  }
+  .material-symbolscandlestick-c1 {
+    height: 59px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: var(--padding-3xs-3) var(--padding-2xs);
+    box-sizing: border-box;
+    z-index: 1;
+  }
+  .chart-elements-parent {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 14px;
+  }
+  .left-content,
+  .right-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-width: 100%;
+  }
+  .right-content {
+    align-self: stretch;
+    align-items: flex-start;
+    gap: 22px;
+  }
+  .left-content {
+    flex: 1;
+    align-items: flex-end;
+    gap: 253px;
+  }
+  .main-content {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 0 21px 0 var(--padding-6xl);
+    box-sizing: border-box;
+    max-width: 100%;
+    text-align: center;
+    font-size: 48px;
+    color: var(--color-white);
+    font-family: var(--font-inter);
+  }
+  .frame-child {
+    width: 672px;
+    height: 402px;
+    position: relative;
+    box-shadow: 0-4px 4px #00ffcf;
+    border-radius: var(--br-31xl) var(--br-31xl) 0 0;
+    background: linear-gradient(180deg, #2a3a37, #000);
+    display: none;
+    max-width: 100%;
+  }
+  .comi-launch-2-1 {
+    height: 190px;
+    width: 190px;
+    position: relative;
+    object-fit: cover;
+    z-index: 2;
+  }
+  .welcome-play-to {
+    align-self: stretch;
+    position: relative;
+    z-index: 2;
+  }
+  .launch-description {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 0 0 22px;
+    box-sizing: border-box;
+    min-width: 283px;
+    max-width: 100%;
+  }
+  .comi-launch {
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
+    max-width: 100%;
+  }
+  .enter-wen-world {
+    position: relative;
+    text-transform: uppercase;
+  }
+  .button {
+    width: 608px;
+    border-radius: 32px;
+    background-color: #00ffcf;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 26px var(--padding-xl);
+    box-sizing: border-box;
+    max-width: 100%;
+    z-index: 2;
+    text-align: center;
+    font-size: 36px;
+    color: var(--color-black);
+    font-family: var(--font-inter);
+  }
+  .rectangle-parent,
+  .welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    box-sizing: border-box;
+  }
+  .rectangle-parent {
+    align-self: stretch;
+    box-shadow: 0-4px 4px #00ffcf;
+    border-radius: var(--br-31xl) var(--br-31xl) 0 0;
+    background: linear-gradient(180deg, #2a3a37, #000);
+    padding: var(--padding-2xs) 32px 77px 8px;
+    gap: 28px;
+    max-width: 100%;
+    z-index: 1;
+    text-align: left;
+    font-size: 32px;
+    color: var(--color-white);
+    font-family: var(--font-inter);
+  }
+  .welcome {
+    width: 100%;
+    position: relative;
+    background-color: var(--color-black);
+    overflow: hidden;
+    padding: 27px 0 0;
+    gap: 329px;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+  @media screen and (max-width: 650px) {
+    .chart-elements-parent {
+      flex-wrap: wrap;
+    }
+  }
+  @media screen and (max-width: 625px) {
+    .left-content {
+      gap: 126px;
+    }
+    .comi-launch-2-1 {
+      flex: 1;
+    }
+    .comi-launch {
+      flex-wrap: wrap;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    .left-content {
+      gap: 63px;
+    }
+    .rectangle-parent {
+      padding-top: var(--padding-xl);
+      padding-bottom: 50px;
+      box-sizing: border-box;
+    }
+    .welcome {
+      gap: 164px;
+    }
+  }
