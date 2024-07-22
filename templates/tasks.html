@@ -375,6 +375,71 @@
         .inviteFriend {
             font-size: 16px;
         }
+
+        #info-button {
+            position: absolute;
+            top: 2vh;
+            right: 2vh;
+            width: 5vh;
+            height: 5vh;
+            background: #575757;
+            /* Updated color */
+            color: black;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 2.5vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 101;
+        }
+
+        #info-modal {
+            align-items: center;
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        #info-modal-content {
+            width: 90%;
+            height: max-content;
+            color: white;
+            padding: 2rem;
+            overflow-y: auto;
+            margin-top: 10rem;
+            margin-bottom: 5rem;
+        }
+
+        #info-modal-content .tile_bg {
+            display: flex;
+            margin-bottom: 0.5rem;
+            gap: 10px;
+        }
+
+        #info-modal-content img {
+            height: 40px;
+            width: 40px;
+        }
+
+        #info-modal-content .blog {
+            width: 40%;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 20px;
+            border-radius: 20px 20px 20px 20px;
+            opacity: 0px;
+            background: #333333;
+        }
     </style>
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -383,6 +448,92 @@
 <body>
     <div class="header">
         TASKS
+    </div>
+    <button id="info-button">i</button>
+    <div id="info-modal">
+        <div id="info-modal-content">
+            <h2 style="font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            ">CURRENCY CHART</h2>
+            <div class="tile_bg">
+                <span class="blog">
+                    <img id="coin-img" loading="lazy" src="{{url_for('static', filename='img/good-coin-img.png')}}"
+                        alt="coin" width="120px" height="120px">
+                    +5TP
+                </span>
+                <span class="blog">
+                    <img id="coin-img" loading="lazy" src="{{url_for('static', filename='img/bad-coin-img.png')}}"
+                        alt="coin" width="120px" height="120px">
+                    From -40 to +40 TP
+                </span>
+            </div>
+
+            <div class="tile_bg">
+                <span class="blog">
+                    <img id="triend-img-info" loading="lazy" src="{{url_for('static', filename='img/triend-img.png')}}"
+                        alt="coin" width="120px" height="120px">
+                    +200 TP
+                </span>
+                <span class="blog">
+                    <img id="zkp-img-info" loading="lazy" src="{{url_for('static', filename='img/zkp-img.png')}}"
+                        alt="coin" width="120px" height="120px">
+                    100 TP
+                </span>
+            </div>
+
+            <div class="tile_bg">
+                <div class="blog" style="width: 100%!important;">
+                    <span>
+                        <img id="bull-img-info" loading="lazy" src="{{url_for('static', filename='img/bull-img.png')}}"
+                            alt="coin" width="120px" height="120px">
+                    </span>
+                    <span>
+                        Makes all <img id="bad-coin-img-info" loading="lazy"
+                            src="{{url_for('static', filename='img/bad-coin-img.png')}}" alt="coin"
+                            style="width: 20px;height: 20px;"> winners for 2 seconds!
+                    </span>
+                </div>
+            </div>
+
+            <div class="tile_bg">
+                <div class="blog" style="width: 100%!important;">
+                    <span>
+                        <img id="bear-img-info" loading="lazy" src="{{url_for('static', filename='img/bear-img.png')}}"
+                            alt="coin" width="120px" height="120px">
+                    </span>
+                    <span>
+                        Spawns <img id="bad-coin-img-info" loading="lazy"
+                            src="{{url_for('static', filename='img/sam-bankman-img.png')}}" alt="coin"
+                            style="width: 20px;height: 20px;"> , takes a life, and steals 50 TP
+                    </span>
+                </div>
+            </div>
+
+            <div class="tile_bg">
+                <div class="blog" style="width: 100%!important;">
+                    <img id="sam-bankman-img-info" loading="lazy"
+                        src="{{url_for('static', filename='img/sam-bankman-img.png')}}" alt="coin" width="120px"
+                        height="120px">
+                    Steals half your TP and takes a life
+                </div>
+            </div>
+
+            <div class="tile_bg">
+                <span class="blog" style="flex-direction: column !important;justify-content: left!important;">
+                    <img id="symbol_candle_green-info" loading="lazy"
+                        src="{{url_for('static', filename='img/symbol_candle_green.png')}}" alt="coin" width="120px"
+                        height="120px">
+                    Launch into the air!
+                </span>
+                <span class="blog" style="flex-direction: column !important;justify-content: left!important;">
+                    <img id="symbol_candle_red-info" loading="lazy"
+                        src="{{url_for('static', filename='img/symbol_candle_red.png')}}" alt="coin" width="120px"
+                        height="120px">
+                    Takes a life
+                </span>
+            </div>
+        </div>
     </div>
     <div class="container center">
         <div class="tasks">
@@ -429,8 +580,9 @@
 
             <div class="task">
                 <div class="center" style="flex-direction: row; gap: 20px;">
-                    <img id="task_twitter-img" loading="lazy" src="{{url_for('static', filename='img/task_twitter.png')}}"
-                        alt="coin" width="30px" height="30px">
+                    <img id="task_twitter-img" loading="lazy"
+                        src="{{url_for('static', filename='img/task_twitter.png')}}" alt="coin" width="30px"
+                        height="30px">
                     <div class="task-info">
                         <span class="task-title"> Join X</span>
                         <span class="task-points">+ 3500 points</span>
@@ -457,8 +609,9 @@
 
             <div class="task">
                 <div class="center" style="flex-direction: row; gap: 20px;">
-                    <img id="task_instagram-img" loading="lazy" src="{{url_for('static', filename='img/task_instagram.png')}}"
-                        alt="coin" width="30px" height="30px">
+                    <img id="task_instagram-img" loading="lazy"
+                        src="{{url_for('static', filename='img/task_instagram.png')}}" alt="coin" width="30px"
+                        height="30px">
                     <div class="task-info">
                         <span class="task-title">Join Instagram</span>
                         <span class="task-points">+ 3500 points</span>
@@ -471,8 +624,9 @@
 
             <div class="task">
                 <div class="center" style="flex-direction: row; gap: 20px;">
-                    <img id="task_discord-img" loading="lazy" src="{{url_for('static', filename='img/task_discord.png')}}"
-                        alt="coin" width="30px" height="30px">
+                    <img id="task_discord-img" loading="lazy"
+                        src="{{url_for('static', filename='img/task_discord.png')}}" alt="coin" width="30px"
+                        height="30px">
                     <div class="task-info">
                         <span class="task-title">Join Discord</span>
                         <span class="task-points">+ 3500 points</span>
@@ -563,6 +717,24 @@
     </div> -->
 
     <script>
+        const infoButton = document.getElementById("info-button");
+        const infoModal = document.getElementById("info-modal");
+        infoButton.onclick = function () {
+            infoButton.innerHTML = "<span class='close'>&times;</span>";
+            infoModal.style.display = "flex";
+            document.getElementById("opening-page").style.display = "none";
+            // document.getElementById("header").style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target === infoModal) {
+                infoModal.style.display = "none";
+                infoButton.innerHTML = "i";
+                infoModal.style.display = "none";
+                document.getElementById("opening-page").style.display = "flex";
+                // document.getElementById("header").style.display = "flex";
+            }
+        }
         async function inviteFriend() {
             user_id = 12345678;
             window.open(`https://t.me/share/url?url=https://t.me/wenworld_bot?startapp=${user_id}&text=Hey%20there!%F0%9F%8C%9F%0A%20Your%20go-to%20game%20for%20navigating%20the%20crypto%20market%20-%20travel%20the%20world,%20navigate%20the%20bull%20and%20bear%20market,%20and%20dodge%20the%20SEC!%20%F0%9F%8C%8D%F0%9F%93%88%F0%9F%9A%80.%0A%0A%20Start%20farming%20points%20now,%20and%20who%20knows%20what%20cool%20stuff%20you%27ll%20snag%20with%20them%20soon!%20%F0%9F%9A%80%0A%0A%20Got%20friends?%20Bring%20%27em%20in!%20The%20more,%20the%20errier!%20%F0%9F%8C%B1%0A%0A%20Remember:%20World%20of%20Wen%20is%20where%20growth%20thrives%20and%20endless%20opportunities%20are%20discovered!%20%F0%9F%8C%BC%0A%0A`);
@@ -757,48 +929,6 @@
                     console.error('Error:', error);
                 });
         }
-
-        const viewBtns = document.querySelectorAll(".view-modal"),
-            telegramBtn = document.querySelector(".view-modal-telegram"),
-            socialSharePopup = document.querySelector("#socialSharePopup"),
-            telegramSharePopup = document.querySelector("#telegramSharePopup"),
-            closeBtns = document.querySelectorAll(".close"),
-            field = document.querySelectorAll(".field"),
-            input = document.querySelectorAll("input"),
-            copyBtns = document.querySelectorAll("button.copy");
-
-        viewBtns.forEach(viewBtn => {
-            viewBtn.onclick = () => {
-                socialSharePopup.classList.toggle("show");
-            }
-        });
-
-        telegramBtn.onclick = () => {
-            telegramSharePopup.classList.toggle("show");
-        };
-
-        closeBtns.forEach(close => {
-            close.onclick = () => {
-                socialSharePopup.classList.remove("show");
-                telegramSharePopup.classList.remove("show");
-            }
-        });
-
-        copyBtns.forEach(copyBtn => {
-            copyBtn.onclick = () => {
-                const input = copyBtn.previousElementSibling;
-                input.select(); //select input value
-                if (document.execCommand("copy")) { //if the selected text is copied
-                    field.classList.add("active");
-                    copyBtn.innerText = "Copied";
-                    setTimeout(() => {
-                        window.getSelection().removeAllRanges(); //remove selection from page
-                        field.classList.remove("active");
-                        copyBtn.innerText = "Copy";
-                    }, 3000);
-                }
-            }
-        });
 
         function navigateTo(page) {
             window.location.href = `/${page}`;

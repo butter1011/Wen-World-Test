@@ -125,7 +125,7 @@
             border-radius: 10px;
         }
 
-        #game-over-screen .leaderboard-container{
+        #game-over-screen .leaderboard-container {
             height: max-content;
         }
 
@@ -323,7 +323,8 @@
             z-index: 10;
         }
 
-        #info-button {
+        #info-button,
+        #info-close {
             position: absolute;
             top: 2vh;
             right: 2vh;
@@ -352,7 +353,7 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.9);
         }
 
         #rule-modal {
@@ -667,6 +668,7 @@
                     From -40 to +40 TP
                 </span>
             </div>
+            <button id="info-close"><span class='close'>&times;</span></button>
 
             <div class="tile_bg">
                 <span class="blog">
@@ -814,7 +816,11 @@
         preload="auto"></audio>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-            console.log("DOM fully loaded and parsed");
+            // console.log("DOM fully loaded and parsed");
+            // const headerComponent = document.getElementById("header");
+            // if (localStorage.getItem("GameStart", 0) != 0)
+            //     headerComponent.style.display = "none";
+
             if (window.Telegram.WebApp) {
                 Telegram.WebApp.ready();
                 resizeCanvas();
@@ -1308,6 +1314,7 @@
         }
 
         function startGame() {
+            // localStorage.setItem("GameStart", Date.now());
             document.getElementById('opening-page').style.display = 'none';
             document.getElementById('gameCanvas').style.display = 'block';
             document.getElementById('ground').style.display = 'block';
@@ -1921,6 +1928,7 @@
 
         // Info modal script
         const infoButton = document.getElementById("info-button");
+        const infoClose = document.getElementById("info-close");
         const infoModal = document.getElementById("info-modal");
         const ruleBtn1 = document.getElementById("rule-step-1");
         const ruleBtn2 = document.getElementById("rule-step-2");
@@ -1953,10 +1961,21 @@
         }
 
         infoButton.onclick = function () {
-            infoButton.innerHTML = "<span class='close'>&times;</span>";
+            infoButton.innerHTML = "";
             infoModal.style.display = "flex";
+            document.getElementById("header").style.display = "none";
             document.getElementById("opening-page").style.display = "none";
             // document.getElementById("header").style.display = "none";
+        }
+
+        infoClose.onclick = function () {
+            infoModal.style.display = "none";
+            infoButton.innerHTML = "i";
+            infoModal.style.display = "none";
+            document.getElementById("opening-page").style.display = "flex";
+
+            // if (localStorage.getItem("GameStart", 0) == 0)
+            //     document.getElementById("header").style.display = "flex";
         }
 
         window.onclick = function (event) {
@@ -1965,7 +1984,9 @@
                 infoButton.innerHTML = "i";
                 infoModal.style.display = "none";
                 document.getElementById("opening-page").style.display = "flex";
-                // document.getElementById("header").style.display = "flex";
+
+                // if (localStorage.getItem("GameStart", 0) == 0)
+                //     document.getElementById("header").style.display = "flex";
             }
         }
 
