@@ -20,7 +20,7 @@
             margin: 0;
             padding: 0;
             background-color: black;
-            font-family: 'Avenir', sans-serif;
+            font-family: 'Inter';
             font-weight: bold;
             color: white;
             display: flex;
@@ -29,86 +29,82 @@
             justify-content: flex-start;
             height: 100%;
             overflow: hidden;
+            width: 100%;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
 
         .header {
+            margin-top: 70px;
+            display: flex;
+            justify-content: center;
             width: 100%;
-            max-width: 400px;
-            background: linear-gradient(135deg, #00FFCF 0%, #00FFCF 100%);
-            color: black;
-            padding: 10px 0;
-            text-align: center;
-            font-size: 5vh;
-            font-weight: bold;
-            border-radius: 0 0 20px 20px;
-            position: fixed;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 36px;
         }
 
         .container {
+            margin-top: 20px;
             width: 100%;
-            max-width: 400px;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
             text-align: center;
             padding: 20px;
             color: white;
-            margin-top: 90px;
             flex-grow: 1;
             display: flex;
+            padding: 5rem;
             flex-direction: column;
-            overflow: hidden;
-        }
-
-        .description {
-            font-size: 2.5vh;
-            color: #ccc;
-            margin-bottom: 20px;
+            overflow-y: overlay;
         }
 
         .tasks {
             margin-top: 10px;
-            overflow-y: auto;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
             flex-grow: 1;
-            max-height: calc(100vh - 200px);
-            padding-bottom: 60px;
         }
 
         .task {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 10px;
-            border-bottom: 1px solid #333;
+            background: #333333;
+            padding: 24px;
+            border-radius: 32px;
+            opacity: 0px;
         }
 
         .task .task-info {
+            text-align: left;
             display: flex;
             flex-direction: column;
-            text-align: left;
+            gap: 10px;
         }
 
         .task .task-info .task-title {
-            font-size: 2.5vh;
+            font-size: 20px;
             margin-bottom: 5px;
         }
 
         .task .task-info .task-points {
-            font-size: 2.5vh;
+            font-size: 16px;
             color: #00FFCF;
         }
 
         .task .task-action button {
-            background-color: #00FFCF;
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            font-size: 2.5vh;
-            cursor: pointer;
-            border-radius: 5px;
+            background: #575757;
+            padding: 1.4rem;
+            font-size: 20px;
+            color: white;
+            border-radius: 32px;
+            opacity: 0px;
         }
 
         .task .task-action button:hover {
@@ -386,22 +382,25 @@
 
 <body>
     <div class="header">
-        Triend Tasks
+        TASKS
     </div>
-    <div class="container">
-        <div class="description">
-            We will reward you immediately with points after each task completion.
-        </div>
+    <div class="container center">
         <div class="tasks">
             <div class="task">
-                <div class="task-info">
-                    <span class="task-title">Invite Frens</span>
-                    <span class="task-points">+ 4000 points per invite</span>
+                <div class="center" style="flex-direction: row; gap: 20px;">
+                    <img id="task_friend-img" loading="lazy" src="{{url_for('static', filename='img/task_friend.png')}}"
+                        alt="coin" width="30px" height="30px">
+                    <div class="task-info">
+                        <div>
+                            <span class="task-title">Invite frens 1</span>
+                            <span style="color: gray;">/10</span>
+                        </div>
+                        <span class="task-points">+4.000 TP per invite</span>
+                    </div>
                 </div>
                 <div class="task-action">
-                    <span class="inviteFriend" id="inviteText">- / -</span>
                     <!-- <button id="inviteFriend" class="view-modal-telegram" onclick="inviteFriend()">Start</button> -->
-                    <button id="inviteFriend" onclick="inviteFriend()">Start</button>
+                    <button id="inviteFriend" onclick="inviteFriend()">START</button>
                 </div>
             </div>
             <!-- <div class="task">
@@ -410,67 +409,92 @@
                     <span class="task-points">+ 2500 points</span>
                 </div>
                 <div class="task-action">
-                    <button class="view-modal">Start</button>
+                    <button class="view-modal">START</button>
                 </div>
             </div>
             -->
             <div class="task">
-                <div class="task-info">
-                    <span class="task-title">Follow Telegram Channel</span>
-                    <span class="task-points">+ 2500 points</span>
+                <div class="center" style="flex-direction: row; gap: 20px;">
+                    <img id="task_friend-img" loading="lazy" src="{{url_for('static', filename='img/task_friend.png')}}"
+                        alt="coin" width="30px" height="30px">
+                    <div class="task-info">
+                        <span class="task-title">Follow Telegram Channel</span>
+                        <span class="task-points">+ 2500 points</span>
+                    </div>
                 </div>
                 <div class="task-action">
-                    <button id="followTelegram" onclick="followTelegram()">Start</button>
+                    <button id="followTelegram" onclick="followTelegram()">START</button>
                 </div>
             </div>
+
             <div class="task">
-                <div class="task-info">
-                    <img src="https://www.dropbox.com/scl/fi/jpyepbtwu1xvjrdxxzvq3/Comi-Launch-1.svg?rlkey=37nd7btzwg407w8f2x1lujq7y&raw=1"
-                        alt="Logo" style="width: 20px; height: 20px; vertical-align: middle;">
-                    <span class="task-title"> Join X</span>
-                    <span class="task-points">+ 3500 points</span>
+                <div class="center" style="flex-direction: row; gap: 20px;">
+                    <img id="task_twitter-img" loading="lazy" src="{{url_for('static', filename='img/task_twitter.png')}}"
+                        alt="coin" width="30px" height="30px">
+                    <div class="task-info">
+                        <span class="task-title"> Join X</span>
+                        <span class="task-points">+ 3500 points</span>
+                    </div>
                 </div>
                 <div class="task-action">
-                    <button id="joinX" onclick="joinX()">Start</button>
+                    <button id="joinX" onclick="joinX()">START</button>
                 </div>
             </div>
+
             <div class="task">
-                <div class="task-info">
-                    <img src="https://www.dropbox.com/scl/fi/z771fhza2mxoxwfhgu5l8/Comi-Launch-2.svg?rlkey=wpinrfer98937pevzq0vh6ss8&raw=1"
-                        alt="Logo" style="width: 20px; height: 20px; vertical-align: middle;">
-                    <span class="task-title"> Join TikTok</span>
-                    <span class="task-points">+ 3500 points</span>
+                <div class="center" style="flex-direction: row; gap: 20px;">
+                    <img id="task_tiktok-img" loading="lazy" src="{{url_for('static', filename='img/task_tiktok.png')}}"
+                        alt="coin" width="30px" height="30px">
+                    <div class="task-info">
+                        <span class="task-title"> Join TikTok</span>
+                        <span class="task-points">+ 3500 points</span>
+                    </div>
                 </div>
                 <div class="task-action">
-                    <button id="joinTikTok" onclick="joinTikTok()">Start</button>
+                    <button id="joinTikTok" onclick="joinTikTok()">START</button>
                 </div>
             </div>
+
             <div class="task">
-                <div class="task-info">
-                    <span class="task-title">Join Instagram</span>
-                    <span class="task-points">+ 3500 points</span>
+                <div class="center" style="flex-direction: row; gap: 20px;">
+                    <img id="task_instagram-img" loading="lazy" src="{{url_for('static', filename='img/task_instagram.png')}}"
+                        alt="coin" width="30px" height="30px">
+                    <div class="task-info">
+                        <span class="task-title">Join Instagram</span>
+                        <span class="task-points">+ 3500 points</span>
+                    </div>
                 </div>
                 <div class="task-action">
-                    <button id="joinInstagram" onclick="joinInstagram()">Start</button>
+                    <button id="joinInstagram" onclick="joinInstagram()">START</button>
                 </div>
             </div>
+
             <div class="task">
-                <div class="task-info">
-                    <span class="task-title">Join Discord</span>
-                    <span class="task-points">+ 3500 points</span>
+                <div class="center" style="flex-direction: row; gap: 20px;">
+                    <img id="task_discord-img" loading="lazy" src="{{url_for('static', filename='img/task_discord.png')}}"
+                        alt="coin" width="30px" height="30px">
+                    <div class="task-info">
+                        <span class="task-title">Join Discord</span>
+                        <span class="task-points">+ 3500 points</span>
+                    </div>
                 </div>
                 <div class="task-action">
-                    <button id="joinDiscord" onclick="joinDiscord()">Start</button>
+                    <button id="joinDiscord" onclick="joinDiscord()">START</button>
                 </div>
             </div>
+
             <div class="task">
-                <div class="task-info">
-                    <span class="task-title">Learn About Triend</span>
-                    <span class="task-points">+ 3500 points</span>
-                    <!-- triend.io -->
+                <div class="center" style="flex-direction: row; gap: 20px;">
+                    <img id="task_triend-img" loading="lazy" src="{{url_for('static', filename='img/task_triend.png')}}"
+                        alt="coin" width="30px" height="30px">
+                    <div class="task-info">
+                        <span class="task-title">Learn About Triend</span>
+                        <span class="task-points">+ 3500 points</span>
+                        <!-- triend.io -->
+                    </div>
                 </div>
                 <div class="task-action">
-                    <button id="learnAbout" onclick="learnClick()">Start</button>
+                    <button id="learnAbout" onclick="learnClick()">START</button>
                 </div>
             </div>
         </div>
