@@ -20,7 +20,7 @@
             overflow: hidden;
             background-color: black;
             background-image: url("{{url_for('static', filename='img/background_index.png')}}");
-            font-family: 'Avenir', sans-serif;
+            font-family: 'Inter';
             font-weight: bold;
             display: flex;
             flex-direction: column;
@@ -32,7 +32,6 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            font-family: Inter;
         }
 
         #game-container {
@@ -47,7 +46,6 @@
         }
 
         #countdown {
-            font-family: 'PixelFont', sans-serif;
             font-size: 10vh;
             color: #ff00ff;
             text-align: center;
@@ -124,14 +122,7 @@
             text-align: center;
             display: none;
             background-color: black;
-            padding: 2vh;
             border-radius: 10px;
-        }
-
-        #game-over {
-            font-size: 5vh;
-            color: red;
-            padding: 2vh;
         }
 
         .game-stats {
@@ -157,40 +148,17 @@
             background-color: #444;
         }
 
-        /* .leaderboard-container {
-            margin: 0 auto;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-            text-align: center;
-            padding: 20px;
-            color: white;
-            max-height: 60vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .leaderboard-header {
-            background-color: #00FFCF;
-            color: black;
-            padding: 10px 0;
-            border-radius: 10px 10px 0 0;
-            font-size: 4vh;
-            font-weight: bold;
-            position: sticky;
-            top: 0;
-            z-index: 1;
-        } */
-
         .score-section {
-            margin: 20px 0;
+            flex-direction: row !important;
+            margin: 10px;
+            gap: 10px;
+            font-size: 20px;
         }
 
-        .score-section h2 {
+        #final-score {
             margin: 5px 0;
-            font-size: 5vh;
-            color: #00FFCF;
-            /* Updated color */
+            font-size: 3vh;
+            color: #FFFFFF;
         }
 
         .game-stats {
@@ -387,7 +355,6 @@
             display: flex;
             position: absolute;
             flex-direction: column;
-            font-family: Inter;
             align-items: center;
             justify-content: center;
             height: 100%;
@@ -406,6 +373,14 @@
             width: 80%;
             background: #333333;
             box-shadow: 0px -4px 4px 0px #00FFCF;
+        }
+
+        .modal_type1 .score {
+            padding: 24px 32px 24px 32px;
+            gap: 8px;
+            border-radius: 24px 24px 24px 24px;
+            opacity: 0px;
+            background: #2A2A2A;
         }
 
         #rule-modal img {
@@ -445,7 +420,6 @@
             align-items: center;
             gap: 1rem;
             font-size: 20px;
-            font-family: Inter;
             border-radius: 20px 20px 20px 20px;
             opacity: 0px;
             background: #333333;
@@ -543,9 +517,7 @@
         .green_btn {
             width: 90%;
             height: 50px;
-            padding: 12px 0px 0px 0px;
             border-radius: 16px 16px 16px 16px;
-            font-family: Inter;
             font-size: 20px;
             font-weight: 700;
             background: #00FFCF;
@@ -648,63 +620,33 @@
     <div id="zkp-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points</div>
     <div id="triend-message" class="message" style="color: green;">200 Triend points collected</div>
     <div id="game-over-screen" class="center">
-        <div class="leaderboard-container modal_type1 ">
-            <h2 id="game-over" style="color: red;">Game Over</h2>
-            <div class="leaderboard-header">
-                My Wen Scores
+        <div class="leaderboard-container modal_type1" style="font-size: 36px; gap: 20px;">
+            <div style="margin-top: 20px;">
+                <span>❌</span>
             </div>
-            <div class="score-section">
-                <h2 id="final-score">0</h2>
+            <div id="game-over" style="margin-top: 10px;">
+                <span style="color: white;">GAME</span>
+                <span style="color: red;">OVER</span>
             </div>
-            <!-- <div class="tabs">
-                <div class="tab active" onclick="showTab('high-scores')">High Scores</div>
-                <div class="tab" onclick="showTab('total-points')">Total Points</div>
+            <div class="leaderboard-header" style="color:gray; font-size: 24px; margin-top: 10px;">
+                Scores:
             </div>
-            <div class="game-stats">
-                <div id="high-scores" class="tab-content active">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Player</th>
-                                <th>Score</th>
-                            </tr>
-                        </thead>
-                        <tbody id="high-scores-list">
-                        </tbody>
-                    </table>
-                </div>
-                <div id="total-points" class="tab-content">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Player</th>
-                                <th>Score</th>
-                            </tr>
-                        </thead>
-                        <tbody id="total-points-list">
-                        </tbody>
-                    </table>
-                </div>
-            </div> -->
+            <h2 id="final-score">0</h2>
+            <div class="center score-section">
+                <span class=" score">Best: 15.333</span>
+                <span class="score">Rank: 1.567</span>
+            </div>
+            <div class="center" style="gap:10px;">
+                <button class="center green_btn">GET MORE POINTS</button>
+                <button class="center green_btn">BRAG 😏</button>
+                <button class="center green_btn" onclick="restartGame()">PLAY AGAIN</button>
+            </div>
         </div>
-        <!-- <div class="buttons">
-            <div id="add-points-button" class="my-progress">Add Points
-                <div id="share-dropdown" class="share-dropdown">
-                    <a href="#" onclick="shareOnDiscord()">Discord</a>
-                    <a href="#" onclick="shareOnTelegram()">Telegram</a>
-                    <a href="#" onclick="shareOnTwitter()">Twitter</a>
-                </div>
-            </div>
-            <button class="my-progress" onclick="restartGame()">Play Again</button>
-        </div> -->
     </div>
     </div>
     <div id="info-modal">
         <div id="info-modal-content">
-            <h2 style="font-family: Inter;
-            font-size: 32px;
+            <h2 style="font-size: 32px;
             font-weight: 700;
             text-align: center;
             ">CURRENCY CHART</h2>
@@ -1474,6 +1416,7 @@
             document.getElementById('score-breakdown').style.display = 'none';
             document.getElementById('health-container').style.display = 'none';
             document.getElementById('end-and-bank-button').style.display = 'none';
+            // document.getElementById('footer').style.display = 'none';
             showNavigationBar();  // Show the navigation bar when the game ends
             if (todayScore > allTimeTopScore) {
                 allTimeTopScore = todayScore;
@@ -2008,7 +1951,7 @@
             infoButton.innerHTML = "<span class='close'>&times;</span>";
             infoModal.style.display = "flex";
             document.getElementById("opening-page").style.display = "none";
-            document.getElementById("header").style.display = "none";
+            // document.getElementById("header").style.display = "none";
         }
 
         window.onclick = function (event) {
@@ -2017,7 +1960,7 @@
                 infoButton.innerHTML = "i";
                 infoModal.style.display = "none";
                 document.getElementById("opening-page").style.display = "flex";
-                document.getElementById("header").style.display = "flex";
+                // document.getElementById("header").style.display = "flex";
             }
         }
     </script>
@@ -2027,8 +1970,7 @@
             style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-left: 10px; margin-right: 10px;">
             <img id="player-img" loading="lazy" src="{{url_for('static', filename='img/player-img.png')}}" alt="Player"
                 width="120px" height="120px">
-            <p style="font-family: Inter;
-            font-size: 20px;
+            <p style="font-size: 20px;
             line-height: 2rem;
             font-weight: 400;
             color: white;
