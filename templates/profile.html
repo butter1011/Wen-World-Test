@@ -164,6 +164,7 @@
             justify-content: center;
         }
 
+        /* Footer */
         .footer {
             display: flex;
             justify-content: space-around;
@@ -171,14 +172,15 @@
             padding: 5px 0;
             border-top: 1px solid #333;
             width: 100%;
-            max-width: 400px;
             background-color: black;
-            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5);
             height: 50px;
             position: fixed;
             bottom: 10px;
             border-radius: 15px;
-            margin: 0 10px;
+            border-radius: 50px 50px 0px 0px;
+            opacity: 0px;
+            background: linear-gradient(360deg, #000000 0%, #2A3A37 100%);
+            box-shadow: 0px -4px 4px 0px #00FFCF;
         }
 
         .footer .footer-item {
@@ -371,22 +373,22 @@
             </div>
         </div>
     </div>
-    <div class="footer" id="navigation-bar">
+    <div class="footer" id="footer">
         <div class="footer-item active" onclick="navigateToHome()">
             <div class="icon">🌍</div>
-            <div>Wen</div>
+            <div>PLAY</div>
         </div>
         <div class="footer-item" onclick="navigateTo('tasks')">
-            <div class="icon">📋</div>
-            <div>Tasks</div>
+            <div class="icon">💰</div>
+            <div>EARN</div>
         </div>
         <div class="footer-item" onclick="navigateTo('leaderboard')">
-            <div class="icon">🤝</div>
-            <div>Leaderboard</div>
+            <div class="icon">🥇</div>
+            <div>RANK</div>
         </div>
         <div class="footer-item" onclick="navigateTo('profile')">
             <div class="icon">👤</div>
-            <div>Profile</div>
+            <div>PROFILE</div>
         </div>
     </div>
 

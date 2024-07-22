@@ -125,6 +125,10 @@
             border-radius: 10px;
         }
 
+        #game-over-screen .leaderboard-container{
+            height: max-content;
+        }
+
         .game-stats {
             margin-top: 10px;
             font-size: 2.5vh;
@@ -368,7 +372,7 @@
         .modal_type1 {
             font-size: 20px;
             color: white;
-            height: 500px;
+            height: max-content;
             border-radius: 50px 50px 50px 50px;
             width: 80%;
             background: #333333;
@@ -519,6 +523,7 @@
             height: 50px;
             border-radius: 16px 16px 16px 16px;
             font-size: 20px;
+            padding: 1rem;
             font-weight: 700;
             background: #00FFCF;
             color: black;
@@ -636,7 +641,7 @@
                 <span class=" score">Best: 15.333</span>
                 <span class="score">Rank: 1.567</span>
             </div>
-            <div class="center" style="gap:10px;">
+            <div class="center" style="gap:10px;padding:1rem;">
                 <button class="center green_btn">GET MORE POINTS</button>
                 <button class="center green_btn">BRAG 😏</button>
                 <button class="center green_btn" onclick="restartGame()">PLAY AGAIN</button>
@@ -1294,13 +1299,13 @@
             window.open(twitterUrl, 'Share on Twitter', 'height=600,width=800,resizable,scrollbars');
         }
 
-        // function hideNavigationBar() {
-        //     document.getElementById('footer').style.display = 'none';
-        // }
+        function hideNavigationBar() {
+            document.getElementById('footer').style.display = 'none';
+        }
 
-        // function showNavigationBar() {
-        //     document.getElementById('footer').style.display = 'flex';
-        // }
+        function showNavigationBar() {
+            document.getElementById('footer').style.display = 'flex';
+        }
 
         function startGame() {
             document.getElementById('opening-page').style.display = 'none';
@@ -1897,22 +1902,22 @@
         }
 
         // Function to highlight the active page in the navigation bar
-        // function highlightCurrentPage() {
-        //     const navItems = document.querySelectorAll('.footer .footer-item');
-        //     const currentPage = window.location.pathname;
+        function highlightCurrentPage() {
+            const navItems = document.querySelectorAll('.footer .footer-item');
+            const currentPage = window.location.pathname;
 
-        //     navItems.forEach(item => {
-        //         const itemPage = item.getAttribute('onclick').match(/navigateTo\('(.*)'\)/)[1];
-        //         if ((itemPage === '' && currentPage === '/') || currentPage.includes(itemPage)) {
-        //             item.classList.add('active');
-        //         } else {
-        //             item.classList.remove('active');
-        //         }
-        //     });
-        // }
+            navItems.forEach(item => {
+                const itemPage = item.getAttribute('onclick').match(/navigateTo\('(.*)'\)/)[1];
+                if ((itemPage === '' && currentPage === '/') || currentPage.includes(itemPage)) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
 
         // Call the function on page load
-        // highlightCurrentPage();
+        highlightCurrentPage();
 
         // Info modal script
         const infoButton = document.getElementById("info-button");
@@ -1962,6 +1967,14 @@
                 document.getElementById("opening-page").style.display = "flex";
                 // document.getElementById("header").style.display = "flex";
             }
+        }
+
+        function navigateTo(page) {
+            window.location.href = `/${page}`;
+        }
+
+        function navigateToHome() {
+            window.location.href = '/';
         }
     </script>
 
