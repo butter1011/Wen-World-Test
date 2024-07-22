@@ -117,11 +117,9 @@
         }
 
         #game-over-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
+            position: absolute;
             color: white;
             text-align: center;
             display: none;
@@ -159,7 +157,7 @@
             background-color: #444;
         }
 
-        .leaderboard-container {
+        /* .leaderboard-container {
             margin: 0 auto;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
@@ -174,7 +172,6 @@
 
         .leaderboard-header {
             background-color: #00FFCF;
-            /* Updated color */
             color: black;
             padding: 10px 0;
             border-radius: 10px 10px 0 0;
@@ -183,7 +180,7 @@
             position: sticky;
             top: 0;
             z-index: 1;
-        }
+        } */
 
         .score-section {
             margin: 20px 0;
@@ -383,7 +380,7 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         #rule-modal {
@@ -397,8 +394,11 @@
             width: 100%;
         }
 
-        #rule-content1, #rule-content2, #rule-content3, #rule-content4 {
+        #rule-modal .modal_type1 {
             display: none;
+        }
+
+        .modal_type1 {
             font-size: 20px;
             color: white;
             height: 500px;
@@ -421,7 +421,10 @@
             width: 90%;
             height: max-content;
             color: white;
+            padding: 2rem;
             overflow-y: auto;
+            margin-top: 10rem;
+            margin-bottom: 5rem;
         }
 
         #info-modal-content .tile_bg {
@@ -644,16 +647,16 @@
         remaining!</div>
     <div id="zkp-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points</div>
     <div id="triend-message" class="message" style="color: green;">200 Triend points collected</div>
-    <div id="game-over-screen">
-        <div id="game-over" style="color: red;">Game Over</div>
-        <div class="leaderboard-container">
+    <div id="game-over-screen" class="center">
+        <div class="leaderboard-container modal_type1 ">
+            <h2 id="game-over" style="color: red;">Game Over</h2>
             <div class="leaderboard-header">
                 My Wen Scores
             </div>
             <div class="score-section">
                 <h2 id="final-score">0</h2>
             </div>
-            <div class="tabs">
+            <!-- <div class="tabs">
                 <div class="tab active" onclick="showTab('high-scores')">High Scores</div>
                 <div class="tab" onclick="showTab('total-points')">Total Points</div>
             </div>
@@ -684,9 +687,9 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> -->
         </div>
-        <div class="buttons">
+        <!-- <div class="buttons">
             <div id="add-points-button" class="my-progress">Add Points
                 <div id="share-dropdown" class="share-dropdown">
                     <a href="#" onclick="shareOnDiscord()">Discord</a>
@@ -695,7 +698,7 @@
                 </div>
             </div>
             <button class="my-progress" onclick="restartGame()">Play Again</button>
-        </div>
+        </div> -->
     </div>
     </div>
     <div id="info-modal">
@@ -786,10 +789,11 @@
     </div>
 
     <div id="rule-modal">
-        <div id="rule-content1" class="center" style="justify-content: space-between;">
+        <div id="rule-content1" class="center modal_type1" style="justify-content: space-between;">
             <div class="center">
                 <p class="center">
-                    <img id="rule-img-1" loading="lazy" src="{{url_for('static', filename='img/rule-1.png')}}" alt="Rule">
+                    <img id="rule-img-1" loading="lazy" src="{{url_for('static', filename='img/rule-1.png')}}"
+                        alt="Rule">
                 </p>
                 <div style="margin: 2rem;color:white">
                     <p>
@@ -803,7 +807,7 @@
             <button class="green_btn" style="margin-bottom: 2rem;" id="rule-step-1">NEXT</button>
         </div>
 
-        <div id="rule-content2" class="center" style="justify-content: space-between;">
+        <div id="rule-content2" class="center modal_type1" style="justify-content: space-between;">
             <div class="center">
                 <p class="center">
                     <img id="rule-img-2" loading="lazy" src="{{url_for('static', filename='img/rule-2.png')}}"
@@ -821,7 +825,7 @@
             <button class="green_btn" style="margin-bottom: 2rem;" id="rule-step-2">NEXT</button>
         </div>
 
-        <div id="rule-content3" class="center" style="justify-content: space-between;">
+        <div id="rule-content3" class="center modal_type1" style="justify-content: space-between;">
             <div class="center">
                 <p class="center">
                     <img id="rule-img-3" loading="lazy" src="{{url_for('static', filename='img/rule-3.png')}}"
@@ -839,7 +843,7 @@
             <button class="green_btn" style="margin-bottom: 2rem;" id="rule-step-3">NEXT</button>
         </div>
 
-        <div id="rule-content4" class="center" style="justify-content: space-between;">
+        <div id="rule-content4" class="center modal_type1" style="justify-content: space-between;">
             <div class="center">
                 <p class="center">
                     <img id="rule-img-4" loading="lazy" src="{{url_for('static', filename='img/rule-4.png')}}"
@@ -1248,49 +1252,49 @@
         }
 
         // get the all the score value
-        async function displayLeaderboard(leaderboard) {
-            const highScorelist = document.getElementById('high-scores-list');
-            const totalScorelist = document.getElementById('total-points-list');
+        // async function displayLeaderboard(leaderboard) {
+        //     const highScorelist = document.getElementById('high-scores-list');
+        //     const totalScorelist = document.getElementById('total-points-list');
 
-            highScorelist.innerHTML = '';
-            totalScorelist.innerHTML = '';
+        //     highScorelist.innerHTML = '';
+        //     totalScorelist.innerHTML = '';
 
-            await fetch('https://wen-world-test.onrender.com/api/v1/highscore_data', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
-                        const highlistItem = document.createElement('tr');
-                        highlistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
-                        highScorelist.appendChild(highlistItem);
-                    });
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+        //     await fetch('https://wen-world-test.onrender.com/api/v1/highscore_data', {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //     })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+        //                 const highlistItem = document.createElement('tr');
+        //                 highlistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
+        //                 highScorelist.appendChild(highlistItem);
+        //             });
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error:', error);
+        //         });
 
-            await fetch('https://wen-world-test.onrender.com/api/v1/totalscore_data', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
-                        const totallistItem = document.createElement('tr');
-                        totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.total}</td>`;
-                        totalScorelist.appendChild(totallistItem);
-                    });
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        }
+        //     await fetch('https://wen-world-test.onrender.com/api/v1/totalscore_data', {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //     })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
+        //                 const totallistItem = document.createElement('tr');
+        //                 totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.total}</td>`;
+        //                 totalScorelist.appendChild(totallistItem);
+        //             });
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error:', error);
+        //         });
+        // }
 
         async function saveScore() {
             // const playerName = "matt"; 
@@ -1314,7 +1318,7 @@
                         console.error('Error:', error);
                     });
 
-                await displayLeaderboard();
+                // await displayLeaderboard();
             }
         }
 
@@ -1364,7 +1368,7 @@
             document.getElementById('score-breakdown').style.display = 'block';
             document.getElementById('health-container').style.display = 'flex';
             document.getElementById('end-and-bank-button').style.display = 'block';
-            document.getElementById('footer').style.display = 'none';   
+            document.getElementById('footer').style.display = 'none';
             // hideNavigationBar();  // Hide the navigation bar when the game starts
             resizeCanvas();
             changeTerrain(); // Set the initial terrain
@@ -1462,8 +1466,10 @@
             await saveScore();
 
             updateScore();
+            document.getElementById('footer').style.display = 'flex';
             document.getElementById('final-score').innerText = todayScore;
-            document.getElementById('game-over-screen').style.display = 'block';
+            document.getElementById('game-over-screen').style.display = 'flex';
+            document.getElementById('info-button').style.display = 'flex';
             document.getElementById('score').style.display = 'none';
             document.getElementById('score-breakdown').style.display = 'none';
             document.getElementById('health-container').style.display = 'none';
