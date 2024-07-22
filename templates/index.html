@@ -325,6 +325,7 @@
 
         #info-button,
         #info-close {
+            display: none;
             position: absolute;
             top: 2vh;
             right: 2vh;
@@ -337,7 +338,6 @@
             border-radius: 50%;
             cursor: pointer;
             font-size: 2.5vh;
-            display: flex;
             align-items: center;
             justify-content: center;
             z-index: 10;
@@ -1343,6 +1343,7 @@
         }
 
         function enterGame() {
+            document.getElementById('info-button').style.display = 'flex';
             document.getElementById('opening-page').style.display = 'none';
             document.getElementById('header').style.display = 'none';
             document.getElementById('footer').style.display = 'flex';
