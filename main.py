@@ -50,7 +50,6 @@ def leaderboard_page():
 def tasks_page():
     return render_template("tasks.html")
 
-
 # Test route
 @app.route("/profile")
 def profile_page():

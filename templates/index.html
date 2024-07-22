@@ -27,6 +27,14 @@
             height: 100%;
         }
 
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: Inter;
+        }
+
         #game-container {
             flex: 1;
             display: flex;
@@ -366,6 +374,7 @@
         }
 
         #info-modal {
+            align-items: center;
             display: none;
             position: fixed;
             z-index: 100;
@@ -374,25 +383,73 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        #rule-modal {
+            display: flex;
+            position: absolute;
+            flex-direction: column;
+            font-family: Inter;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        #rule-content1, #rule-content2, #rule-content3, #rule-content4 {
+            display: none;
+            font-size: 20px;
+            color: white;
+            height: 500px;
+            border-radius: 50px 50px 50px 50px;
+            width: 80%;
+            background: #333333;
+            box-shadow: 0px -4px 4px 0px #00FFCF;
+        }
+
+        #rule-modal img {
+            width: 90%;
+            height: auto;
+            background: #000000;
+            border-radius: 20px 20px 20px 20px;
+            opacity: 0px;
+            margin: 10px;
         }
 
         #info-modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            border-radius: 10px;
-            font-size: 2.5vh;
-            color: black;
+            width: 90%;
+            height: max-content;
+            color: white;
             overflow-y: auto;
-            max-height: 60vh;
+        }
+
+        #info-modal-content .tile_bg {
+            display: flex;
+            margin-bottom: 0.5rem;
+            gap: 10px;
+        }
+
+        #info-modal-content img {
+            height: 40px;
+            width: 40px;
+        }
+
+        #info-modal-content .blog {
+            width: 40%;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 20px;
+            font-family: Inter;
+            border-radius: 20px 20px 20px 20px;
+            opacity: 0px;
+            background: #333333;
         }
 
         .close {
-            color: #aaa;
+            color: black;
             float: right;
             font-size: 28px;
             font-weight: bold;
@@ -417,6 +474,7 @@
         }
 
         #opening-page {
+            flex-direction: column;
             position: absolute;
             top: 40%;
             left: 50%;
@@ -458,7 +516,7 @@
         }
 
         /* Footer styles from tasks.html */
-        .footer {
+        .header {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -479,7 +537,7 @@
         }
 
         /* Start Game Button */
-        .start-game {
+        .green_btn {
             width: 90%;
             height: 50px;
             padding: 12px 0px 0px 0px;
@@ -492,13 +550,52 @@
             text-align: center;
         }
 
-        .start-game:hover {
+        .green_btn:hover {
             opacity: 90%;
         }
 
-        .start-game:active {
+        .green_btn:active {
             box-shadow: 0 1px #fff;
             transform: translateY(1px);
+        }
+
+        /* Footer */
+        .footer {
+            display: none;
+            justify-content: space-around;
+            align-items: center;
+            padding: 5px 0;
+            border-top: 1px solid #333;
+            width: 100%;
+            background-color: black;
+            height: 50px;
+            position: fixed;
+            bottom: 10px;
+            border-radius: 15px;
+            border-radius: 50px 50px 0px 0px;
+            opacity: 0px;
+            background: linear-gradient(360deg, #000000 0%, #2A3A37 100%);
+            box-shadow: 0px -4px 4px 0px #00FFCF;
+        }
+
+        .footer .footer-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 2vh;
+            color: #aaa;
+            cursor: pointer;
+            padding: 2px 0;
+            flex: 1;
+        }
+
+        .footer .footer-item .icon {
+            font-size: 3vh;
+            margin-bottom: 2px;
+        }
+
+        .footer .footer-item.active {
+            color: #fff;
         }
     </style>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -571,7 +668,6 @@
                             </tr>
                         </thead>
                         <tbody id="high-scores-list">
-                            <!-- High scores data will be appended here -->
                         </tbody>
                     </table>
                 </div>
@@ -585,7 +681,6 @@
                             </tr>
                         </thead>
                         <tbody id="total-points-list">
-                            <!-- Total points data will be appended here -->
                         </tbody>
                     </table>
                 </div>
@@ -605,26 +700,165 @@
     </div>
     <div id="info-modal">
         <div id="info-modal-content">
-            <span class="close">&times;</span>
-            <h2>🚀 Welcome to Wen World!</h2>
-            <p>Click to jump and get as high of a score as you can! Check where you stand on the leaderboard and boost
-                your total score by completing tasks!</p>
+            <h2 style="font-family: Inter;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            ">CURRENCY CHART</h2>
+            <div class="tile_bg">
+                <span class="blog">
+                    <img id="coin-img" loading="lazy" src="{{url_for('static', filename='img/good-coin-img.png')}}"
+                        alt="coin" width="120px" height="120px">
+                    +5TP
+                </span>
+                <span class="blog">
+                    <img id="coin-img" loading="lazy" src="{{url_for('static', filename='img/bad-coin-img.png')}}"
+                        alt="coin" width="120px" height="120px">
+                    From -40 to +40 TP
+                </span>
+            </div>
 
+            <div class="tile_bg">
+                <span class="blog">
+                    <img id="triend-img-info" loading="lazy" src="{{url_for('static', filename='img/triend-img.png')}}"
+                        alt="coin" width="120px" height="120px">
+                    +200 TP
+                </span>
+                <span class="blog">
+                    <img id="zkp-img-info" loading="lazy" src="{{url_for('static', filename='img/zkp-img.png')}}"
+                        alt="coin" width="120px" height="120px">
+                    100 TP
+                </span>
+            </div>
 
-            <p>💰Coins: +5 TP</p>
-            <p>💩 Coins: -40 to +40 TP</p>
-            <p>Triend token: +200 TP</p>
-            <p>ZKP: +100 TP</p>
-            <p>🐂Bulls: Makes all 💩 Coins winners for 2 seconds!</p>
-            <p>🐻Bears: Spawns Sammy, takes a life, and steals 50 TP</p>
-            <p>🥷Sammy: Steals half your TP and takes a life</p>
-            <p>Red Candle: Takes a life</p>
-            <p>Green Candle: Launch into the air!</p>
-            <h3>❤️ Keeping Your Score Safe</h3>
-            <p>End and Bank: Secure your score and end the game</p>
+            <div class="tile_bg">
+                <div class="blog" style="width: 100%!important;">
+                    <span>
+                        <img id="bull-img-info" loading="lazy" src="{{url_for('static', filename='img/bull-img.png')}}"
+                            alt="coin" width="120px" height="120px">
+                    </span>
+                    <span>
+                        Makes all <img id="bad-coin-img-info" loading="lazy"
+                            src="{{url_for('static', filename='img/bad-coin-img.png')}}" alt="coin"
+                            style="width: 20px;height: 20px;"> winners for 2 seconds!
+                    </span>
+                </div>
+            </div>
+
+            <div class="tile_bg">
+                <div class="blog" style="width: 100%!important;">
+                    <span>
+                        <img id="bear-img-info" loading="lazy" src="{{url_for('static', filename='img/bear-img.png')}}"
+                            alt="coin" width="120px" height="120px">
+                    </span>
+                    <span>
+                        Spawns <img id="bad-coin-img-info" loading="lazy"
+                            src="{{url_for('static', filename='img/sam-bankman-img.png')}}" alt="coin"
+                            style="width: 20px;height: 20px;"> , takes a life, and steals 50 TP
+                    </span>
+                </div>
+            </div>
+
+            <div class="tile_bg">
+                <div class="blog" style="width: 100%!important;">
+                    <img id="sam-bankman-img-info" loading="lazy"
+                        src="{{url_for('static', filename='img/sam-bankman-img.png')}}" alt="coin" width="120px"
+                        height="120px">
+                    Steals half your TP and takes a life
+                </div>
+            </div>
+
+            <div class="tile_bg">
+                <span class="blog" style="flex-direction: column !important;justify-content: left!important;">
+                    <img id="symbol_candle_green-info" loading="lazy"
+                        src="{{url_for('static', filename='img/symbol_candle_green.png')}}" alt="coin" width="120px"
+                        height="120px">
+                    Launch into the air!
+                </span>
+                <span class="blog" style="flex-direction: column !important;justify-content: left!important;">
+                    <img id="symbol_candle_red-info" loading="lazy"
+                        src="{{url_for('static', filename='img/symbol_candle_red.png')}}" alt="coin" width="120px"
+                        height="120px">
+                    Takes a life
+                </span>
+            </div>
         </div>
     </div>
-    <div id="flash-screen"></div>
+
+    <div id="rule-modal">
+        <div id="rule-content1" class="center" style="justify-content: space-between;">
+            <div class="center">
+                <p class="center">
+                    <img id="rule-img-1" loading="lazy" src="{{url_for('static', filename='img/rule-1.png')}}" alt="Rule">
+                </p>
+                <div style="margin: 2rem;color:white">
+                    <p>
+                        1<span style="color: gray;">/4</span>
+                    </p>
+                    <p>
+                        Play to earn points. Tap to jump and get as high score as you can.
+                    </p>
+                </div>
+            </div>
+            <button class="green_btn" style="margin-bottom: 2rem;" id="rule-step-1">NEXT</button>
+        </div>
+
+        <div id="rule-content2" class="center" style="justify-content: space-between;">
+            <div class="center">
+                <p class="center">
+                    <img id="rule-img-2" loading="lazy" src="{{url_for('static', filename='img/rule-2.png')}}"
+                        alt="Rule">
+                </p>
+                <div style="width: 90%;">
+                    <p>
+                        2<span style="color: gray;">/4</span>
+                    </p>
+                    <p>
+                        Check your rank and boost your total score by completing tasks!
+                    </p>
+                </div>
+            </div>
+            <button class="green_btn" style="margin-bottom: 2rem;" id="rule-step-2">NEXT</button>
+        </div>
+
+        <div id="rule-content3" class="center" style="justify-content: space-between;">
+            <div class="center">
+                <p class="center">
+                    <img id="rule-img-3" loading="lazy" src="{{url_for('static', filename='img/rule-3.png')}}"
+                        alt="Rule">
+                </p>
+                <div style="width: 90%;">
+                    <p>
+                        3<span style="color: gray;">/4</span>
+                    </p>
+                    <p>
+                        Farm tokens to get free points every 6 hours.
+                    </p>
+                </div>
+            </div>
+            <button class="green_btn" style="margin-bottom: 2rem;" id="rule-step-3">NEXT</button>
+        </div>
+
+        <div id="rule-content4" class="center" style="justify-content: space-between;">
+            <div class="center">
+                <p class="center">
+                    <img id="rule-img-4" loading="lazy" src="{{url_for('static', filename='img/rule-4.png')}}"
+                        alt="Rule">
+                </p>
+                <div style="width: 90%;">
+                    <p>
+                        4<span style="color: gray;">/4</span>
+                    </p>
+                    <p>
+                        Invite your friends and get bonuses together. You will both receive points.
+                    </p>
+                </div>
+            </div>
+            <button class="green_btn" style="margin-bottom: 2rem;" id="rule-step-4">GOT IT</button>
+        </div>
+    </div>
+    <div id=" flash-screen">
+    </div>
     <audio id="cashRegisterSound" src="https://freesound.org/data/previews/195/195138_2074484-lq.mp3"
         preload="auto"></audio>
     <script>
@@ -1061,7 +1295,7 @@
         async function saveScore() {
             // const playerName = "matt"; 
             const user = window.Telegram.WebApp.initDataUnsafe.user;
-            const user_id = user.id
+            const user_id = user?.id;
             if (user) {
                 // const playerName = user.username || null;
 
@@ -1115,11 +1349,11 @@
         }
 
         // function hideNavigationBar() {
-        //     document.getElementById('navigation-bar').style.display = 'none';
+        //     document.getElementById('footer').style.display = 'none';
         // }
 
         // function showNavigationBar() {
-        //     document.getElementById('navigation-bar').style.display = 'flex';
+        //     document.getElementById('footer').style.display = 'flex';
         // }
 
         function startGame() {
@@ -1130,6 +1364,7 @@
             document.getElementById('score-breakdown').style.display = 'block';
             document.getElementById('health-container').style.display = 'flex';
             document.getElementById('end-and-bank-button').style.display = 'block';
+            document.getElementById('footer').style.display = 'none';   
             // hideNavigationBar();  // Hide the navigation bar when the game starts
             resizeCanvas();
             changeTerrain(); // Set the initial terrain
@@ -1149,9 +1384,17 @@
             alert("You chose not to enter the world of wen. The game will not start.");
         }
 
-        function startCountdown() {
+        function enterGame() {
             document.getElementById('opening-page').style.display = 'none';
-            document.getElementById('footer').style.display = 'none';
+            document.getElementById('header').style.display = 'none';
+            document.getElementById('footer').style.display = 'flex';
+            document.getElementById('rule-content1').style.display = 'flex';
+        }
+
+        function startCountdown() {
+            document.getElementById('info-button').style.display = 'none';
+            document.getElementById('opening-page').style.display = 'none';
+            document.getElementById('header').style.display = 'none';
             const countdownElement = document.getElementById('countdown');
             countdownElement.style.display = 'block';
             let countdown = 3;
@@ -1705,44 +1948,75 @@
         }
 
         // Function to highlight the active page in the navigation bar
-        function highlightCurrentPage() {
-            const navItems = document.querySelectorAll('.footer .footer-item');
-            const currentPage = window.location.pathname;
+        // function highlightCurrentPage() {
+        //     const navItems = document.querySelectorAll('.footer .footer-item');
+        //     const currentPage = window.location.pathname;
 
-            navItems.forEach(item => {
-                const itemPage = item.getAttribute('onclick').match(/navigateTo\('(.*)'\)/)[1];
-                if ((itemPage === '' && currentPage === '/') || currentPage.includes(itemPage)) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
-        }
+        //     navItems.forEach(item => {
+        //         const itemPage = item.getAttribute('onclick').match(/navigateTo\('(.*)'\)/)[1];
+        //         if ((itemPage === '' && currentPage === '/') || currentPage.includes(itemPage)) {
+        //             item.classList.add('active');
+        //         } else {
+        //             item.classList.remove('active');
+        //         }
+        //     });
+        // }
 
         // Call the function on page load
-        highlightCurrentPage();
+        // highlightCurrentPage();
 
         // Info modal script
         const infoButton = document.getElementById("info-button");
         const infoModal = document.getElementById("info-modal");
-        const closeSpan = document.getElementsByClassName("close")[0];
+        const ruleBtn1 = document.getElementById("rule-step-1");
+        const ruleBtn2 = document.getElementById("rule-step-2");
+        const ruleBtn3 = document.getElementById("rule-step-3");
+        const ruleBtn4 = document.getElementById("rule-step-4");
 
-        infoButton.onclick = function () {
-            infoModal.style.display = "block";
+        const rule_content1 = document.getElementById("rule-content1");
+        const rule_content2 = document.getElementById("rule-content2");
+        const rule_content3 = document.getElementById("rule-content3");
+        const rule_content4 = document.getElementById("rule-content4");
+
+        ruleBtn1.onclick = function () {
+            rule_content1.style.display = 'none';
+            rule_content2.style.display = 'flex';
         }
 
-        closeSpan.onclick = function () {
-            infoModal.style.display = "none";
+        ruleBtn2.onclick = function () {
+            rule_content2.style.display = 'none';
+            rule_content3.style.display = 'flex';
+        }
+
+        ruleBtn3.onclick = function () {
+            rule_content3.style.display = 'none';
+            rule_content4.style.display = 'flex';
+        }
+
+        ruleBtn4.onclick = function () {
+            rule_content4.style.display = 'none';
+            startCountdown();
+        }
+
+        infoButton.onclick = function () {
+            infoButton.innerHTML = "<span class='close'>&times;</span>";
+            infoModal.style.display = "flex";
+            document.getElementById("opening-page").style.display = "none";
+            document.getElementById("header").style.display = "none";
         }
 
         window.onclick = function (event) {
             if (event.target === infoModal) {
                 infoModal.style.display = "none";
+                infoButton.innerHTML = "i";
+                infoModal.style.display = "none";
+                document.getElementById("opening-page").style.display = "flex";
+                document.getElementById("header").style.display = "flex";
             }
         }
     </script>
 
-    <div class="footer" id="footer">
+    <div class="header" id="header">
         <div
             style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-left: 10px; margin-right: 10px;">
             <img id="player-img" loading="lazy" src="{{url_for('static', filename='img/player-img.png')}}" alt="Player"
@@ -1755,7 +2029,26 @@
             text-align: left;
             ">Welcome! Play to earn points. Tap to jump and get as high score as you can.</p>
         </div>
-        <button class="start-game" onclick="startCountdown()">ENTER WEN WORLD</button>
+        <button class="green_btn" onclick="enterGame()">ENTER WEN WORLD</button>
+    </div>
+
+    <div class="footer" id="footer">
+        <div class="footer-item active" onclick="navigateToHome()">
+            <div class="icon">🌍</div>
+            <div>PLAY</div>
+        </div>
+        <div class="footer-item" onclick="navigateTo('tasks')">
+            <div class="icon">💰</div>
+            <div>EARN</div>
+        </div>
+        <div class="footer-item" onclick="navigateTo('leaderboard')">
+            <div class="icon">🥇</div>
+            <div>RANK</div>
+        </div>
+        <div class="footer-item" onclick="navigateTo('profile')">
+            <div class="icon">👤</div>
+            <div>PROFILE</div>
+        </div>
     </div>
 </body>
 
