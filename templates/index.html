@@ -1,57 +1,56 @@
 {% extends "layout.html" %}
-
 {% block content %}
-    <div id="opening-page">
-        <h3>WELCOME <br />TO WEN WORLD</h3>
-        <div id="characters">
-            <img id="good-coin-img" loading="lazy" src="{{url_for('static', filename='img/good-coin-img.png')}}"
-                alt="Good Coin">
-            <img id="bad-coin-img" loading="lazy" src="{{url_for('static', filename='img/bad-coin-img.png')}}"
-                alt="Bad Coin">
-            <img id="bull-img" loading="lazy" src="{{url_for('static', filename='img/bull-img.png')}}" alt="Bull">
-            <img id="bear-img" loading="lazy" src="{{url_for('static', filename='img/bear-img.png')}}" alt="Bear">
-            <img id="sam-bankman-img" loading="lazy" src="{{url_for('static', filename='img/sam-bankman-img.png')}}"
-                alt="Sam Bankman">
-            <img id="triend-img" loading="lazy" src="{{url_for('static', filename='img/triend-img.png')}}" alt="Triend">
-            <img id="zkp-img" loading="lazy" src="{{url_for('static', filename='img/zkp-img.png')}}" alt="ZKP">
-            <img id="symbol-green" loading="lazy" src="{{url_for('static', filename='img/symbol_candle_green.png')}}"
-                alt="Green">
-            <img id="symbol-red" loading="lazy" src="{{url_for('static', filename='img/symbol_candle_red.png')}}" alt="Red">
-        </div>
-    </div>
-    <div id="game-container">
-        <canvas id="gameCanvas"></canvas>
-    </div>
-    <div id="countdown">3</div>
-    <div class="ground" id="ground" style="display:none;"></div>
-    <div id="score" style="display:none;">Score: 0</div>
-    <div id="health-container" style="display:none;">
-        <div id="health-bar"></div>
-    </div>
-    <div id="score-breakdown" style="display:none;"></div>
-    <button id="end-and-bank-button" style="display:none;" onclick="endAndBank()">End and Bank</button>
-    <button id="info-button">i</button>
-    <div id="message" class="message" style="color: red;">Sammy just rug pulled you</div>
-    <div id="leverage-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points
-    </div>
-    <div id="bear-value" class="message" style="color: red;">Market maker bear has stolen your gains</div>
-    <div id="boost-message" class="message" style="color: green;"> Short Squeeeeze</div>
-    <div id="slowdown-message" class="message" style="color: red;">You've been stopped out</div>
-    <div id="last-life-message" class="message"
-        style="top: 50%; transform: translate(-50%, -50%); background-color: red; color: white;">Warning: One life
-        remaining!
-    </div>
-    <div id="zkp-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points</div>
-    <div id="triend-message" class="message" style="color: green;">200 Triend points collected</div>
-    <div id=" flash-screen"></div>
-    <audio id="cashRegisterSound" src="https://freesound.org/data/previews/195/195138_2074484-lq.mp3"
-        preload="auto"></audio>
-    {% include "game_overpage.html" %}
-    {% include "footer.html" %}
-    {% include "header.html" %}
-    {% include "rule_modal.html" %}
-    {% include "info-modal.html" %}
-{% endblock %}
-</body>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 
-</html>
+<div id="opening-page">
+    <h3>WELCOME <br />TO WEN WORLD</h3>
+    <div id="characters">
+        <img id="good-coin-img" loading="lazy" src="{{url_for('static', filename='img/good-coin-img.png')}}"
+            alt="Good Coin">
+        <img id="bad-coin-img" loading="lazy" src="{{url_for('static', filename='img/bad-coin-img.png')}}"
+            alt="Bad Coin">
+        <img id="bull-img" loading="lazy" src="{{url_for('static', filename='img/bull-img.png')}}" alt="Bull">
+        <img id="bear-img" loading="lazy" src="{{url_for('static', filename='img/bear-img.png')}}" alt="Bear">
+        <img id="sam-bankman-img" loading="lazy" src="{{url_for('static', filename='img/sam-bankman-img.png')}}"
+            alt="Sam Bankman">
+        <img id="triend-img" loading="lazy" src="{{url_for('static', filename='img/triend-img.png')}}" alt="Triend">
+        <img id="zkp-img" loading="lazy" src="{{url_for('static', filename='img/zkp-img.png')}}" alt="ZKP">
+        <img id="symbol-green" loading="lazy" src="{{url_for('static', filename='img/symbol_candle_green.png')}}"
+            alt="Green">
+        <img id="symbol-red" loading="lazy" src="{{url_for('static', filename='img/symbol_candle_red.png')}}" alt="Red">
+    </div>
+</div>
+<div id="game-container">
+    <canvas id="gameCanvas"></canvas>
+</div>
+<div id="countdown">3</div>
+<div class="ground" id="ground" style="display:none;"></div>
+<div id="score" style="display:none;">Score: 0</div>
+<div id="health-container" style="display:none;">
+    <div id="health-bar"></div>
+</div>
+<div id="score-breakdown" style="display:none;"></div>
+<button id="end-and-bank-button" style="display:none;" onclick="endAndBank()">End and Bank</button>
+<button id="info-button">i</button>
+<div id="message" class="message" style="color: red;">Sammy just rug pulled you</div>
+<div id="leverage-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points
+</div>
+<div id="bear-value" class="message" style="color: red;">Market maker bear has stolen your gains</div>
+<div id="boost-message" class="message" style="color: green;"> Short Squeeeeze</div>
+<div id="slowdown-message" class="message" style="color: red;">You've been stopped out</div>
+<div id="last-life-message" class="message"
+    style="top: 50%; transform: translate(-50%, -50%); background-color: red; color: white;">Warning: One life
+    remaining!
+</div>
+<div id="zkp-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points</div>
+<div id="triend-message" class="message" style="color: green;">200 Triend points collected</div>
+<div id=" flash-screen"></div>
+<audio id="cashRegisterSound" src="https://freesound.org/data/previews/195/195138_2074484-lq.mp3"
+    preload="auto"></audio>
+{% include "game_overpage.html" %}
+{% include "footer.html" %}
+{% include "header.html" %}
+{% include "rule_modal.html" %}
+{% include "info-modal.html" %}
+<script src="{{url_for('static', filename='js/index.js')}}"></script>
+{% endblock %}
