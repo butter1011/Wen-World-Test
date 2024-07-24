@@ -10,6 +10,31 @@ function navigateToHome() {
     window.location.href = '/';
 }
 
+const infoButton = document.getElementById("info-button");
+const infoClose = document.getElementById("info-close");
+const infoModal = document.getElementById("info-modal");
+
+infoButton.onclick = function () {
+    infoModal.style.display = "flex";
+    infoButton.style.display = "none";
+}
+
+infoClose.onclick = function () {
+    infoModal.style.display = "none";
+    infoButton.style.display = "flex";
+    infoButton.innerHTML = "i";
+    infoModal.style.display = "none";
+    document.getElementById("opening-page").style.display = "flex";
+}
+
+window.onclick = function (event) {
+    if (event.target === infoModal) {
+        infoModal.style.display = "none";
+        infoButton.style.display = "flex";
+        infoButton.innerHTML = "i";
+    }
+}
+
 // get the all the score value
 async function displayLeaderboard() {
     const highScorelist = document.getElementById('high-scores-list');
@@ -108,6 +133,6 @@ function showTab(tabId) {
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
-    await displayLeaderboard();
-    await initScore();
+    // await displayLeaderboard();
+    // await initScore();
 });

@@ -18,7 +18,7 @@ window.onclick = function (event) {
     if (event.target === infoModal) {
         infoModal.style.display = "none";
         infoButton.innerHTML = "i";
-        infoModal.style.display = "none";
+        infoButton.style.display = "flex";
         // document.getElementById("opening-page").style.display = "flex";
         // document.getElementById("header").style.display = "flex";
     }
