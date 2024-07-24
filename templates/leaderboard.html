@@ -1,383 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>RANK</title>
-    <style>
-        @font-face {
-            font-family: 'Avenir';
-            src: url('https://fonts.cdnfonts.com/s/49041/AvenirNextLTPro-Bold.woff') format('woff');
-            font-weight: bold;
-            font-style: normal;
-        }
-
-        body,
-        html {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            background-color: black;
-            font-family: 'Avenir', sans-serif;
-            font-weight: bold;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .leaderboard-container {
-            margin-top: 3rem;
-            width: 100%;
-            max-width: 400px;
-            background-color: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-            text-align: center;
-            padding: 20px;
-            color: white;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .header {
-            margin-top: 70px;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            font-size: 36px;
-        }
-
-        .game-stats {
-            margin-top: 10px;
-            font-size: 2.5vh;
-            flex-grow: 1;
-            overflow-y: auto;
-        }
-
-        .game-stats table {
-            width: 100%;
-            color: white;
-            border-collapse: collapse;
-        }
-
-        .game-stats th,
-        .game-stats td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .game-stats th {
-            background-color: #444;
-        }
-
-        .tabs {
-            display: flex;
-            justify-content: space-around;
-            cursor: pointer;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 10px;
-            background-color: #444;
-            border-radius: 10px 10px 0 0;
-            font-size: 2.5vh;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .tab.active {
-            background-color: #00FFCF;
-            color: black;
-        }
-
-        .tab-content {
-            display: none;
-            flex-grow: 1;
-            overflow-y: auto;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Footer */
-        .footer {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 5px 0;
-            border-top: 1px solid #333;
-            width: 100%;
-            background-color: black;
-            height: 50px;
-            position: fixed;
-            bottom: 10px;
-            border-radius: 15px;
-            border-radius: 50px 50px 0px 0px;
-            opacity: 0px;
-            background: linear-gradient(360deg, #000000 0%, #2A3A37 100%);
-            box-shadow: 0px -4px 4px 0px #00FFCF;
-        }
-
-        .footer .footer-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 2vh;
-            color: #aaa;
-            cursor: pointer;
-            padding: 2px 0;
-            flex: 1;
-        }
-
-        .footer .footer-item .icon {
-            font-size: 3vh;
-            margin-bottom: 2px;
-        }
-
-        .footer .footer-item.active {
-            color: #fff;
-        }
-
-        .timer {
-            color: #FFF;
-            margin-left: 10px;
-        }
-
-        .farming-circle {
-            position: absolute;
-            top: 3px;
-            right: 3px;
-            width: 10px;
-            height: 10px;
-            background-color: red;
-            border-radius: 50%;
-            animation: sparkle 1.5s infinite;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 2.5vh;
-            background: linear-gradient(135deg, #FF0092, #00FFCF);
-            color: black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        @keyframes sparkle {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.2);
-                opacity: 0.7;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-    </style>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-</head>
-
-<body>
-    <div class="header">
-        RANK
+{% extends "layout.html" %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard.css') }}">
+<div class="header">
+    RANK
+</div>
+<div class="leaderboard-container">
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('high-scores')">High Scores</div>
+        <div class="tab" onclick="showTab('total-points')">Total Points</div>
     </div>
-    <div class="leaderboard-container">
-        <div class="tabs">
-            <div class="tab active" onclick="showTab('high-scores')">High Scores</div>
-            <div class="tab" onclick="showTab('total-points')">Total Points</div>
+    <div class="game-stats">
+        <div id="high-scores" class="tab-content active">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="high-scores-list">
+                    <!-- High scores data will be appended here -->
+                </tbody>
+            </table>
         </div>
-        <div class="game-stats">
-            <div id="high-scores" class="tab-content active">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Player</th>
-                            <th>Score</th>
-                        </tr>
-                    </thead>
-                    <tbody id="high-scores-list">
-                        <!-- High scores data will be appended here -->
-                    </tbody>
-                </table>
-            </div>
-            <div id="total-points" class="tab-content">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Player</th>
-                            <th>Score</th>
-                        </tr>
-                    </thead>
-                    <tbody id="total-points-list">
-                        <!-- Total points data will be appended here -->
-                    </tbody>
-                </table>
-            </div>
+        <div id="total-points" class="tab-content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="total-points-list">
+                    <!-- Total points data will be appended here -->
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="footer" id="footer">
-        <div class="footer-item active" onclick="navigateToHome()">
-            <div class="icon">🌍</div>
-            <div>PLAY</div>
-        </div>
-        <div class="footer-item" onclick="navigateTo('tasks')">
-            <div class="icon">💰</div>
-            <div>EARN</div>
-        </div>
-        <div class="footer-item" onclick="navigateTo('leaderboard')">
-            <div class="icon">🥇</div>
-            <div>RANK</div>
-        </div>
-        <div class="footer-item" onclick="navigateTo('profile')">
-            <div class="icon">👤</div>
-            <div>PROFILE</div>
-        </div>
-    </div>
-
-    <script>
-        let farmingInterval;
-        const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
-        const farmingDuration = 6 * 60 * 60 * 1000;
-
-        function navigateTo(page) {
-            window.location.href = `/${page}`;
-        }
-
-        function navigateToHome() {
-            window.location.href = '/';
-        }
-
-        // get the all the score value
-        async function displayLeaderboard() {
-            const highScorelist = document.getElementById('high-scores-list');
-            const totalScorelist = document.getElementById('total-points-list');
-
-            highScorelist.innerHTML = '';
-            totalScorelist.innerHTML = '';
-
-            await fetch('https://wen-world-test.onrender.com/api/v1/highscore_data', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
-                        const highlistItem = document.createElement('tr');
-                        highlistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
-                        highScorelist.appendChild(highlistItem);
-                    });
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-
-            await fetch('https://wen-world-test.onrender.com/api/v1/totalscore_data', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
-                        const totallistItem = document.createElement('tr');
-                        totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.total}</td>`;
-                        totalScorelist.appendChild(totallistItem);
-                    });
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        }
-
-        // init top score and total score
-        async function initScore() {
-            const user = window.Telegram.WebApp.initDataUnsafe.user;
-            const totalPointsDiv = document.getElementById('tridend-amount');
-            const top_scoreDiv = document.getElementById("top-score");
-            const player_name = document.getElementById("nickname-display");
-            const start_farming = document.getElementById("farming-btn");
-
-            // Total Score
-            await fetch(`https://wen-world-test.onrender.com/api/v1/totalscore_data?user_id=${user.id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    totalPointsDiv.innerText = `Total Points: ${data.total}`;
-                    player_name.innerText = `${data.name}`;
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-
-            // High Score
-            await fetch(`https://wen-world-test.onrender.com/api/v1/highscore_data?user_id=${user.id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    top_scoreDiv.innerText = `Today's Top Score: ${data.points}`
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        }
-
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.getElementById(tabId).classList.add('active');
-
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
-        }
-
-        document.addEventListener('DOMContentLoaded', async function () {
-            await displayLeaderboard();
-            await initScore();
-        });
-    </script>
-</body>
-
-</html>
+</div>
+{% include "components/footer.html" %}
+<script src="{{url_for('static', filename='js/leaderboard.js')}}"></script>
+{% endblock %}

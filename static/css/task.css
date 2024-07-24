@@ -53,7 +53,7 @@ html {
 }
 
 .tasks {
-    margin-top: 10px;
+    margin-top: 8rem;
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -118,7 +118,7 @@ html {
     background-color: black;
     height: 50px;
     position: fixed;
-    bottom: 10px;
+    bottom: 0px;
     border-radius: 15px;
     border-radius: 50px 50px 0px 0px;
     opacity: 0px;
@@ -366,7 +366,9 @@ textarea {
     font-size: 16px;
 }
 
-#info-button {
+#info-button,
+#info-close {
+    display: flex;
     position: absolute;
     top: 2vh;
     right: 2vh;
@@ -379,10 +381,9 @@ textarea {
     border-radius: 50%;
     cursor: pointer;
     font-size: 2.5vh;
-    display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 101;
+    z-index: 10;
 }
 
 #info-modal {

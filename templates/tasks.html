@@ -5,91 +5,6 @@
     TASKS
 </div>
 <button id="info-button">i</button>
-<div id="info-modal">
-    <div id="info-modal-content">
-        <h2 style="font-size: 32px;
-            font-weight: 700;
-            text-align: center;
-            ">CURRENCY CHART</h2>
-        <div class="tile_bg">
-            <span class="blog">
-                <img id="coin-img" loading="lazy" src="{{url_for('static', filename='img/good-coin-img.png')}}"
-                    alt="coin" width="120px" height="120px">
-                +5TP
-            </span>
-            <span class="blog">
-                <img id="coin-img" loading="lazy" src="{{url_for('static', filename='img/bad-coin-img.png')}}"
-                    alt="coin" width="120px" height="120px">
-                From -40 to +40 TP
-            </span>
-        </div>
-
-        <div class="tile_bg">
-            <span class="blog">
-                <img id="triend-img-info" loading="lazy" src="{{url_for('static', filename='img/triend-img.png')}}"
-                    alt="coin" width="120px" height="120px">
-                +200 TP
-            </span>
-            <span class="blog">
-                <img id="zkp-img-info" loading="lazy" src="{{url_for('static', filename='img/zkp-img.png')}}" alt="coin"
-                    width="120px" height="120px">
-                100 TP
-            </span>
-        </div>
-
-        <div class="tile_bg">
-            <div class="blog" style="width: 100%!important;">
-                <span>
-                    <img id="bull-img-info" loading="lazy" src="{{url_for('static', filename='img/bull-img.png')}}"
-                        alt="coin" width="120px" height="120px">
-                </span>
-                <span>
-                    Makes all <img id="bad-coin-img-info" loading="lazy"
-                        src="{{url_for('static', filename='img/bad-coin-img.png')}}" alt="coin"
-                        style="width: 20px;height: 20px;"> winners for 2 seconds!
-                </span>
-            </div>
-        </div>
-
-        <div class="tile_bg">
-            <div class="blog" style="width: 100%!important;">
-                <span>
-                    <img id="bear-img-info" loading="lazy" src="{{url_for('static', filename='img/bear-img.png')}}"
-                        alt="coin" width="120px" height="120px">
-                </span>
-                <span>
-                    Spawns <img id="bad-coin-img-info" loading="lazy"
-                        src="{{url_for('static', filename='img/sam-bankman-img.png')}}" alt="coin"
-                        style="width: 20px;height: 20px;"> , takes a life, and steals 50 TP
-                </span>
-            </div>
-        </div>
-
-        <div class="tile_bg">
-            <div class="blog" style="width: 100%!important;">
-                <img id="sam-bankman-img-info" loading="lazy"
-                    src="{{url_for('static', filename='img/sam-bankman-img.png')}}" alt="coin" width="120px"
-                    height="120px">
-                Steals half your TP and takes a life
-            </div>
-        </div>
-
-        <div class="tile_bg">
-            <span class="blog" style="flex-direction: column !important;justify-content: left!important;">
-                <img id="symbol_candle_green-info" loading="lazy"
-                    src="{{url_for('static', filename='img/symbol_candle_green.png')}}" alt="coin" width="120px"
-                    height="120px">
-                Launch into the air!
-            </span>
-            <span class="blog" style="flex-direction: column !important;justify-content: left!important;">
-                <img id="symbol_candle_red-info" loading="lazy"
-                    src="{{url_for('static', filename='img/symbol_candle_red.png')}}" alt="coin" width="120px"
-                    height="120px">
-                Takes a life
-            </span>
-        </div>
-    </div>
-</div>
 <div class="container center">
     <div class="tasks">
         <div class="task">
@@ -196,24 +111,7 @@
         </div>
     </div>
 </div>
-<div class="footer" id="footer">
-    <div class="footer-item active" onclick="navigateToHome()">
-        <div class="icon">🌍</div>
-        <div>PLAY</div>
-    </div>
-    <div class="footer-item" onclick="navigateTo('tasks')">
-        <div class="icon">💰</div>
-        <div>EARN</div>
-    </div>
-    <div class="footer-item" onclick="navigateTo('leaderboard')">
-        <div class="icon">🥇</div>
-        <div>RANK</div>
-    </div>
-    <div class="footer-item" onclick="navigateTo('profile')">
-        <div class="icon">👤</div>
-        <div>PROFILE</div>
-    </div>
-</div>
-
+{% include "components/footer.html" %}
+{% include "components/info-modal.html" %}
 <script src="{{url_for('static', filename='js/task.js')}}"></script>
 {% endblock %}

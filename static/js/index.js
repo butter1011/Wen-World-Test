@@ -41,14 +41,14 @@ window.addEventListener('resize', resizeCanvas);
 
 // Preload images
 const images = {
-    playerImg: "https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1",
-    goodCoinImg: "https://www.dropbox.com/scl/fi/lpmmzradg397jl3uk0faf/Add-a-subheading-6.svg?rlkey=oyxoux29ln5qfjhm2chexir3d&raw=1",
-    badCoinImg: "https://www.dropbox.com/scl/fi/ffprp1gne2k3qi9s65diq/Add-a-subheading-3.svg?rlkey=44ro7mwowu390lkjbyilkoqb8&raw=1",
-    bullImg: "https://www.dropbox.com/scl/fi/dslt1d1kd7xwp6hypdgw8/.svg?rlkey=6g1snhasrq5fklpknwlsvpmes&raw=1",
-    bearImg: "https://www.dropbox.com/scl/fi/73ioipk50ixg9qld604rs/Add-a-subheading-32.png?rlkey=f24ub3dcyz2wbokphi5pg2l12&raw=1",
-    samBankmanImg: "https://www.dropbox.com/scl/fi/tlsn0iioa257wbtf58lso/Add-a-subheading-29.png?rlkey=vwr7rc5m23ecjcc4dk443g9h4&raw=1",
-    triendImg: "https://www.dropbox.com/scl/fi/g2o9xn1qnshg54oupj38l/Add-a-subheading-7.svg?rlkey=lp9evhxzdwvxit2dik3qi0j9x&raw=1",
-    zkpImg: "https://www.dropbox.com/scl/fi/4h2xc3pwt20dgcro6g9q8/Add-a-subheading-11.svg?rlkey=2se4mwne0p256k5rzh86l74zl&raw=1"
+    playerImg: "../static/img/player-img.png",
+    goodCoinImg: "../static/img/good-coin-img.png",
+    badCoinImg: "../static/img/bad-coin-img.png",
+    bullImg: "../static/img/bull-img.png",
+    bearImg: "../static/img/bear-img.png",
+    samBankmanImg: "../static/img/sam-bankman-img.png",
+    triendImg: "../static/img/triend-img.png",
+    zkpImg: "../static/img/zkp-img.png"
 };
 const imageElements = {};
 
@@ -123,7 +123,8 @@ const debugMode = false; // Change this to true to enable hitbox visualization
 
 const terrains = [
     {
-        background: '#87CEEB',
+        // background: '#87CEEB',
+        backgroundImage: "../static/img/background_game.png",
         ground: 'linear-gradient(to top, #1E90FF, #87CEEB)',
         generateCoins: () => Math.random() < 0.1 ? 'bad' : 'good',
         character: 'bull'
@@ -300,7 +301,10 @@ function showLastLifeMessage() {
 
 function changeTerrain() {
     const newTerrain = terrains[0]; // Always use the light blue terrain
-    canvas.style.background = newTerrain.background;
+    // canvas.style.background = newTerrain.background;
+    canvas.style.backgroundImage = `url('${newTerrain.backgroundImage}')`;
+    canvas.style.backgroundSize = 'cover'; // This ensures the image covers the entire canvas
+    canvas.style.backgroundRepeat = 'no-repeat';
     document.getElementById('ground').style.background = newTerrain.ground;
 
     if (newTerrain.character) {
@@ -776,7 +780,7 @@ function gameLoop(timestamp) {
             if (player.health <= 0) {
                 gameOver = true;
                 saveScore();
-                document.getElementById('game-over-screen').style.display = 'block';
+                document.getElementById('game-over-screen').style.display = 'flex';
                 document.getElementById('score').style.display = 'none';
                 document.getElementById('score-breakdown').style.display = 'none';
                 document.getElementById('health-container').style.display = 'none';
@@ -828,7 +832,7 @@ function gameLoop(timestamp) {
                 }
                 if (player.health <= 0) {
                     gameOver = true;
-                    document.getElementById('game-over-screen').style.display = 'block';
+                    document.getElementById('game-over-screen').style.display = 'flex';
                     document.getElementById('score').style.display = 'none';
                     document.getElementById('score-breakdown').style.display = 'none';
                     document.getElementById('health-container').style.display = 'none';
@@ -1143,18 +1147,20 @@ ruleBtn4.onclick = function () {
 }
 
 infoButton.onclick = function () {
-    infoButton.innerHTML = "";
     infoModal.style.display = "flex";
+    infoButton.style.display = "none";
+    infoClose.style.display = "flex";
     document.getElementById("header").style.display = "none";
-    document.getElementById("opening-page").style.display = "none";
+    // document.getElementById("opening-page").style.display = "none";
     // document.getElementById("header").style.display = "none";
 }
 
 infoClose.onclick = function () {
     infoModal.style.display = "none";
     infoButton.innerHTML = "i";
-    infoModal.style.display = "none";
-    document.getElementById("opening-page").style.display = "flex";
+    infoButton.style.display = "flex";
+    infoClose.style.display = "none";
+    // document.getElementById("opening-page").style.display = "flex";
 
     // if (localStorage.getItem("GameStart", 0) == 0)
     //     document.getElementById("header").style.display = "flex";

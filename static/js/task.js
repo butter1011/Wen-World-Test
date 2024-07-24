@@ -1,10 +1,17 @@
 const infoButton = document.getElementById("info-button");
+const infoClose = document.getElementById("info-close");
 const infoModal = document.getElementById("info-modal");
 infoButton.onclick = function () {
-    infoButton.innerHTML = "<span class='close'>&times;</span>";
     infoModal.style.display = "flex";
-    document.getElementById("opening-page").style.display = "none";
-    // document.getElementById("header").style.display = "none";
+    infoButton.style.display = "none";
+}
+
+infoClose.onclick = function () {
+    infoModal.style.display = "none";
+    infoButton.style.display = "flex";
+    infoButton.innerHTML = "i";
+    infoModal.style.display = "none";
+    document.getElementById("opening-page").style.display = "flex";
 }
 
 window.onclick = function (event) {
@@ -12,7 +19,7 @@ window.onclick = function (event) {
         infoModal.style.display = "none";
         infoButton.innerHTML = "i";
         infoModal.style.display = "none";
-        document.getElementById("opening-page").style.display = "flex";
+        // document.getElementById("opening-page").style.display = "flex";
         // document.getElementById("header").style.display = "flex";
     }
 }

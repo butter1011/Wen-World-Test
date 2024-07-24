@@ -276,7 +276,7 @@ html {
   left: 2vh;
   width: 15vw;
   height: 10px;
-  background: url('path/to/health-bar.png') no-repeat center;
+  background: url("{{url_for('static', filename='img/health-bar.png')}}") no-repeat center;
   background-size: contain;
   border-radius: 5px;
   overflow: hidden;
@@ -536,7 +536,7 @@ html {
   background-color: black;
   height: 50px;
   position: fixed;
-  bottom: 10px;
+  bottom: 0px;
   border-radius: 15px;
   border-radius: 50px 50px 0px 0px;
   opacity: 0px;
