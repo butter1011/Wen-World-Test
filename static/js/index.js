@@ -1,5 +1,7 @@
-// let serverurl = "https://wen-world-test.onrender.com";
-let serverurl = "http://localhost:5000";
+// let serverurl = "http://localhost:5000";
+let serverurl = "https://telegram-1-Triend.replit.app";
+const user = window.Telegram.WebApp.initDataUnsafe.user;
+const user_id = user?.id;
 
 document.addEventListener('DOMContentLoaded', (event) => {
     if (window.Telegram.WebApp) {
@@ -10,10 +12,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-
-const user = window.Telegram.WebApp.initDataUnsafe.user;
-// const user_id = user?.id;
-const user_id = "7069393465";
 
 function resizeCanvas() {
     if (window.Telegram.WebApp) {
@@ -280,14 +278,6 @@ function updateHealth() {
     document.getElementById('health-bar').style.backgroundColor = color;
 }
 
-// function showFlash() {
-//     const flashElement = document.getElementById('flash-screen');
-//     flashElement.style.display = 'block';
-//     setTimeout(() => {
-//         flashElement.style.display = 'none';
-//     }, 100);
-// }
-
 function showMessage(text, duration = 3000) {
     const messageElement = document.getElementById('message');
     messageElement.innerHTML = text;
@@ -307,7 +297,6 @@ function showLastLifeMessage() {
 
 function changeTerrain() {
     const newTerrain = terrains[0]; // Always use the light blue terrain
-    // canvas.style.background = newTerrain.background;
     canvas.style.backgroundImage = `url('${newTerrain.backgroundImage}')`;
     canvas.style.backgroundSize = 'cover'; // This ensures the image covers the entire canvas
     canvas.style.backgroundRepeat = 'no-repeat';
@@ -375,116 +364,12 @@ function updateCoinImages() {
     });
 }
 
-// function showNegativeFlash() {
-//     const flashElement = document.getElementById('flash-screen');
-//     flashElement.style.background = 'rgba(0, 0, 0, 0.5)';
-//     flashElement.style.display = 'block';
-//     setTimeout(() => {
-//         flashElement.style.display = 'none';
-//         flashElement.style.background = 'rgba(255, 0, 0, 0.5)';
-//     }, 1000);
-// }
-
 function bankCoins() {
     bankedScore += score;
     todayScore += score;
     score = 0;
     updateScore();
     showMessage("Coins banked successfully!", 2000);
-}
-
-// init top score and total score
-async function initScore() {
-    const bestScore = document.getElementById('best-score');
-    const rankScore = document.getElementById("rank-score");
-
-    // High Score
-    await fetch(`${serverurl}/api/v1/highscore_data`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => response.json())
-        .then(data => {
-            let score = 0;
-            let rank = 1;
-            data.forEach(element => {
-                if (element.user_id == user_id) {
-                    score = element.points;
-                } else {
-                    rank++;
-                }
-            });
-
-            bestScore.innerHTML = `${score}`;
-            rankScore.innerHTML = `${rank}`;
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-}
-
-async function saveScore() {
-    // const user = window.Telegram.WebApp.initDataUnsafe.user;
-    if (user_id) {
-        // const playerName = user.username || null;
-
-        await fetch(`${serverurl}/api/v2/update_score`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 'user_id': user_id, 'score': score }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-
-        // await displayLeaderboard();
-    }
-}
-
-function shareWithFriends() {
-    const shareText = `I scored ${todayScore} points in this awesome game! Can you beat my score?`;
-    const url = window.location.href;
-    const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
-    const discordUrl = `https://discord.com/channels/@me?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
-    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
-
-    return { twitterUrl, discordUrl, telegramUrl };
-}
-
-function toggleDropdown() {
-    const dropdown = document.getElementById('share-dropdown');
-    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-}
-
-function shareOnDiscord() {
-    const { discordUrl } = shareWithFriends();
-    window.open(discordUrl, 'Share on Discord', 'height=600,width=800,resizable,scrollbars');
-}
-
-function shareOnTelegram() {
-    const { telegramUrl } = shareWithFriends();
-    window.open(telegramUrl, 'Share on Telegram', 'height=600,width=800,resizable,scrollbars');
-}
-
-function shareOnTwitter() {
-    const { twitterUrl } = shareWithFriends();
-    window.open(twitterUrl, 'Share on Twitter', 'height=600,width=800,resizable,scrollbars');
-}
-
-function hideNavigationBar() {
-    document.getElementById('footer').style.display = 'none';
-}
-
-function showNavigationBar() {
-    document.getElementById('footer').style.display = 'flex';
 }
 
 function startGame() {
@@ -594,9 +479,10 @@ async function endAndBank() {
     todayScore += score;
     score = 0;
     gameOver = true;
-    await saveScore();
 
+    await saveScore();
     await updateScore();
+
     document.getElementById('footer').style.display = 'flex';
     document.getElementById('final-score').innerText = todayScore;
     document.getElementById('game-over-screen').style.display = 'flex';
@@ -605,9 +491,10 @@ async function endAndBank() {
     document.getElementById('score-breakdown').style.display = 'none';
     document.getElementById('health-container').style.display = 'none';
     document.getElementById('end-and-bank-button').style.display = 'none';
-    // document.getElementById('footer').style.display = 'none';
+
     showNavigationBar();  // Show the navigation bar when the game ends
     await initScore();
+
     if (todayScore > allTimeTopScore) {
         allTimeTopScore = todayScore;
     }
@@ -1074,8 +961,6 @@ function showSlowdownMessage() {
     }, 2000);
 }
 
-// displayLeaderboard();
-
 window.onclick = function (event) {
     if (!event.target.matches('#add-points-button') && !event.target.closest('#share-dropdown')) {
         const dropdowns = document.getElementsByClassName("share-dropdown");
@@ -1088,105 +973,94 @@ window.onclick = function (event) {
     }
 }
 
-// Function to highlight the active page in the navigation bar
-function highlightCurrentPage() {
-    const navItems = document.querySelectorAll('.footer .footer-item');
-    const currentPage = window.location.pathname;
+// init top score and total score
+async function initScore() {
+    const bestScore = document.getElementById('best-score');
+    const rankScore = document.getElementById("rank-score");
 
-    navItems.forEach(item => {
-        const itemPage = item.getAttribute('onclick').match(/navigateTo\('(.*)'\)/);
-        if ((itemPage === '' && currentPage === '/') || currentPage.includes(itemPage)) {
-            item.classList.add('active');
-        } else {
-            item.classList.remove('active');
-        }
-    });
+    // High Score
+    await fetch(`${serverurl}/api/v1/highscore_data`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+            let score = 0;
+            let rank = 1;
+            data.forEach(element => {
+                if (element.user_id == user_id) {
+                    score = element.points;
+                } else {
+                    rank++;
+                }
+            });
+
+            bestScore.innerHTML = `${score}`;
+            rankScore.innerHTML = `${rank}`;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
-// Call the function on page load
-highlightCurrentPage();
-
-// Info modal script
-const infoButton = document.getElementById("info-button");
-const infoClose = document.getElementById("info-close");
-const infoModal = document.getElementById("info-modal");
-const ruleModal = document.getElementById("rule-modal");
-const ruleBtn1 = document.getElementById("rule-step-1");
-const ruleBtn2 = document.getElementById("rule-step-2");
-const ruleBtn3 = document.getElementById("rule-step-3");
-const ruleBtn4 = document.getElementById("rule-step-4");
-
-const rule_content1 = document.getElementById("rule-content1");
-const rule_content2 = document.getElementById("rule-content2");
-const rule_content3 = document.getElementById("rule-content3");
-const rule_content4 = document.getElementById("rule-content4");
-
-ruleBtn1.onclick = function () {
-    rule_content1.style.display = 'none';
-    rule_content2.style.display = 'flex';
-}
-
-ruleBtn2.onclick = function () {
-    rule_content2.style.display = 'none';
-    rule_content3.style.display = 'flex';
-}
-
-ruleBtn3.onclick = function () {
-    rule_content3.style.display = 'none';
-    rule_content4.style.display = 'flex';
-}
-
-ruleBtn4.onclick = function () {
-    rule_content4.style.display = 'none';
-    ruleModal.style.display = 'none';
-    document.getElementById('character-card').style.display = 'flex';
-}
-
-infoButton.onclick = function () {
-    infoModal.style.display = "flex";
-    infoButton.style.display = "none";
-    infoClose.style.display = "flex";
-    document.getElementById("header").style.display = "none";
-    // document.getElementById("opening-page").style.display = "none";
-    // document.getElementById("header").style.display = "none";
-}
-
-infoClose.onclick = function () {
-    infoModal.style.display = "none";
-    infoButton.innerHTML = "i";
-    infoButton.style.display = "flex";
-    infoClose.style.display = "none";
-    // document.getElementById("opening-page").style.display = "flex";
-
-    // if (localStorage.getItem("GameStart", 0) == 0)
-    //     document.getElementById("header").style.display = "flex";
-}
-
-window.onclick = function (event) {
-    if (event.target === infoModal) {
-        infoModal.style.display = "none";
-        infoButton.innerHTML = "i";
-        infoButton.style.display = "flex";
-        document.getElementById("opening-page").style.display = "flex";
-
-        // if (localStorage.getItem("GameStart", 0) == 0)
-        //     document.getElementById("header").style.display = "flex";
+async function saveScore() {
+    if (user_id) {
+        await fetch(`${serverurl}/api/v2/update_score`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 'user_id': user_id, 'score': score }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
 }
 
-function navigateTo(page) {
-    window.location.href = `/${page}`;
+function hideNavigationBar() {
+    document.getElementById('footer').style.display = 'none';
 }
 
-function navigateToHome() {
-    window.location.href = '/';
+function showNavigationBar() {
+    document.getElementById('footer').style.display = 'flex';
 }
 
-let selectedCharacter = null;
-function selectCharacter(name, imageUrl) {
-    selectedCharacter = { name, image: new Image() };
-    selectedCharacter.image.src = imageUrl;
-    const characterCards = document.querySelectorAll('.character-card');
-    characterCards.forEach(card => card.classList.remove('selected'));
-    event.currentTarget.classList.add('selected');
-}
+
+// function shareWithFriends() {
+//     const shareText = `I scored ${todayScore} points in this awesome game! Can you beat my score?`;
+//     const url = window.location.href;
+//     const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
+//     const discordUrl = `https://discord.com/channels/@me?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
+//     const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
+
+//     return { twitterUrl, discordUrl, telegramUrl };
+// }
+
+// function toggleDropdown() {
+//     const dropdown = document.getElementById('share-dropdown');
+//     dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+// }
+
+// function shareOnDiscord() {
+//     const { discordUrl } = shareWithFriends();
+//     window.open(discordUrl, 'Share on Discord', 'height=600,width=800,resizable,scrollbars');
+// }
+
+// function shareOnTelegram() {
+//     const { telegramUrl } = shareWithFriends();
+//     window.open(telegramUrl, 'Share on Telegram', 'height=600,width=800,resizable,scrollbars');
+// }
+
+// function shareOnTwitter() {
+//     const { twitterUrl } = shareWithFriends();
+//     window.open(twitterUrl, 'Share on Twitter', 'height=600,width=800,resizable,scrollbars');
+// }
+
+

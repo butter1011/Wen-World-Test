@@ -4,6 +4,7 @@
 <div class="header">
     My WEN
 </div>
+<button id="info-button">i</button>
 <div class="leaderboard-container">
     <div class="profile-section">
         <div class="center" style="flex-direction: column; gap:10px;">
@@ -28,10 +29,6 @@
                 <span> 0</span>
             </div>
         </div>
-        <!-- <div class="nickname">
-            <span id="nickname-display">- - -</span>
-            <input type="text" id="nickname-input" value="Player Name" style="display: none;">
-        </div> -->
     </div>
     <div class="button-container">
         <button class="farming-button" id="farming-btn" onclick="">-- : -- : --</button>
@@ -39,8 +36,7 @@
     </div>
 </div>
 
-{% include "components/footer.html" %}
 {% include "components/daily-reward.html" %}
-{% include "components/footer.html" %}
 <script src="{{url_for('static', filename='js/profile.js')}}"></script>
+<script src="{{url_for('static', filename='js/components/daily_reward.js')}}"></script>
 {% endblock %}

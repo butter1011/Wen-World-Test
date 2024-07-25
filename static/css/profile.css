@@ -54,8 +54,8 @@ html {
 }
 
 .profile-pic {
-    width: 160px;
-    height: 160px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     background-color: #444;
     display: flex;
@@ -113,21 +113,21 @@ html {
 }
 
 .tridend-amount {
-    font-size: 1.4rem;
+    font-size: 1rem;
     /* Increased font size for points */
     margin-bottom: 5px;
     font-weight: bold;
 }
 
 .top-score {
-    font-size: 1.4rem;
+    font-size: 1rem;
     /* Increased font size for top score */
     margin-bottom: 10px;
     color: white;
 }
 
 .checkin-count {
-    font-size: 1.4rem;
+    font-size: 1rem;
     /* Increased font size for check-ins */
     margin-bottom: 10px;
     color: white;
@@ -150,45 +150,6 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-/* Footer */
-.footer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 5px 0;
-    border-top: 1px solid #333;
-    width: 100%;
-    background-color: black;
-    height: 50px;
-    position: fixed;
-    bottom: 0px;
-    border-radius: 15px;
-    border-radius: 50px 50px 0px 0px;
-    opacity: 0px;
-    background: linear-gradient(360deg, #000000 0%, #2A3A37 100%);
-    box-shadow: 0px -4px 4px 0px #00FFCF;
-}
-
-.footer .footer-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 2vh;
-    color: #aaa;
-    cursor: pointer;
-    padding: 2px 0;
-    flex: 1;
-}
-
-.footer .footer-item .icon {
-    font-size: 3vh;
-    margin-bottom: 2px;
-}
-
-.footer .footer-item.active {
-    color: #fff;
 }
 
 .timer {

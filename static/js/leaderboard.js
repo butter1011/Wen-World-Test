@@ -1,45 +1,11 @@
-// let serverurl = "https://wen-world-test.onrender.com";
-let serverurl = "http://localhost:5000";
+// let serverurl = "http://localhost:5000";
+let serverurl = "https://telegram-1-Triend.replit.app";
+const user = window.Telegram.WebApp.initDataUnsafe.user;
+const user_id = user?.id;
+
 let farmingInterval;
 const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
 const farmingDuration = 6 * 60 * 60 * 1000;
-
-const user = window.Telegram.WebApp.initDataUnsafe.user;
-// const user_id = user?.id;
-const user_id = "7069393465";
-
-function navigateTo(page) {
-    window.location.href = `/${page}`;
-}
-
-function navigateToHome() {
-    window.location.href = '/';
-}
-
-const infoButton = document.getElementById("info-button");
-const infoClose = document.getElementById("info-close");
-const infoModal = document.getElementById("info-modal");
-
-infoButton.onclick = function () {
-    infoModal.style.display = "flex";
-    infoButton.style.display = "none";
-}
-
-infoClose.onclick = function () {
-    infoModal.style.display = "none";
-    infoButton.style.display = "flex";
-    infoButton.innerHTML = "i";
-    infoModal.style.display = "none";
-    document.getElementById("opening-page").style.display = "flex";
-}
-
-window.onclick = function (event) {
-    if (event.target === infoModal) {
-        infoModal.style.display = "none";
-        infoButton.style.display = "flex";
-        infoButton.innerHTML = "i";
-    }
-}
 
 // init top score and total score
 async function initScore() {
@@ -143,45 +109,6 @@ async function displayLeaderboard() {
         });
 }
 
-// // init top score and total score
-// async function initScore() {
-//     const totalPointsDiv = document.getElementById('tridend-amount');
-//     const top_scoreDiv = document.getElementById("top-score");
-//     const player_name = document.getElementById("nickname-display");
-//     const start_farming = document.getElementById("farming-btn");
-
-//     // Total Score
-//     await fetch(`${serverurl}/api/v1/totalscore_data?user_id=${user_id}`, {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             totalPointsDiv.innerText = `Total Points: ${data.total}`;
-//             player_name.innerText = `${data.name}`;
-//         })
-//         .catch((error) => {
-//             console.error(error);
-//         });
-
-//     // High Score
-//     await fetch(`${serverurl}/api/v1/highscore_data?user_id=${user_id}`, {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             top_scoreDiv.innerText = `Today's Top Score: ${data.points}`
-//         })
-//         .catch((error) => {
-//             console.error(error);
-//         });
-// }
-
 function showTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
@@ -199,6 +126,4 @@ document.addEventListener('DOMContentLoaded', async function () {
         Telegram.WebApp.ready();
         initScore();
     }
-    // await displayLeaderboard();
-    // await initScore();
 });

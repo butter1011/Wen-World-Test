@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/character_card.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/loading_screen.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/rule_modal.css') }}">
 
 <div id="opening-page">
     <h3>WELCOME <br />TO WEN WORLD</h3>
@@ -23,7 +26,6 @@
 <div id="game-container">
     <canvas id="gameCanvas"></canvas>
 </div>
-<!-- <div id="countdown">3</div> -->
 <div class="ground" id="ground" style="display:none;"></div>
 <div id="score" style="display:none;">Score: 0</div>
 <div id="health-container" style="display:none;">
@@ -44,15 +46,16 @@
 </div>
 <div id="zkp-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points</div>
 <div id="triend-message" class="message" style="color: green;">200 Triend points collected</div>
-<div id=" flash-screen"></div>
+
 <audio id="cashRegisterSound" src="https://freesound.org/data/previews/195/195138_2074484-lq.mp3"
     preload="auto"></audio>
-{% include "components/info-modal.html" %}
+
 {% include "components/game_overpage.html" %}
-{% include "components/footer.html" %}
 {% include "components/header.html" %}
 {% include "components/rule_modal.html" %}
 {% include "components/loading_screen.html" %}
 {% include "components/character_select.html" %}
+
 <script src="{{url_for('static', filename='js/index.js')}}"></script>
+<script src="{{url_for('static', filename='js/components/rule_modal.js')}}"></script>
 {% endblock %}

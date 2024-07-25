@@ -30,17 +30,6 @@ html {
   display: none;
 }
 
-/* #countdown {
-  font-size: 10vh;
-  color: #ff00ff;
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: none;
-} */
-
 .message {
   padding: 1vh;
   border-radius: 5px;
@@ -270,22 +259,6 @@ html {
   z-index: 10;
 }
 
-#health-container {
-  position: absolute;
-  top: 7vh;
-  left: 2vh;
-  width: 15vw;
-  height: 10px;
-  background: url("{{url_for('static', filename='img/health-bar.png')}}") no-repeat center;
-  background-size: contain;
-  border-radius: 5px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 1px;
-}
-
 #health-bar {
   height: 100%;
   background-color: green;
@@ -297,7 +270,6 @@ html {
   position: absolute;
   top: 2.5vh;
   right: 8vh;
-  /* Adjusted to make space for info button */
   padding: 1vh 2vh;
   font-size: 2vh;
   background-color: red;
@@ -306,58 +278,6 @@ html {
   border-radius: 5px;
   cursor: pointer;
   z-index: 10;
-}
-
-
-#rule-modal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-}
-
-#rule-modal .modal_type1 {
-  display: none;
-}
-
-.modal_type1 {
-  font-size: 20px;
-  color: white;
-  height: max-content;
-  border-radius: 50px 50px 50px 50px;
-  width: 80%;
-  background: #333333;
-  box-shadow: 0px -4px 4px 0px #00FFCF;
-}
-
-.modal_type1 .score {
-  padding: 24px 32px 24px 32px;
-  gap: 8px;
-  border-radius: 24px 24px 24px 24px;
-  opacity: 0px;
-  background: #2A2A2A;
-}
-
-#rule-modal img {
-  width: 90%;
-  height: auto;
-  background: #000000;
-  border-radius: 20px 20px 20px 20px;
-  opacity: 0px;
-  margin: 10px;
-}
-
-#flash-screen {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 0, 0, 0.5);
-  display: none;
-  z-index: 20;
 }
 
 #opening-page {
@@ -371,19 +291,6 @@ html {
   width: 90vw;
   font-size: 3.5vh;
   font-weight: bold;
-}
-
-#yes-button,
-#no-button {
-  padding: 1vh 2vh;
-  font-size: 3vh;
-  background-color: white;
-  color: black;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 1vh;
-  width: 40vw;
 }
 
 #characters {
@@ -420,7 +327,7 @@ html {
   background: linear-gradient(180deg, #2A3A37 0%, #000000 100%);
   box-shadow: 0px -4px 4px 0px #00FFCF;
   background-color: black;
-  z-index: 1000;
+  z-index: 10;
 }
 
 /* Start Game Button */
@@ -443,208 +350,4 @@ html {
 .green_btn:active {
   box-shadow: 0 1px #fff;
   transform: translateY(1px);
-}
-
-/* Footer */
-.footer {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 5px 0;
-  border-top: 1px solid #333;
-  width: 100%;
-  background-color: black;
-  height: 50px;
-  position: fixed;
-  bottom: 0px;
-  border-radius: 15px;
-  border-radius: 50px 50px 0px 0px;
-  opacity: 0px;
-  background: linear-gradient(360deg, #000000 0%, #2A3A37 100%);
-  box-shadow: 0px -4px 4px 0px #00FFCF;
-}
-
-.footer .footer-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 2vh;
-  color: #aaa;
-  cursor: pointer;
-  padding: 2px 0;
-  flex: 1;
-}
-
-.footer .footer-item .icon {
-  font-size: 3vh;
-  margin-bottom: 2px;
-}
-
-.footer .footer-item.active {
-  color: #fff;
-}
-
-#info-button,
-#info-close {
-  display: none;
-  position: absolute;
-  top: 2vh;
-  right: 2vh;
-  width: 5vh;
-  height: 5vh;
-  background: #575757;
-  /* Updated color */
-  color: black;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 2.5vh;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-
-#info-modal {
-  align-items: center;
-  display: none;
-  position: fixed;
-  z-index: 100;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.9);
-}
-
-#info-modal-content {
-  width: 90%;
-  height: max-content;
-  color: white;
-  padding: 2rem;
-  overflow-y: auto;
-  margin-top: 10rem;
-  margin-bottom: 5rem;
-}
-
-#info-modal-content .tile_bg {
-  display: flex;
-  margin-bottom: 0.5rem;
-  gap: 10px;
-}
-
-#info-modal-content img {
-  height: 40px;
-  width: 40px;
-}
-
-#info-modal-content .blog {
-  width: 40%;
-  padding: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 20px;
-  border-radius: 20px 20px 20px 20px;
-  opacity: 0px;
-  background: #333333;
-}
-
-.close {
-  color: black;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-#loading_screen {
-  display: none;
-  font-size: 20px;
-  color: white;
-  z-index: 1001;
-  gap: 10px;
-  width: 100%;
-  height: 100%;
-  background-image: url("../img/load_screen.png");
-}
-
-#loading_img {
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  background: #000000B2;
-}
-
-#loading_icon {
-  animation: spinner 3s linear infinite;
-}
-
-@keyframes spinner {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.character-card {
-  background: #333;
-  border-radius: 10px;
-  padding: 10px;
-  width: 100px;
-  text-align: center;
-  color: white;
-  font-size: 2vh;
-  cursor: pointer;
-  transition: transform 0.3s;
-  margin: 5px;
-}
-
-.character-card img {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-}
-
-.character-card:hover {
-  transform: scale(1.1);
-}
-
-.character-card.selected {
-  border: 2px solid #00FFCF;
-}
-
-#start-game-button {
-  padding: 1vh 2vh;
-  font-size: 3vh;
-  background-color: #00FFCF;
-  color: black;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 1vh;
-  width: 40vw;
-}
-
-#character-card {
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  color: white;
-  font-size: 24px;
-  margin-bottom: 20px;
-  display: none;
 }

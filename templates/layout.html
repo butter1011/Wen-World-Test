@@ -6,12 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Game</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/info_modal.css') }}">
     <!-- Telegram Web Apps JavaScript API -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
     {% block content %}{% endblock %}
+    {% include "components/info-modal.html" %}
+    {% include "components/footer.html" %}
+    <script src="{{url_for('static', filename='js/components/navigator.js')}}"></script>
+    <script src="{{url_for('static', filename='js/components/info_modal.js')}}"></script>
 </body>
 
 </html>
