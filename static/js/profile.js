@@ -1,13 +1,17 @@
+// let serverurl = "https://wen-world-test.onrender.com";
+let serverurl = "http://localhost:5000";
+const user = window.Telegram.WebApp.initDataUnsafe.user;
+// const user_id = user?.id;
+const user_id = "7069393465";
+
 async function init() {
     const scoreElement = document.getElementById("top-score");
     const checkinCountElement = document.getElementById("checkin-count");
     const highScoreElement = document.getElementById("tridend-amount");
     // const nicknameDisplayElement = document.getElementById("nickname-display");
     // const nicknameInputELement = document.getElementById("nickname-input");
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    const user_id = user.id;
 
-    await fetch('https://wen-world-test.onrender.com/api/v1/getUserInfo', {
+    await fetch(`${serverurl}/api/v1/getUserInfo`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -62,7 +66,10 @@ async function init() {
 }
 
 document.addEventListener('DOMContentLoaded', async (event) => {
-    init();
+    if (window.Telegram.WebApp) {
+        Telegram.WebApp.ready();
+        init();
+    }
 });
 
 const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
@@ -83,12 +90,10 @@ async function startFarming() {
 }
 
 async function claimPoints() {
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    const user_id = user.id;
     document.getElementById('farming-btn').innerHTML = `Farming`;
     document.getElementById('farming-btn').onclick = startFarming;
 
-    await fetch('https://wen-world-test.onrender.com/api/v2/farmingClaim', {
+    await fetch(`${serverurl}/api/v2/farmingClaim`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -102,9 +107,7 @@ async function claimPoints() {
 }
 
 async function setFarmingTime() {
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    const user_id = user.id;
-    const response = await fetch(`https://wen-world-test.onrender.com/api/v2/farmingStart`, {
+    const response = await fetch(`${serverurl}/api/v2/farmingStart`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -115,9 +118,7 @@ async function setFarmingTime() {
 }
 
 async function getCurrentTime() {
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    const user_id = user.id;
-    const response = await fetch(`https://wen-world-test.onrender.com/api/v1/currentTime?user_id=${user_id}`, {
+    const response = await fetch(`${serverurl}/api/v1/currentTime?user_id=${user_id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -128,9 +129,7 @@ async function getCurrentTime() {
 }
 
 async function getfarmingTime() {
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    const user_id = user.id;
-    const response = await fetch(`https://wen-world-test.onrender.com/api/v1/farmingTime?user_id=${user_id}`, {
+    const response = await fetch(`${serverurl}/api/v1/farmingTime?user_id=${user_id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -141,9 +140,7 @@ async function getfarmingTime() {
 }
 
 async function dailyCheckIn() {
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    const user_id = user.id;
-    const response = await fetch(`https://wen-world-test.onrender.com/api/v2/dailyCheckin`, {
+    const response = await fetch(`${serverurl}/api/v2/dailyCheckin`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -179,10 +176,7 @@ async function dailyCheckIn() {
 }
 
 async function dailyClaim() {
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-
-    const user_id = user.id;
-    const response = await fetch(`https://wen-world-test.onrender.com/api/v2/dailyClaim`, {
+    const response = await fetch(`${serverurl}/api/v2/dailyClaim`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -267,9 +261,7 @@ document.getElementById('upload-img').addEventListener('change', function () {
 // });
 
 async function update_name(username) {
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    const user_id = user.id;
-    const response = await fetch(`https://wen-world-test.onrender.com/api/v2/updateName`, {
+    const response = await fetch(`${serverurl}/api/v2/updateName`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

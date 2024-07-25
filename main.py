@@ -134,6 +134,7 @@ def highscore_data():
                 highscoredata.append(
                     {
                         "name": user_ref.get("name", "Player"),
+                        "user_id": user.id,
                         "points": score_data.get("score", 0),
                     }
                 )
@@ -190,6 +191,7 @@ def totalscore_data():
             totalScoredata.append(
                 {
                     "name": user_ref.get("name", "Player"),
+                    "user_id": user.id,
                     "total": total_data,
                 }
             )

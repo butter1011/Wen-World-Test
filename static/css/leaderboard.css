@@ -273,12 +273,15 @@ html {
     border-radius: 40px;
 }
 
+#high-scores,
+#total-points{
+    justify-content: center;
+    align-items: center;
+}
+
 #high-scores-list,
 #total-points-list {
     font-size: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 90%;
     margin-top: 0.5rem;
 }

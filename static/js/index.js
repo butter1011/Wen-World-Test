@@ -1,5 +1,7 @@
-document.addEventListener('DOMContentLoaded', (event) => {
+// let serverurl = "https://wen-world-test.onrender.com";
+let serverurl = "http://localhost:5000";
 
+document.addEventListener('DOMContentLoaded', (event) => {
     if (window.Telegram.WebApp) {
         Telegram.WebApp.ready();
         resizeCanvas();
@@ -8,6 +10,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+
+const user = window.Telegram.WebApp.initDataUnsafe.user;
+// const user_id = user?.id;
+const user_id = "7069393465";
 
 function resizeCanvas() {
     if (window.Telegram.WebApp) {
@@ -387,60 +393,44 @@ function bankCoins() {
     showMessage("Coins banked successfully!", 2000);
 }
 
-// get the all the score value
-// async function displayLeaderboard(leaderboard) {
-//     const highScorelist = document.getElementById('high-scores-list');
-//     const totalScorelist = document.getElementById('total-points-list');
+// init top score and total score
+async function initScore() {
+    const bestScore = document.getElementById('best-score');
+    const rankScore = document.getElementById("rank-score");
 
-//     highScorelist.innerHTML = '';
-//     totalScorelist.innerHTML = '';
+    // High Score
+    await fetch(`${serverurl}/api/v1/highscore_data`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+            let score = 0;
+            let rank = 1;
+            data.forEach(element => {
+                if (element.user_id == user_id) {
+                    score = element.points;
+                } else {
+                    rank++;
+                }
+            });
 
-//     await fetch('https://wen-world-test.onrender.com/api/v1/highscore_data', {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
-//                 const highlistItem = document.createElement('tr');
-//                 highlistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.points}</td>`;
-//                 highScorelist.appendChild(highlistItem);
-//             });
-//         })
-//         .catch((error) => {
-//             console.error('Error:', error);
-//         });
-
-//     await fetch('https://wen-world-test.onrender.com/api/v1/totalscore_data', {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             data.sort((a, b) => b.points - a.points).forEach((entry, index) => {
-//                 const totallistItem = document.createElement('tr');
-//                 totallistItem.innerHTML = `<td>${index + 1}</td><td>${entry.name}</td><td>${entry.total}</td>`;
-//                 totalScorelist.appendChild(totallistItem);
-//             });
-//         })
-//         .catch((error) => {
-//             console.error('Error:', error);
-//         });
-// }
+            bestScore.innerHTML = `${score}`;
+            rankScore.innerHTML = `${rank}`;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
 
 async function saveScore() {
     // const user = window.Telegram.WebApp.initDataUnsafe.user;
-    // const user_id = user?.id;
-
-    const user_id = "7069393465";
-    if (user) {
+    if (user_id) {
         // const playerName = user.username || null;
 
-        await fetch('https://wen-world-test.onrender.com/api/v2/update_score', {
+        await fetch(`${serverurl}/api/v2/update_score`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -606,7 +596,7 @@ async function endAndBank() {
     gameOver = true;
     await saveScore();
 
-    updateScore();
+    await updateScore();
     document.getElementById('footer').style.display = 'flex';
     document.getElementById('final-score').innerText = todayScore;
     document.getElementById('game-over-screen').style.display = 'flex';
@@ -617,6 +607,7 @@ async function endAndBank() {
     document.getElementById('end-and-bank-button').style.display = 'none';
     // document.getElementById('footer').style.display = 'none';
     showNavigationBar();  // Show the navigation bar when the game ends
+    await initScore();
     if (todayScore > allTimeTopScore) {
         allTimeTopScore = todayScore;
     }
@@ -789,6 +780,7 @@ function gameLoop(timestamp) {
                 document.getElementById('health-container').style.display = 'none';
                 document.getElementById('end-and-bank-button').style.display = 'none';
                 showNavigationBar();  // Show the navigation bar when the game ends
+                initScore();
                 if (todayScore > allTimeTopScore) {
                     allTimeTopScore = todayScore;
                 }
@@ -835,16 +827,17 @@ function gameLoop(timestamp) {
                 }
                 if (player.health <= 0) {
                     gameOver = true;
+                    saveScore();
                     document.getElementById('game-over-screen').style.display = 'flex';
                     document.getElementById('score').style.display = 'none';
                     document.getElementById('score-breakdown').style.display = 'none';
                     document.getElementById('health-container').style.display = 'none';
                     document.getElementById('end-and-bank-button').style.display = 'none';
                     showNavigationBar();  // Show the navigation bar when the game ends
+                    initScore();
                     if (todayScore > allTimeTopScore) {
                         allTimeTopScore = todayScore;
                     }
-                    saveScore();
                     return;
                 }
                 // showFlash();

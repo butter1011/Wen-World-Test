@@ -6,7 +6,7 @@
 </div>
 <p class="rank_id">
     <span style="color: gray;">You rank is</span>
-    <span>#1.655</span>
+    <span id="total_rank">---</span>
 </p>
 <button id="info-button">i</button>
 <div class="leaderboard-container">
@@ -15,20 +15,14 @@
         <div class="tab tab-right" onclick="showTab('total-points')">TOTAL POINTS</div>
     </div>
     <div class="game-stats">
-        <div id="high-scores" class="tab-content active center">
+        <div id="high-scores" class="tab-content active">
             <div id="high-scores-list">
                 <!-- High scores data will be appended here -->
             </div>
         </div>
-        <div id="total-points" class="tab-content center">
+        <div id="total-points" class="tab-content">
             <div id="total-points-list">
                 <!-- Total points data will be appended here -->
-                <div class="score-table">
-                    <span>1.</span>
-                    <img src="{{url_for('static', filename='img/profile_1.png')}}" width="40" height="40"/>
-                    <span>entry</span>
-                </div>
-                <span style="color: gray;">220.650TP</span>
             </div>
         </div>
     </div>
