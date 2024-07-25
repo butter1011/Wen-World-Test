@@ -1,16 +1,8 @@
-@font-face {
-    font-family: 'Avenir';
-    src: url('https://fonts.cdnfonts.com/s/49041/AvenirNextLTPro-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-}
-
 body,
 html {
     margin: 0;
     padding: 0;
     background-color: black;
-    font-family: 'Avenir', sans-serif;
     font-weight: bold;
     color: white;
     display: flex;
@@ -18,16 +10,15 @@ html {
     align-items: center;
     justify-content: flex-start;
     height: 100%;
+    width: 100%;
     overflow: hidden;
 }
 
 .leaderboard-container {
     width: 100%;
-    max-width: 400px;
+    width: 80%;
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    text-align: center;
     padding: 20px;
     color: white;
     margin-top: 10px;
@@ -37,32 +28,34 @@ html {
     overflow: hidden;
 }
 
-.leaderboard-header {
+.header {
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
     width: 100%;
-    max-width: 400px;
-    background-color: #00FFCF;
-    color: black;
-    padding: 10px 0;
-    font-size: 5vh;
-    font-weight: bold;
-    border-radius: 0 0 10px 10px;
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-    text-align: center;
+    font-size: 36px;
 }
 
 .profile-section {
+    background: #333333;
+    padding: 24px;
+    border-radius: 50px;
+    opacity: 0px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
     margin-bottom: 10px;
-    margin-top: 70px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .profile-pic {
-    width: 100px;
-    height: 100px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     background-color: #444;
     display: flex;
@@ -90,6 +83,7 @@ html {
     position: absolute;
     bottom: 0;
     right: 0;
+    font-size: 28px;
     background-color: #00FFCF;
     border-radius: 50%;
     padding: 5px;
@@ -97,9 +91,12 @@ html {
 }
 
 .nickname {
-    font-size: 3vh;
+    font-size: 1.2rem;
     /* Increased font size for nickname */
+    color: #00FFCF;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
 }
 
 .nickname input {
@@ -116,22 +113,21 @@ html {
 }
 
 .tridend-amount {
-    font-size: 5vh;
+    font-size: 1.4rem;
     /* Increased font size for points */
     margin-bottom: 5px;
-    color: #00FFCF;
     font-weight: bold;
 }
 
 .top-score {
-    font-size: 3vh;
+    font-size: 1.4rem;
     /* Increased font size for top score */
     margin-bottom: 10px;
     color: white;
 }
 
 .checkin-count {
-    font-size: 3vh;
+    font-size: 1.4rem;
     /* Increased font size for check-ins */
     margin-bottom: 10px;
     color: white;
@@ -220,14 +216,28 @@ html {
     margin-top: 20px;
 }
 
-.button {
+.farming-button {
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     font-size: 2.5vh;
-    background: linear-gradient(135deg, #FF0092, #00FFCF);
-    color: white;
+    background: #636363;
+    color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.checkin-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 2.5vh;
+    background: #00FFCF;
+    color: black;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -286,7 +296,7 @@ html {
 
 .modal-content p {
     color: #ccc;
-    font-size: 2.5vh;
+    font-size: 1.2rem;
 }
 
 .modal-content .rewards {
@@ -297,41 +307,57 @@ html {
 }
 
 .modal-content .rewards .reward {
-    background: #333;
+    background: #2A2A2A;
     border-radius: 10px;
     padding: 10px;
     margin: 5px;
-    width: 70px;
+    width: 100px;
     text-align: center;
     color: white;
     font-size: 2vh;
 }
 
+.modal-content .rewards .reward.past {
+    background: #636363;
+}
+
+
 .modal-content .rewards .reward.current {
-    border: 2px solid #00FFCF;
-}
-
-.modal-content button {
-    background: linear-gradient(135deg, #FF0092, #00FFCF);
-    color: black;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 2.5vh;
-}
-
-.modal-content button:hover {
-    background: linear-gradient(135deg, #00FFCF, #FF0092);
+    background: #00FFCF;
 }
 
 .close-modal {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
     background: none;
     border: none;
-    font-size: 3vh;
+    font-size: 1.5rem;
     color: white;
     cursor: pointer;
 }
+
+.modal_type1 {
+    position: relative;
+    font-size: 20px;
+    color: white;
+    height: max-content;
+    border-radius: 50px 50px 50px 50px;
+    width: 80%;
+    background: #333333;
+    box-shadow: 0px -4px 4px 0px #00FFCF;
+}
+
+.green_btn {
+    width: 90%;
+    height: 50px;
+    border-radius: 16px 16px 16px 16px;
+    font-size: 20px;
+    padding: 1rem;
+    font-weight: 700;
+    background: #00FFCF;
+    color: black;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  

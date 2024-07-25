@@ -2,8 +2,8 @@ async function init() {
     const scoreElement = document.getElementById("top-score");
     const checkinCountElement = document.getElementById("checkin-count");
     const highScoreElement = document.getElementById("tridend-amount");
-    const nicknameDisplayElement = document.getElementById("nickname-display");
-    const nicknameInputELement = document.getElementById("nickname-input");
+    // const nicknameDisplayElement = document.getElementById("nickname-display");
+    // const nicknameInputELement = document.getElementById("nickname-input");
     const user = window.Telegram.WebApp.initDataUnsafe.user;
     const user_id = user.id;
 
@@ -19,8 +19,8 @@ async function init() {
             scoreElement.innerHTML = `Today's Top Score: ${data.data.total_score}`;
             checkinCountElement.innerHTML = `Check-ins: ${data.data.dailyCheckin}`;
             highScoreElement.innerHTML = data.data.high_score;
-            nicknameDisplayElement.innerHTML = data.data.user_name;
-            nicknameInputELement.value = data.data.user_name;
+            // nicknameDisplayElement.innerHTML = data.data.user_name;
+            // nicknameInputELement.value = data.data.user_name;
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -53,10 +53,10 @@ async function init() {
         }
     }
 
-    if (storedNickname) {
-        document.getElementById('nickname-display').textContent = storedNickname;
-        document.getElementById('nickname-input').value = storedNickname;
-    }
+    // if (storedNickname) {
+    //     document.getElementById('nickname-display').textContent = storedNickname;
+    //     document.getElementById('nickname-input').value = storedNickname;
+    // }
     updateCheckinCount(checkinCount);
     dailyCheckIn();
 }
@@ -241,30 +241,30 @@ document.getElementById('upload-img').addEventListener('change', function () {
     reader.readAsDataURL(this.files[0]);
 });
 
-document.getElementById('nickname-display').addEventListener('click', function () {
-    document.getElementById('nickname-display').style.display = 'none';
-    document.getElementById('nickname-input').style.display = 'inline-block';
-    document.getElementById('nickname-input').focus();
-});
+// document.getElementById('nickname-display').addEventListener('click', function () {
+//     document.getElementById('nickname-display').style.display = 'none';
+//     document.getElementById('nickname-input').style.display = 'inline-block';
+//     document.getElementById('nickname-input').focus();
+// });
 
-document.getElementById('nickname-input').addEventListener('blur', async function () {
-    const nickname = document.getElementById('nickname-input').value;
-    document.getElementById('nickname-display').textContent = nickname;
-    document.getElementById('nickname-display').style.display = 'inline-block';
-    document.getElementById('nickname-input').style.display = 'none';
-    await update_name(nickname);
-});
+// document.getElementById('nickname-input').addEventListener('blur', async function () {
+//     const nickname = document.getElementById('nickname-input').value;
+//     document.getElementById('nickname-display').textContent = nickname;
+//     document.getElementById('nickname-display').style.display = 'inline-block';
+//     document.getElementById('nickname-input').style.display = 'none';
+//     await update_name(nickname);
+// });
 
-document.getElementById('nickname-input').addEventListener('keypress', async function (e) {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        const nickname = document.getElementById('nickname-input').value;
-        document.getElementById('nickname-display').textContent = nickname;
-        document.getElementById('nickname-display').style.display = 'inline-block';
-        document.getElementById('nickname-input').style.display = 'none';
-        await update_name(nickname);
-    }
-});
+// document.getElementById('nickname-input').addEventListener('keypress', async function (e) {
+//     if (e.key === 'Enter') {
+//         e.preventDefault();
+//         const nickname = document.getElementById('nickname-input').value;
+//         document.getElementById('nickname-display').textContent = nickname;
+//         document.getElementById('nickname-display').style.display = 'inline-block';
+//         document.getElementById('nickname-input').style.display = 'none';
+//         await update_name(nickname);
+//     }
+// });
 
 async function update_name(username) {
     const user = window.Telegram.WebApp.initDataUnsafe.user;

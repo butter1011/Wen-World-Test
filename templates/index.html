@@ -23,7 +23,7 @@
 <div id="game-container">
     <canvas id="gameCanvas"></canvas>
 </div>
-<div id="countdown">3</div>
+<!-- <div id="countdown">3</div> -->
 <div class="ground" id="ground" style="display:none;"></div>
 <div id="score" style="display:none;">Score: 0</div>
 <div id="health-container" style="display:none;">
@@ -34,7 +34,7 @@
 <button id="info-button">i</button>
 <div id="message" class="message" style="color: red;">Sammy just rug pulled you</div>
 <div id="leverage-message" class="message" style="color: green;">Infinite knowledge grants you +100 Triend points
-</div>  
+</div>
 <div id="bear-value" class="message" style="color: red;">Market maker bear has stolen your gains</div>
 <div id="boost-message" class="message" style="color: green;"> Short Squeeeeze</div>
 <div id="slowdown-message" class="message" style="color: red;">You've been stopped out</div>
@@ -52,5 +52,7 @@
 {% include "components/footer.html" %}
 {% include "components/header.html" %}
 {% include "components/rule_modal.html" %}
+{% include "components/loading_screen.html" %}
+{% include "components/character_select.html" %}
 <script src="{{url_for('static', filename='js/index.js')}}"></script>
 {% endblock %}

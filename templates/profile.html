@@ -1,52 +1,46 @@
 {% extends "layout.html" %}
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
-<div class="leaderboard-header">
-    My Profile
+<div class="header">
+    My WEN
 </div>
 <div class="leaderboard-container">
     <div class="profile-section">
-        <div class="profile-pic">
-            <img id="profile-img"
-                src="https://www.dropbox.com/scl/fi/vst3f1284optolu377rk6/Add-a-subheading-5.svg?rlkey=4vvnqmxq8qjcxw29rpv9uydv2&raw=1"
-                alt="Profile Picture">
-            <input type="file" id="upload-img" accept="image/*">
-            <label for="upload-img">📷</label>
+        <div class="center" style="flex-direction: column; gap:10px;">
+            <div class="profile-pic">
+                <img id="profile-img" src="{{ url_for('static', filename='img/profile.png') }}" alt="Profile Picture">
+                <input type="file" id="upload-img" accept="image/*">
+                <label for="upload-img">📷</label>
+            </div>
+            <p class="nickname">Daniel K.</p>
         </div>
-        <div class="nickname">
+        <div class="center" style="gap: 10px;">
+            <div class="tridend-amount center" id="tridend-amount" style="flex-direction: column;">
+                <span style="color: gray;">Total Score: </span>
+                <span>0</span>
+            </div>
+            <div class="top-score center" id="top-score" style="flex-direction: column;">
+                <span style="color: gray;">High Score:</span>
+                <span>0</span>
+            </div>
+            <div class="checkin-count center" id="checkin-count" style="flex-direction: column;">
+                <span style="color: gray;">Check-Ins:</span>
+                <span> 0</span>
+            </div>
+        </div>
+        <!-- <div class="nickname">
             <span id="nickname-display">- - -</span>
             <input type="text" id="nickname-input" value="Player Name" style="display: none;">
-        </div>
-        <div class="tridend-amount" id="tridend-amount">0</div>
-        <div class="top-score" id="top-score">Today's Top Score: 0</div>
-        <div class="checkin-count" id="checkin-count">Check-ins: 0</div>
-        <div class="button-container">
-            <button class="button" id="farming-btn" onclick="">-- : -- : --</button>
-            <button class="button" onclick="showModal()">Check-in</button>
-        </div>
+        </div> -->
+    </div>
+    <div class="button-container">
+        <button class="farming-button" id="farming-btn" onclick="">-- : -- : --</button>
+        <button class="checkin-button" onclick="showModal()">CHECK-IN</button>
     </div>
 </div>
 
 {% include "components/footer.html" %}
-
-<div class="modal" id="daily-checkin-modal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeModal()">✖</button>
-        <span>Daily Check-in</span>
-        <h2>Daily Reward</h2>
-        <p>Accrue coins for logging into the game daily without skipping</p>
-        <div class="rewards">
-            <div class="reward current">Day 1<br>100</div>
-            <div class="reward">Day 2<br>200</div>
-            <div class="reward">Day 3<br>400</div>
-            <div class="reward">Day 4<br>800</div>
-            <div class="reward">Day 5<br>1600</div>
-            <div class="reward">Day 6<br>3200</div>
-            <div class="reward">Day 7+<br>5000</div>
-        </div>
-        <button onclick="dailyClaim()" id="daily_claim">Claim</button>
-    </div>
-</div>
+{% include "components/daily-reward.html" %}
 {% include "components/footer.html" %}
 <script src="{{url_for('static', filename='js/profile.js')}}"></script>
 {% endblock %}

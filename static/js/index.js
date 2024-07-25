@@ -529,27 +529,29 @@ function enterGame() {
     document.getElementById('info-button').style.display = 'flex';
     document.getElementById('opening-page').style.display = 'none';
     document.getElementById('header').style.display = 'none';
-    document.getElementById('footer').style.display = 'flex';
     document.getElementById('rule-content1').style.display = 'flex';
 }
 
 function startCountdown() {
-    document.getElementById('info-button').style.display = 'none';
+    // document.getElementById('info-button').style.display = 'none';
     document.getElementById('opening-page').style.display = 'none';
     document.getElementById('header').style.display = 'none';
-    const countdownElement = document.getElementById('countdown');
-    countdownElement.style.display = 'block';
+    document.getElementById('character-card').style.display = 'none';
+    document.getElementById('loading_screen').style.display = 'block'
+    // const countdownElement = document.getElementById('countdown');
+    // countdownElement.style.display = 'block';
     let countdown = 3;
-    countdownElement.innerHTML = countdown;
+    // countdownElement.innerHTML = countdown;
     const interval = setInterval(() => {
         countdown--;
         if (countdown > 0) {
-            countdownElement.innerHTML = countdown;
+            // countdownElement.innerHTML = countdown;
         } else if (countdown === 0) {
-            countdownElement.innerHTML = 'GO!';
+            // countdownElement.innerHTML = 'GO!';
         } else {
             clearInterval(interval);
-            countdownElement.style.display = 'none';
+            // countdownElement.style.display = 'none';
+            document.getElementById('loading_screen').style.display = 'none'
             startGame();
         }
     }, 1000);
@@ -1143,7 +1145,7 @@ ruleBtn3.onclick = function () {
 ruleBtn4.onclick = function () {
     rule_content4.style.display = 'none';
     ruleModal.style.display = 'none';
-    startCountdown();
+    document.getElementById('character-card').style.display = 'flex';
 }
 
 infoButton.onclick = function () {
@@ -1184,4 +1186,13 @@ function navigateTo(page) {
 
 function navigateToHome() {
     window.location.href = '/';
+}
+
+let selectedCharacter = null;
+function selectCharacter(name, imageUrl) {
+    selectedCharacter = { name, image: new Image() };
+    selectedCharacter.image.src = imageUrl;
+    const characterCards = document.querySelectorAll('.character-card');
+    characterCards.forEach(card => card.classList.remove('selected'));
+    event.currentTarget.classList.add('selected');
 }

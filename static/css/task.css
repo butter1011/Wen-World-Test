@@ -1,16 +1,8 @@
-@font-face {
-    font-family: 'Avenir';
-    src: url('https://fonts.cdnfonts.com/s/49041/AvenirNextLTPro-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-}
-
 body,
 html {
     margin: 0;
     padding: 0;
     background-color: black;
-    font-family: 'Inter';
     font-weight: bold;
     color: white;
     display: flex;
