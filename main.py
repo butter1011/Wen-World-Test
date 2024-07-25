@@ -106,12 +106,18 @@ def highscore_data():
         # Get Scores
         scores_ref = db.collection("users").document(user_id).collection("scores")
         current_score_doc = scores_ref.document(currentTime).get()
+        user_ref = db.collection("users").document(user_id).get()
+
         if current_score_doc.exists:
             score_data = current_score_doc.to_dict()
-            user_ref = db.collection("users").document(user_id).get()
             return {
                 "name": user_ref.to_dict().get("name", "Player"),
                 "points": score_data.get("score", 0),
+            }
+        else:
+            return {
+                "name": user_ref.to_dict().get("name", "Player"),
+                "points": 0,
             }
     else:
         highscoredata = []

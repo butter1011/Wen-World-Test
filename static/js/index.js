@@ -274,13 +274,13 @@ function updateHealth() {
     document.getElementById('health-bar').style.backgroundColor = color;
 }
 
-function showFlash() {
-    const flashElement = document.getElementById('flash-screen');
-    flashElement.style.display = 'block';
-    setTimeout(() => {
-        flashElement.style.display = 'none';
-    }, 100);
-}
+// function showFlash() {
+//     const flashElement = document.getElementById('flash-screen');
+//     flashElement.style.display = 'block';
+//     setTimeout(() => {
+//         flashElement.style.display = 'none';
+//     }, 100);
+// }
 
 function showMessage(text, duration = 3000) {
     const messageElement = document.getElementById('message');
@@ -369,15 +369,15 @@ function updateCoinImages() {
     });
 }
 
-function showNegativeFlash() {
-    const flashElement = document.getElementById('flash-screen');
-    flashElement.style.background = 'rgba(0, 0, 0, 0.5)';
-    flashElement.style.display = 'block';
-    setTimeout(() => {
-        flashElement.style.display = 'none';
-        flashElement.style.background = 'rgba(255, 0, 0, 0.5)';
-    }, 1000);
-}
+// function showNegativeFlash() {
+//     const flashElement = document.getElementById('flash-screen');
+//     flashElement.style.background = 'rgba(0, 0, 0, 0.5)';
+//     flashElement.style.display = 'block';
+//     setTimeout(() => {
+//         flashElement.style.display = 'none';
+//         flashElement.style.background = 'rgba(255, 0, 0, 0.5)';
+//     }, 1000);
+// }
 
 function bankCoins() {
     bankedScore += score;
@@ -433,9 +433,10 @@ function bankCoins() {
 // }
 
 async function saveScore() {
-    // const playerName = "matt"; 
-    const user = window.Telegram.WebApp.initDataUnsafe.user;
-    const user_id = user?.id;
+    // const user = window.Telegram.WebApp.initDataUnsafe.user;
+    // const user_id = user?.id;
+
+    const user_id = "7069393465";
     if (user) {
         // const playerName = user.username || null;
 
@@ -814,7 +815,7 @@ function gameLoop(timestamp) {
             showSlowdownMessage();
             player.dy = player.jumpPower * 2;
             player.visible = false;
-            showFlash();
+            // showFlash();
             setTimeout(() => {
                 player.visible = true;
                 player.y = canvas.height - player.height - 25;
@@ -846,7 +847,7 @@ function gameLoop(timestamp) {
                     saveScore();
                     return;
                 }
-                showFlash();
+                // showFlash();
                 updateHealth();
             }
         }

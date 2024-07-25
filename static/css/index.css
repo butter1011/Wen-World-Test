@@ -295,8 +295,8 @@ html {
 
 #end-and-bank-button {
   position: absolute;
-  top: 2vh;
-  right: 5vh;
+  top: 2.5vh;
+  right: 8vh;
   /* Adjusted to make space for info button */
   padding: 1vh 2vh;
   font-size: 2vh;
