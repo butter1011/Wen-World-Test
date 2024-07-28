@@ -136,6 +136,7 @@ def highscore_data():
                         "name": user_ref.get("name", "Player"),
                         "user_id": user.id,
                         "points": score_data.get("score", 0),
+                        "picture": user_ref.get("picture", "")
                     }
                 )
 
@@ -257,6 +258,7 @@ def initUser():
     currentTime = datetime.utcnow().strftime("%m-%d-%y")
     user_id = str(request.json.get("user_id"))
     user_name = str(request.json.get("user_name"))
+    picture = str(request.json.get("picture"))
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get().to_dict()
 
@@ -264,6 +266,7 @@ def initUser():
         user_ref.set(
             {
                 "name": user_name,
+                "picture": picture,
                 "totals": 0,
                 "dailyCheckin": 0,
                 "last_reward": "",

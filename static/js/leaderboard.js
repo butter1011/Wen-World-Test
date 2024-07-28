@@ -1,7 +1,8 @@
-// let serverurl = "http://localhost:5000";
-let serverurl = "https://telegram-1-Triend.replit.app";
-const user = window.Telegram.WebApp.initDataUnsafe.user;
-const user_id = user?.id;
+let serverurl = "http://localhost:5000";
+// let serverurl = "https://telegram-1-Triend.replit.app";
+// const user = window.Telegram.WebApp.initDataUnsafe.user;
+// const user_id = user?.id;
+const user_id = 706939346;
 
 let farmingInterval;
 const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
@@ -27,7 +28,7 @@ async function initScore() {
             data.forEach((entry, index) => {
                 const highlistItem = document.createElement('div');
                 highlistItem.classList.add("score-table");
-                highlistItem.innerHTML = `<div style="display:flex; justify-content: space-between;width: 30%;align-items:center"><span class="width:40px;">${index + 1}.</span><img src="" width="40" height="40" /></div>${entry.name}</span><span style="color:gray;">${entry.points}</span>`;
+                highlistItem.innerHTML = `<div style="display:flex; justify-content: space-between;width: 30%;align-items:center"><span class="width:40px;">${index + 1}.</span><img src="${entry.picture}" width="40" height="40" /></div>${entry.name}</span><span style="color:gray;">${entry.points}</span>`;
                 highScorelist.appendChild(highlistItem);
             });
         })
@@ -54,7 +55,7 @@ async function initScore() {
 
                 const totallistItem = document.createElement('div');
                 totallistItem.classList.add("score-table");
-                totallistItem.innerHTML = `<div style="display:flex; justify-content: space-between;width: 30%;align-items:center;"><span class="width:40px;">${index + 1}.</span><img src="" width="40" height="40" /></div><span>${entry.name}</span><span style="color:gray;">${entry.total}</span>`;
+                totallistItem.innerHTML = `<div style="display:flex; justify-content: space-between;width: 30%;align-items:center;"><span class="width:40px;">${index + 1}.</span><img src="${entry.picture}" width="40" height="40" /></div><span>${entry.name}</span><span style="color:gray;">${entry.total}</span>`;
                 totalScorelist.appendChild(totallistItem);
                 total_rank.innerHTML = `${rank}`;
             });
