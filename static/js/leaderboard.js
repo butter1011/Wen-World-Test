@@ -7,6 +7,24 @@ const user_id = 706939346;
 let farmingInterval;
 const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
 const farmingDuration = 6 * 60 * 60 * 1000;
+const defautlSvg = `<svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 512 512" xml:space="preserve">
+<g>
+	<g>
+		<path d="M256,0c-84.83,0-153.6,85.965-153.6,192S171.17,384,256,384s153.6-85.965,153.6-192S340.83,0,256,0z M256,358.4
+			c-70.579,0-128-74.65-128-166.4S185.421,25.6,256,25.6S384,100.25,384,192S326.579,358.4,256,358.4z"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path d="M367.812,361.762c-6.869,6.682-14.182,12.689-21.82,18.099c24.388,11.332,45.781,20.753,64.051,28.732
+			c67.797,29.585,76.356,35.439,76.356,52.207c0,11.597-11.418,25.6-25.6,25.6H51.2c-14.182,0-25.6-14.003-25.6-25.6
+			c0-16.768,8.559-22.622,76.348-52.207c18.278-7.979,39.671-17.399,64.051-28.732c-7.637-5.41-14.95-11.418-21.82-18.099
+			C37.598,410.539,0,417.075,0,460.8C0,486.4,22.921,512,51.2,512h409.6c28.279,0,51.2-25.6,51.2-51.2
+			C512,417.075,474.402,410.539,367.812,361.762z"/>
+	</g>
+</g>
+</svg>`;
 
 // init top score and total score
 async function initScore() {
@@ -28,7 +46,7 @@ async function initScore() {
             data.forEach((entry, index) => {
                 const highlistItem = document.createElement('div');
                 highlistItem.classList.add("score-table");
-                highlistItem.innerHTML = `<div style="display:flex; justify-content: space-between;width: 30%;align-items:center"><span class="width:40px;">${index + 1}.</span><img src="${entry.picture}" width="40" height="40" /></div>${entry.name}</span><span style="color:gray;">${entry.points}</span>`;
+                highlistItem.innerHTML = `<div style="display:flex; justify-content: space-between;width: 30%;align-items:center"><span class="width:40px;">${index + 1}.</span>${entry.picture != "" ? (`<img src='${entry.picture}' width='40' height='40' />`) : defautlSvg}</div>${entry.name}</span><span style="color:gray;">${entry.points}</span>`;
                 highScorelist.appendChild(highlistItem);
             });
         })
@@ -55,7 +73,7 @@ async function initScore() {
 
                 const totallistItem = document.createElement('div');
                 totallistItem.classList.add("score-table");
-                totallistItem.innerHTML = `<div style="display:flex; justify-content: space-between;width: 30%;align-items:center;"><span class="width:40px;">${index + 1}.</span><img src="${entry.picture}" width="40" height="40" /></div><span>${entry.name}</span><span style="color:gray;">${entry.total}</span>`;
+                totallistItem.innerHTML = `<div style="display:flex; justify-content: space-between;width: 30%;align-items:center;"><span class="width:40px;">${index + 1}.</span><img src="${entry.picture != "" ? (`<img src='${entry.picture}' width='40' height='40' />`) : defautlSvg}" width="40" height="40" /></div><span>${entry.name}</span><span style="color:gray;">${entry.total}</span>`;
                 totalScorelist.appendChild(totallistItem);
                 total_rank.innerHTML = `${rank}`;
             });
