@@ -82,7 +82,7 @@ def getUserInfo():
                 "user_name": user_name,
                 "high_score": high_score,
                 "dailyCheckin": dailyCheckin,
-                "picture": user_ref.get("picture", "")
+                "picture": user_doc.get("picture", "")
             },
         }
     )
