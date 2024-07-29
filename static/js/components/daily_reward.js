@@ -3,7 +3,6 @@ const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
 async function dailyCheckIn() {
     const rewards_list = document.getElementsByClassName("reward");
     const claim_btn = document.getElementById("daily_claim");
-    console.log("----------->", rewards_list);
 
     const response = await fetch(`${serverurl}/api/v2/dailyCheckin`, {
         method: 'POST',
