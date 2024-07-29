@@ -1,6 +1,10 @@
 // daily_checkin js
 const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
 async function dailyCheckIn() {
+    const rewards_list = document.getElementsByClassName("reward");
+    const claim_btn = document.getElementById("daily_claim");
+    console.log("----------->", rewards_list);
+
     const response = await fetch(`${serverurl}/api/v2/dailyCheckin`, {
         method: 'POST',
         headers: {
@@ -14,8 +18,6 @@ async function dailyCheckIn() {
     let checkinCount = data.dailyCheckin;
     if (checkinCount > 7) checkinCount = 7;
 
-    const rewards_list = document.getElementsByClassName("reward");
-    const claim_btn = document.getElementById("daily_claim");
     // delete the class
     for (let i = 0; i < rewards_list.length; i++) {
         rewards_list[i].classList.remove("current");
@@ -48,9 +50,9 @@ async function dailyClaim() {
     await dailyCheckIn();
 }
 
-function updateCheckinCount(count) {
-    document.getElementById('checkin-count').innerText = `Check-ins: ${count}`;
-}
+// function updateCheckinCount(count) {
+//     document.getElementById('checkin-count').innerText = `Check-ins: ${count}`;
+// }
 
 function showModal() {
     document.getElementById('daily-checkin-modal').style.display = 'flex';

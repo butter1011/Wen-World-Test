@@ -1,8 +1,18 @@
-let serverurl = "https://wen-world-test.onrender.com";
-// let serverurl = "http://localhost:5000";
+// let serverurl = "https://wen-world-test.onrender.com";
+let serverurl = "http://localhost:5000";
 // let serverurl = "https://telegram-1-Triend.replit.app";
-const user = window.Telegram.WebApp.initDataUnsafe.user;
-const user_id = user?.id;
+// const user = window.Telegram.WebApp.initDataUnsafe.user;
+// const user_id = user?.id;
+const user_id = 7269635495;
+
+function convertToUnixTimestamp(dateString) {
+    const [datePart, timePart] = dateString.split(':');
+    const [month, day, year] = datePart.split('/').map(Number);
+    const [hours, minutes, seconds] = timePart.split('-').map(Number);
+    const date = new Date(`20${year}`, month - 1, day, hours, minutes, seconds);
+
+    return date.getTime();
+}
 
 async function init() {
     const scoreElement = document.getElementById("total_score");
@@ -33,7 +43,9 @@ async function init() {
     // startfarming button init
     const currentTime = await getCurrentTime();
     const lastTime = await getfarmingTime();
-    const farmingDuration = currentTime - lastTime;
+    
+    const convert_lastTime = convertToUnixTimestamp(lastTime);
+    const farmingDuration = currentTime - convert_lastTime;
 
     if (lastTime === 0) {
         document.getElementById('farming-btn').innerHTML = `Start Farming`;
@@ -57,7 +69,6 @@ async function init() {
         }
     }
 
-    updateCheckinCount(checkinCount);
     dailyCheckIn();
 }
 

@@ -5,9 +5,9 @@
         <p style="text-transform: uppercase; font-size: 32px;">Daily Reward</p>
         <p>Accrue coins for logging into the game daily without skipping</p>
         <div class="rewards">
-            <div class="reward past">Day 1<br><span style="font-weight: 500;">100 TP</span></div>
-            <div class="reward past">Day 2<br><span style="font-weight: 500;">200 TP</span></div>
-            <div class="reward current">Day 3<br><span style="font-weight: 500;"></span>400 TP</span></div>
+            <div class="reward">Day 1<br><span style="font-weight: 500;">100 TP</span></div>
+            <div class="reward">Day 2<br><span style="font-weight: 500;">200 TP</span></div>
+            <div class="reward">Day 3<br><span style="font-weight: 500;"></span>400 TP</span></div>
             <div class="reward">Day 4<br><span style="font-weight: 500;">800 TP</span></div>
             <div class="reward">Day 5<br><span style="font-weight: 500;">1.6K TP</span></div>
             <div class="reward">Day 6<br><span style="font-weight: 500;">3.2K TP</span></div>
@@ -16,7 +16,7 @@
         <!-- <div class="rewards">
             <img src="{{url_for('static', filename='img/daily-reward.png')}}"/>
         </div> -->
-        <button onclick="dailyClaim()" class="green_btn">Claim</button>
+        <button onclick="dailyClaim()" class="green_btn" id="daily_claim">Claim</button>
     </div>
 </div>
 

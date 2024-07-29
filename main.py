@@ -214,8 +214,6 @@ def farmingTime():
         farmingTime = user_data.get("startFarming", '')
         if farmingTime == '':
             farmingTime = 0
-        else:
-            farmingTime = datetime.strptime(farmingTime, "%m/%d/%y:%H-%M-%S")
 
     return (jsonify({"farmingTime": farmingTime}), 200)
 

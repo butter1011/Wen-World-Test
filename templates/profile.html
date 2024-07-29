@@ -13,7 +13,7 @@
                 <input type="file" id="upload-img" accept="image/*">
                 <label for="upload-img">📷</label>
             </div>
-            <p class="nickname">-----</p>
+            <p class="nickname" id="nickname">-----</p>
         </div>
         <div class="center" style="gap: 10px;">
             <div class="tridend-amount center" id="tridend-amount" style="flex-direction: column;">
@@ -31,12 +31,13 @@
         </div>
     </div>
     <div class="button-container">
-        <button class="farming-button" id="farming-btn" onclick="">-- : -- : --</button>
+        <button class="farming-button" id="farming-btn" onclick="startFarming()">-- : -- : --</button>
         <button class="checkin-button" onclick="showModal()">CHECK-IN</button>
     </div>
 </div>
 
 {% include "components/daily-reward.html" %}
 <script src="{{url_for('static', filename='js/profile.js')}}"></script>
+<script src="{{url_for('static', filename='js/components/farming.js')}}"></script>
 <script src="{{url_for('static', filename='js/components/daily_reward.js')}}"></script>
 {% endblock %}
