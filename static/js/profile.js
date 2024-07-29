@@ -5,9 +5,9 @@ const user = window.Telegram.WebApp.initDataUnsafe.user;
 const user_id = user?.id;
 
 async function init() {
-    const scoreElement = document.getElementById("top-score");
-    const checkinCountElement = document.getElementById("checkin-count");
-    const highScoreElement = document.getElementById("tridend-amount");
+    const scoreElement = document.getElementById("total_score");
+    const checkinCountElement = document.getElementById("check_ins");
+    const highScoreElement = document.getElementById("high_score");
 
     await fetch(`${serverurl}/api/v1/getUserInfo`, {
         method: 'POST',
@@ -18,8 +18,8 @@ async function init() {
     })
         .then(response => response.json())
         .then((data) => {
-            scoreElement.innerHTML = `Today's Top Score: ${data.data.total_score}`;
-            checkinCountElement.innerHTML = `Check-ins: ${data.data.dailyCheckin}`;
+            scoreElement.innerHTML = data.data.total_score;
+            checkinCountElement.innerHTML = data.data.dailyCheckin;
             highScoreElement.innerHTML = data.data.high_score;
         })
         .catch((error) => {
