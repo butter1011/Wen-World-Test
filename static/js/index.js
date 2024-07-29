@@ -716,7 +716,7 @@ async function gameLoop(timestamp) {
                 lastHurtTime = now;
                 if (player.health === 1) {
                     showLastLifeMessage();
-                }
+                }   
                 if (player.health <= 0) {
                     async function SaveEndScore() {
                         await saveScore();
