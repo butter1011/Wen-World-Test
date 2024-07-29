@@ -511,7 +511,7 @@ function drawHitbox(ctx, x, y, width, height, color = 'red') {
 
 let lastTime = performance.now();
 
-function gameLoop(timestamp) {
+async function gameLoop(timestamp) {
     if (gameOver) return;
 
     const deltaTime = (timestamp - lastTime) / 1000; // Convert to seconds
@@ -660,8 +660,12 @@ function gameLoop(timestamp) {
                 showLastLifeMessage();
             }
             if (player.health <= 0) {
+                async function SaveEndScore() {
+                    await saveScore();
+                }
+
+                SaveEndScore();
                 gameOver = true;
-                saveScore();
                 document.getElementById('game-over-screen').style.display = 'flex';
                 document.getElementById('score').style.display = 'none';
                 document.getElementById('score-breakdown').style.display = 'none';
@@ -714,8 +718,12 @@ function gameLoop(timestamp) {
                     showLastLifeMessage();
                 }
                 if (player.health <= 0) {
+                    async function SaveEndScore() {
+                        await saveScore();
+                    }
+                    
+                    SaveEndScore();
                     gameOver = true;
-                    saveScore();
                     document.getElementById('game-over-screen').style.display = 'flex';
                     document.getElementById('score').style.display = 'none';
                     document.getElementById('score-breakdown').style.display = 'none';
