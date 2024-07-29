@@ -70,7 +70,7 @@ def getUserInfo():
     if high_doc:
         high_score = high_doc.get("high_score", 0)
 
-    user_name = user_doc.get("name", "Player")
+    user_name = user_doc.get("nickname", "Player")
     total_score = user_doc.get("totals", 0)
     dailyCheckin = user_doc.get("dailyCheckin", 0)
 
@@ -113,12 +113,12 @@ def highscore_data():
         if current_score_doc.exists:
             score_data = current_score_doc.to_dict()
             return {
-                "name": user_ref.to_dict().get("name", "Player"),
+                "name": user_ref.to_dict().get("nickname", "Player"),
                 "points": score_data.get("score", 0),
             }
         else:
             return {
-                "name": user_ref.to_dict().get("name", "Player"),
+                "name": user_ref.to_dict().get("nickname", "Player"),
                 "points": 0,
             }
     else:
@@ -135,7 +135,7 @@ def highscore_data():
                 score_data = current_score_doc.to_dict()
                 highscoredata.append(
                     {
-                        "name": user_ref.get("name", "Player"),
+                        "name": user_ref.get("nickname", "Player"),
                         "user_id": user.id,
                         "points": score_data.get("score", 0),
                         "picture": user_ref.get("picture", "")
@@ -171,7 +171,7 @@ def totalscore_data():
 
         user_ref = db.collection("users").document(user_id).get()
         return {
-            "name": user_ref.to_dict().get("name", "Player"),
+            "name": user_ref.to_dict().get("nickname", "Player"),
             "total": total_data,
         }
 
@@ -193,7 +193,7 @@ def totalscore_data():
 
             totalScoredata.append(
                 {
-                    "name": user_ref.get("name", "Player"),
+                    "name": user_ref.get("nickname", "Player"),
                     "user_id": user.id,
                     "total": total_data,
                     "picture": user_ref.get("picture", ""),
@@ -267,6 +267,7 @@ def initUser():
         user_ref.set(
             {
                 "name": user_name,
+                "nickname": user_name,
                 "picture": picture,
                 "totals": 0,
                 "dailyCheckin": 0,
@@ -506,7 +507,7 @@ def dailyClaim():
         time_diff = currentTime - last_reward
         days, seconds = time_diff.days, time_diff.seconds
         seconds = seconds % 60
-        print("------------->2", last_reward)
+        
         if days < 1:
             return (jsonify({"message": "failed to claim the daily checkin"}), 400)
 
@@ -661,7 +662,7 @@ def updateName():
     user_id = str(request.json.get("user_id"))
     name = request.json.get("name")
     user_ref = db.collection("users").document(user_id)
-    user_ref.update({"name": name})
+    user_ref.update({"nickname": name})
 
     return jsonify({"message": "Success"})
 

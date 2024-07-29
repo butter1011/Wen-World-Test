@@ -72,6 +72,44 @@ async function init() {
     dailyCheckIn();
 }
 
+document.getElementById('nickname').addEventListener('click', function(){
+    const nicknameElement = document.getElementById('nickname');
+    const currentNickname = nicknameElement.textContent;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = currentNickname;
+    input.id = 'nickname-input';
+
+    nicknameElement.replaceWith(input);
+    input.focus();
+
+    input.addEventListener('blur', () => {
+        const newNickname = input.value;
+        nicknameElement.textContent = newNickname;
+        input.replaceWith(nicknameElement);
+
+        // Send the updated nickname to the backend
+        fetch(`${serverurl}/api/v2/updateName`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id: user_id, name: newNickname })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Nickname updated successfully');
+            } else {
+                console.error('Error updating nickname');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+
 document.getElementById('upload-img').addEventListener('change', function () {
     const reader = new FileReader();
     reader.onload = function (e) {

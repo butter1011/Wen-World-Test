@@ -21,11 +21,15 @@ async function dailyCheckIn() {
     // delete the class
     for (let i = 0; i < rewards_list.length; i++) {
         rewards_list[i].classList.remove("current");
+        rewards_list[i].classList.remove("past");
     }
 
     // add the class
     for (let i = 0; i < checkinCount; i++) {
-        rewards_list[i].classList.add("current");
+        if (i == checkinCount - 1)
+            rewards_list[i].classList.add("current");
+        else
+            rewards_list[i].classList.add("past");
     }
 
     // disable the claimbutton
