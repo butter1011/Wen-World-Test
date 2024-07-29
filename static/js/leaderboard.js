@@ -1,4 +1,4 @@
-let serverurl = "http://localhost:5000";
+let serverurl = "https://wen-world-test.onrender.com";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 // const user = window.Telegram.WebApp.initDataUnsafe.user;
 // const user_id = user?.id;
@@ -7,7 +7,7 @@ const user_id = 706939346;
 let farmingInterval;
 const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
 const farmingDuration = 6 * 60 * 60 * 1000;
-const defautlSvg = `<svg fill="#000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+const defautlSvg = `<svg fill="#FFFFFF" height="40px" width="40px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 viewBox="0 0 512 512" xml:space="preserve">
 <g>
 	<g>
@@ -60,7 +60,7 @@ async function initScore() {
             'Content-Type': 'application/json',
         },
     })
-        .then(response => response.json())
+            .then(response => response.json())
         .then(data => {
             let score = 0;
             let rank = 1;
@@ -73,7 +73,7 @@ async function initScore() {
 
                 const totallistItem = document.createElement('div');
                 totallistItem.classList.add("score-table");
-                totallistItem.innerHTML = `<div style="display:flex; justify-content: space-between;width: 30%;align-items:center;"><span class="width:40px;">${index + 1}.</span><img src="${entry.picture != "" ? (`<img src='${entry.picture}' width='40' height='40' />`) : defautlSvg}" width="40" height="40" /></div><span>${entry.name}</span><span style="color:gray;">${entry.total}</span>`;
+                totallistItem.innerHTML = `<div style="display:flex; justify-content: space-between;width: 30%;align-items:center;"><span class="width:40px;">${index + 1}.</span>${entry.picture != "" ? (`<img src='${entry.picture}' width='40' height='40' />`) : defautlSvg}</div><span>${entry.name}</span><span style="color:gray;">${entry.total}</span>`;
                 totalScorelist.appendChild(totallistItem);
                 total_rank.innerHTML = `${rank}`;
             });

@@ -8,6 +8,7 @@ from datetime import datetime
 import asyncio
 
 app = Flask(__name__)
+
 # Enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -194,6 +195,7 @@ def totalscore_data():
                     "name": user_ref.get("name", "Player"),
                     "user_id": user.id,
                     "total": total_data,
+                    "picture": user_ref.get("picture", ""),
                 }
             )
 
