@@ -77,6 +77,7 @@ document.getElementById('nickname').addEventListener('click', function(){
     const currentNickname = nicknameElement.textContent;
     const input = document.createElement('input');
     input.type = 'text';
+    input.class = 'nickname';
     input.value = currentNickname;
     input.id = 'nickname-input';
 
