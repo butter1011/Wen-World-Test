@@ -8,6 +8,8 @@ async function init() {
     const scoreElement = document.getElementById("total_score");
     const checkinCountElement = document.getElementById("check_ins");
     const highScoreElement = document.getElementById("high_score");
+    const profileImage = document.getElementById("profile-img");
+    const nickname = document.getElementById("nickname");
 
     await fetch(`${serverurl}/api/v1/getUserInfo`, {
         method: 'POST',
@@ -21,6 +23,8 @@ async function init() {
             scoreElement.innerHTML = data.data.total_score;
             checkinCountElement.innerHTML = data.data.dailyCheckin;
             highScoreElement.innerHTML = data.data.high_score;
+            profileImage.src = data.data.picture != "" ? data.data.picture : "{{ url_for('static', filename='img/profile.png') }}";
+            nickname.innerHTML = data.data.user_name;
         })
         .catch((error) => {
             console.error('Error:', error);
