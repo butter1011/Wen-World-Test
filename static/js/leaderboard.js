@@ -1,8 +1,8 @@
-let serverurl = "https://wen-world-test.onrender.com";
+// let serverurl = "https://wen-world-test.onrender.com";
+let serverurl = "http://localhost:5000";
 // let serverurl = "https://telegram-1-Triend.replit.app";
-// const user = window.Telegram.WebApp.initDataUnsafe.user;
-// const user_id = user?.id;
-const user_id = 706939346;
+const user = window.Telegram.WebApp.initDataUnsafe.user;
+const user_id = user?.id;
 
 let farmingInterval;
 const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
