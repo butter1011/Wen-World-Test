@@ -46,8 +46,8 @@ function showTab(tabId) {
 window.addEventListener('resize', resizeCanvas);
 
 // Preload images
-const images = {
-    playerImg: "../static/img/player-img.png",
+let images = {
+    playerImg: "../static/img/player1-img.png",
     goodCoinImg: "../static/img/good-coin-img.png",
     badCoinImg: "../static/img/bad-coin-img.png",
     bullImg: "../static/img/bull-img.png",
@@ -56,7 +56,16 @@ const images = {
     triendImg: "../static/img/triend-img.png",
     zkpImg: "../static/img/zkp-img.png"
 };
-const imageElements = {};
+let imageElements = {};
+
+function selectCharacter(name) {
+    if (name == "character1")
+        imageElements['playerImg'].src = "../static/img/player1-img.png";
+    if (name == "character2")
+        imageElements['playerImg'].src = "../static/img/player2-img.png";
+    if (name == "character3")
+        imageElements['playerImg'].src = "../static/img/player3-img.png";
+}
 
 function preloadImages(sources, callback) {
     let loadedImages = 0;
@@ -717,12 +726,12 @@ async function gameLoop(timestamp) {
                 lastHurtTime = now;
                 if (player.health === 1) {
                     showLastLifeMessage();
-                }   
+                }
                 if (player.health <= 0) {
                     async function SaveEndScore() {
                         await saveScore();
                     }
-                    
+
                     SaveEndScore();
                     gameOver = true;
                     document.getElementById('game-over-screen').style.display = 'flex';
