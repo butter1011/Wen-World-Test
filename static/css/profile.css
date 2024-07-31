@@ -97,7 +97,7 @@ html {
     color: #00FFCF;
     margin-bottom: 10px;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
 }
 
 .nickname input {
@@ -107,7 +107,7 @@ html {
     margin-left: 10px;
     border: none;
     border-radius: 5px;
-    text-align: center;
+    /* text-align: center; */
     background-color: #333;
     color: #fff;
     display: none;
@@ -324,14 +324,13 @@ html {
 }
 
 .input-nickname {
-    width: 100px;
     border: 0;
     color: #00FFCF;
     font-family: inherit;
     height: 48px;
     display: flex;
-    justify-content: center;
-    text-align: center;
+    /* justify-content: center; */
+    /* text-align: center; */
     align-items: center;
     font-size: 20px;
     font-weight: 700;

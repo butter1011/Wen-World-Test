@@ -104,7 +104,7 @@ html {
 }
 
 .game-stats {
-  margin-top: 10px;
+  margin-bottom: 4rem;
   font-size: 2.5vh;
   flex-grow: 1;
   overflow-y: auto;

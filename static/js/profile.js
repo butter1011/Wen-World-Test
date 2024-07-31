@@ -33,7 +33,7 @@ async function init() {
             scoreElement.innerHTML = data.data.total_score;
             checkinCountElement.innerHTML = data.data.dailyCheckin;
             highScoreElement.innerHTML = data.data.high_score;
-            profileImage.src = data.data.picture != "" ? data.data.picture : "{{ url_for('static', filename='img/profile.png') }}";
+            profileImage.src = data.data.picture != "" ? data.data.picture : "../img/profile.png";
             nickname.innerHTML = data.data.user_name;
         })
         .catch((error) => {
@@ -47,7 +47,7 @@ async function init() {
     const convert_lastTime = convertToUnixTimestamp(lastTime);
     const farmingDuration = currentTime - convert_lastTime;
 
-    if (lastTime === 0) {
+    if (convert_lastTime === 0) {
         document.getElementById('farming-btn').innerHTML = `Start Farming`;
         document.getElementById('farming-btn').onclick = startFarming;
     }
@@ -78,7 +78,7 @@ document.getElementById('nickname').addEventListener('click', function(){
     const input = document.createElement('input');
     input.type = 'text';
     input.classList.add('input-nickname');
-    input.value = currentNickname;
+    // input.value = currentNickname;
     input.id = 'nickname-input';
 
     nicknameElement.replaceWith(input);
