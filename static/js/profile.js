@@ -43,9 +43,6 @@ async function init() {
     // startfarming button init
     const currentTime = await getCurrentTime();
     const lastTime = await getfarmingTime();
-    
-    const convert_lastTime = convertToUnixTimestamp(lastTime);
-    const farmingDuration = currentTime - convert_lastTime;
 
     if (lastTime === 0) {
         document.getElementById('farming-btn').innerHTML = `Start Farming`;
@@ -53,6 +50,9 @@ async function init() {
     }
 
     else {
+        const convert_lastTime = convertToUnixTimestamp(lastTime);
+        const farmingDuration = currentTime - convert_lastTime;
+        
         if (farmingDuration > 6 * 1000 * 3600) {
             document.getElementById('farming-btn').innerHTML = `Claim Point <span class="farming-circle"></span><span id="claim-point" class="timer">1000</span>`;
             document.getElementById('farming-btn').onclick = claimPoints;
