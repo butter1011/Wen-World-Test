@@ -226,7 +226,7 @@ def currentTime():
 
 
 # Invite the User
-@app.route("/api/v2/invite", methods=["POST"])
+@app.route("/api/v2/invite", methods=["POST"])  
 def invite():
     data = request.json.get("data")
     user_id = str(data["user_id"])
@@ -554,14 +554,12 @@ def farmingClaim():
     startFarming = user_data.get("startFarming", '')
 
     # get the time difference
-    currentTime = int(datetime.utcnow())
+    currentTime = int(datetime.utcnow().timestamp()*1000)
     if startFarming != "":
-        oldTime = datetime.strptime(startFarming, "%m/%d/%y:%H-%M-%S")
+        oldTime = convert_to_unix_timestamp(startFarming)
         time_diff = currentTime - oldTime
-        days, seconds = time_diff.days, time_diff.seconds
-        seconds = seconds % 60
 
-        if oldTime != 0 and seconds > (6 * 3600):
+        if oldTime != 0 and time_diff > (6 * 3600 * 1000):
             # get total value & set the total value
             total_value = user_data.get("totals", 0)
             total_value += 1000
@@ -666,6 +664,18 @@ def updateName():
 
     return jsonify({"message": "Success"})
 
+def convert_to_unix_timestamp(date_string):
+    date_part, time_part = date_string.split(':')
+    month, day, year = map(int, date_part.split('/'))
+    hours, minutes, seconds = map(int, time_part.split('-'))
+    
+    # Construct the datetime object
+    date = datetime(year + 2000, month, day, hours, minutes, seconds)
+    
+    # Convert to Unix timestamp
+    unix_timestamp = int(date.timestamp())
+    
+    return unix_timestamp
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

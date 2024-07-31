@@ -1,9 +1,9 @@
-let serverurl = "https://wen-world-test.onrender.com";
-// let serverurl = "http://localhost:5000";
+// let serverurl = "https://wen-world-test.onrender.com";
+let serverurl = "http://localhost:5000";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-const user_id = user?.id;
-// const user_id = 7269635495;
+// const user_id = user?.id;
+const user_id = 7269635495;
 
 function convertToUnixTimestamp(dateString) {
     const [datePart, timePart] = dateString.split(':');
@@ -46,6 +46,7 @@ async function init() {
     
     const convert_lastTime = convertToUnixTimestamp(lastTime);
     const farmingDuration = currentTime - convert_lastTime;
+    console.log("----------------->", farmingDuration);
 
     if (convert_lastTime === 0) {
         document.getElementById('farming-btn').innerHTML = `Start Farming`;
