@@ -33,7 +33,7 @@ async function init() {
             scoreElement.innerHTML = data.data.total_score;
             checkinCountElement.innerHTML = data.data.dailyCheckin;
             highScoreElement.innerHTML = data.data.high_score;
-            profileImage.src = data.data.picture != "" ? data.data.picture : "../img/profile.png";
+            profileImage.src = data.data.picture != "" ? data.data.picture : "../static/img/profile.png";
             nickname.innerHTML = data.data.user_name;
         })
         .catch((error) => {
