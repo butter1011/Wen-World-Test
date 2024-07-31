@@ -502,13 +502,11 @@ def dailyClaim():
     daily_total_value = total_data.get("score", 0)
 
     if last_reward != "":
-        currentTime = datetime.utcnow()
-        last_reward = datetime.strptime(last_reward, "%m/%d/%y:%H-%M-%S")
+        currentTime = datetime.utcnow().timestamp()*1000
+        last_reward = convert_to_unix_timestamp(last_reward)
         time_diff = currentTime - last_reward
-        days, seconds = time_diff.days, time_diff.seconds
-        seconds = seconds % 60
         
-        if days < 1:
+        if time_diff < 1000 * 24 * 3600:
             return (jsonify({"message": "failed to claim the daily checkin"}), 400)
 
     if dailyCheckin > 6:

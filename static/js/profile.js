@@ -47,7 +47,7 @@ async function init() {
     const convert_lastTime = convertToUnixTimestamp(lastTime);
     const farmingDuration = currentTime - convert_lastTime;
 
-    if (convert_lastTime === 0) {
+    if (lastTime === 0) {
         document.getElementById('farming-btn').innerHTML = `Start Farming`;
         document.getElementById('farming-btn').onclick = startFarming;
     }
