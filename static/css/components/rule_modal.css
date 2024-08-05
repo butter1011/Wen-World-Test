@@ -17,16 +17,15 @@
   color: white;
   height: max-content;
   border-radius: 50px 50px 50px 50px;
-  width: 80%;
+  width: 90%;
   background: #333333;
   box-shadow: 0px -4px 4px 0px #00FFCF;
 }
 
 .modal_type1 .score {
-  padding: 24px 32px 24px 32px;
+  padding: 1.5rem;
   gap: 8px;
   border-radius: 24px 24px 24px 24px;
-  opacity: 0px;
   background: #2A2A2A;
 }
 

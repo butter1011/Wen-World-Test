@@ -1,12 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/task.css') }}">
-<div class="header">
-    TASKS
-</div>
+
 <button id="info-button">i</button>
-<div class="container center">
-    <div class="tasks">
+<div class="center">
+    <div class="header">
+        TASKS
+    </div>
+    <div class="tasks container">
         <div class="task">
             <div class="center" style="flex-direction: row; gap: 20px;">
                 <img id="task_friend-img" loading="lazy" src="{{url_for('static', filename='img/task_friend.png')}}"
@@ -24,6 +25,7 @@
                 <button id="inviteFriend" onclick="inviteFriend()">START</button>
             </div>
         </div>
+
         <div class="task">
             <div class="center" style="flex-direction: row; gap: 20px;">
                 <img id="task_friend-img" loading="lazy" src="{{url_for('static', filename='img/task_friend.png')}}"

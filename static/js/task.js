@@ -17,15 +17,15 @@ async function init() {
         .then(data => {
             if (data.data) {
                 if (data.data.followTelegram) {
-                    document.getElementById('followTelegram').classList.add('completed');
-                    document.getElementById('followTelegram').innerHTML = 'Completed';
-                    document.getElementById('followTelegram').onclick = '';
+                    document.getElementById('followTelegram').classList.add('claim');
+                    document.getElementById('followTelegram').innerHTML = 'CLAIM';
+                    document.getElementById('followTelegram').onclick = 'claimPoints("followTelegram")';
                 }
 
                 if (data.data.inviteFriend != null) {
                     // if (data.data.inviteFriend > 9) {
-                    //     document.getElementById('inviteFriend').classList.add('completed');
-                    //     document.getElementById('inviteFriend').innerHTML = 'Completed';
+                    //     document.getElementById('inviteFriend').classList.add('claim');
+                    //     document.getElementById('inviteFriend').innerHTML = 'claim';
                     //     document.getElementById('inviteFriend').onclick = '';
                     // } else {
                     //     document.getElementById('inviteText').innerHTML = `${data.data.inviteFriend} / 10`;
@@ -33,39 +33,46 @@ async function init() {
                 }
 
                 if (data.data.joinDiscord) {
-                    document.getElementById('joinDiscord').classList.add('completed');
-                    document.getElementById('joinDiscord').innerHTML = 'Completed';
-                    document.getElementById('joinDiscord').onclick = '';
+                    document.getElementById('joinDiscord').classList.add('claim');
+                    document.getElementById('joinDiscord').innerHTML = 'CLAIM';
+                    document.getElementById('joinDiscord').onclick = 'claimPoints("joinDiscord")';
                 }
 
                 if (data.data.joinInstagram) {
-                    document.getElementById('joinInstagram').classList.add('completed');
-                    document.getElementById('joinInstagram').innerHTML = 'Completed';
-                    document.getElementById('joinInstagram').onclick = '';
+                    document.getElementById('joinInstagram').classList.add('claim');
+                    document.getElementById('joinInstagram').innerHTML = 'CLAIM';
+                    document.getElementById('joinInstagram').onclick = 'claimPoints("joinInstagram")';
                 }
 
                 if (data.data.joinTikTok) {
-                    document.getElementById('joinTikTok').classList.add('completed');
-                    document.getElementById('joinTikTok').innerHTML = 'Completed';
-                    document.getElementById('joinTikTok').onclick = '';
+                    document.getElementById('joinTikTok').classList.add('claim');
+                    document.getElementById('joinTikTok').innerHTML = 'CLAIM';
+                    document.getElementById('joinTikTok').onclick = 'claimPoints("joinTikTok")';
                 }
 
                 if (data.data.joinX) {
-                    document.getElementById('joinX').classList.add('completed');
-                    document.getElementById('joinX').innerHTML = 'Completed';
-                    document.getElementById('joinX').onclick = '';
+                    document.getElementById('joinX').classList.add('claim');
+                    document.getElementById('joinX').innerHTML = 'CLAIM';
+                    document.getElementById('joinX').onclick = 'claimPoints("joinX")';
                 }
 
                 if (data.data.learnAbout) {
-                    document.getElementById('learnAbout').classList.add('completed');
-                    document.getElementById('learnAbout').innerHTML = 'Completed';
-                    document.getElementById('learnAbout').onclick = '';
+                    document.getElementById('learnAbout').classList.add('claim');
+                    document.getElementById('learnAbout').innerHTML = 'CLAIM';
+                    document.getElementById('learnAbout').onclick = 'claimPoints("learnAbout")';
                 }
             }
         })
         .catch((error) => {
             console.error('Error:', error);
         });
+}
+
+async function claimPoints(parameters) {
+    document.getElementById(parameters).classList.delete('claim');
+    document.getElementById('learnAbout').innerHTML = 'CLAIMED';
+    document.getElementById('learnAbout').onclick = '';
+    document.getElementById('learnAbout').disabled = true;
 }
 
 async function inviteFriend() {

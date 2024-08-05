@@ -16,7 +16,7 @@ html {
 
 .leaderboard-container {
     width: 100%;
-    width: 80%;
+    width: 90%;
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
     padding: 20px;
@@ -29,12 +29,11 @@ html {
 }
 
 .header {
-    font-weight: bold;
-    margin-top: 70px;
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
     width: 100%;
-    font-size: 36px;
+    font-size: 2rem;
 }
 
 .profile-section {
@@ -97,7 +96,7 @@ html {
     color: #00FFCF;
     margin-bottom: 10px;
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
 }
 
 .nickname input {
