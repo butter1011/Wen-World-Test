@@ -1,9 +1,9 @@
-let serverurl = "https://wen-world-test.onrender.com";
-// let serverurl = "http://localhost:5000";
+// let serverurl = "https://telegram-1-triend.replit.app";
+let serverurl = "http://localhost:5000";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-const user_id = user?.id;
-// const user_id = 7269635495;
+// const user_id = user?.id;
+const user_id = 7269635495;
 
 document.addEventListener('DOMContentLoaded', (event) => {
     if (window.Telegram.WebApp) {
@@ -16,19 +16,19 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 function resizeCanvas() {
-    if (window.Telegram.WebApp) {
-        const viewportHeight = Telegram.WebApp.viewportHeight;
-        const viewportStableHeight = Telegram.WebApp.viewportStableHeight;
-        canvas.width = window.innerWidth;
-        canvas.height = viewportHeight;
-        canvas.style.marginTop = `${(window.innerHeight - viewportHeight) / 2}px`;
-        canvas.style.marginLeft = `${(window.innerWidth - canvas.width) / 2}px`;
-    } else {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        canvas.style.marginTop = '0';
-        canvas.style.marginLeft = '0';
-    }
+    // if (window.Telegram.WebApp) {
+    //     const viewportHeight = Telegram.WebApp.viewportHeight;
+    //     const viewportStableHeight = Telegram.WebApp.viewportStableHeight;
+    //     canvas.width = window.innerWidth;
+    //     canvas.height = viewportHeight;
+    //     canvas.style.marginTop = `${(window.innerHeight - viewportHeight) / 2}px`;
+    //     canvas.style.marginLeft = `${(window.innerWidth - canvas.width) / 2}px`;
+    // } else {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.marginTop = '0';
+    canvas.style.marginLeft = '0';
+    // }
 }
 
 function showTab(tabId) {

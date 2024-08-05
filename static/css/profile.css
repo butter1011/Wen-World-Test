@@ -301,7 +301,7 @@ html {
 
 .modal_type1 {
     position: relative;
-    font-size: 20px;
+    font-size: 1rem;
     color: white;
     height: max-content;
     border-radius: 50px 50px 50px 50px;

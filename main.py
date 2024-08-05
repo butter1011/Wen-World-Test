@@ -1,31 +1,34 @@
 import logging
+import os
 from datetime import datetime
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, firestore
-from datetime import datetime
-import asyncio
 
 app = Flask(__name__)
 
 # Enable logging
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
-)
+    format="%(asctime)s - %(name)s - %(levelname)s - %(meassage)s",
+    level=logging.INFO)
 
 # Firebase credentials and initialization
 firebase_creds = {
     "type": "service_account",
     "project_id": "wen-world",
     "private_key_id": "b68e2d114e709af3e47027261095f1f47d90e34f",
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDAP2fa/QjzYcwM\nG7NqBPhKzNVQFleCWg/wBEjRBB7fp40Ge0ZOReQX9iZmMQ4amns7V7Z8nTiP1OFV\ncjam6wcJd1e5h9jphd1SCaLSFh0XV0OqrKOtT0wQ4f/WoiH6bT0/K5bQy5nUeHM0\n6gdxHuc6kHP7sIwVhgZXvo1bSZam8dAjCh5lf00h2kOb39p2U32XYX6djLVCPagf\nXln4ryuJb5QrWUe6lPQqZTlVi8CAbYLK9maQZNTDqUWwbisR58hg/3NL6tlEbcZc\n2SkBRB9lZ4ucoRYAf025XhuKwEXCn47C3jeAFWPNSFJP1iZDUVc51kDon+1mqwSn\nMisWeu3BAgMBAAECggEAEpuQf9USCAylOrQhBNf/owMkenX5zmIikhwNYuhqh0H+\nbRbYJ+dX5oHVbFAUig/9xtv8i8nj7vgElMf98OC6yPhw2JevhRrciyjnm5IMYB/6\n1WA/D3KnbX2Sd8HbAWmQDgyNXR731WWQhm9IfR3Sn7aE+Lg5Nt7Gv7jFPIVo5uDs\npAjZioYHa3/p2NszcrF7vZjRp0IVsjCx7nMecHhT1b42bqEw1Rkkj5c1xrhxDNd4\nqd820j2KIXnoTlZVZCW3KhxYuu+feEkglxhBODsoB/+yLdXq0wrBERGtX1YLEIiq\nV0JWuaH8JdXR080e/nSQ3XJ4O0s8pNsJEtL3fX7MyQKBgQDfktzPzHJhb8B2eUkD\nzz5tajOsjGkB0t6to7FvjJpNjiy+aiYCctfS8J/A7u5O1dHUlhm3XBq54cZf5NLA\nDin3PK2TYxunaV5571hs3Sx/EP/GS7kuitQng0YqgtNoN9IwzQIpWsu3bKGtfMjV\n0a98jBjrTMIwL3jI+uaSJ4qG/wKBgQDcIW4ccg5EqYuHGPgBtGqabItYZmJ8PfU1\n3quB95RNokjhqp2KLAca5nurOhsEtCNooUsug2b1f1UJdhq+L2PtuMz8AAp6C5Jz\nkL23MqH1690tMBP5gEJZr/8XKwhmW28A0ZdeIpGSctAlEYOHdF4N7pSPP6hcwgLv\n6h8A2SlLPwKBgDyiafx5aDQAyOPYtPKxjC7EdMtBMWFrPTU+herI6ThLbNsfkrtr\nRhlRZSJAKqV62/OZ2dOeySjMkK6FMpsfvEXvUOv+HwviSdssDIFJ4r17cMLo2opC\n4JLuyWLSJF/Jc9oEX6ezljhi395bT2Sd/8f5fvCh2rCSz2FCmrHcw3clAoGAb+rv\nOLckWfR5Y+5l6Tf5GxoknoUvfUti6EiVmjZtyCrCMzmzbxSDaEHWjm+0XOfZONEI\nkFVue1KJwY2yew9NFwfl8Bl1Oie4BdmJGyM7BPUuNlNDVI7JLSA16WmPk7rY7Omi\ns9GPgY2uFaqZ3LxlNWAfV9VdnAtnwuKdcKj4PbECgYByQt3npIHVUSiFwlCJ/1Ke\nE9xduDqH5vkgKgI1+FD2uNFSk4vNhwVgNrk0Tm3ajXmhuKz1EXxy7GHldDGmhXrZ\n9d0hZ/lXJT+48Po9sZR2vdML9ZoOfx7c97/RrN3M0D8h5rQydpyJtMmF5POTiSg2\nHIyWf/Hk58W4onQzIg9Lmw==\n-----END PRIVATE KEY-----\n",
-    "client_email": "firebase-adminsdk-2kzlg@wen-world.iam.gserviceaccount.com",
+    "private_key":
+    "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDAP2fa/QjzYcwM\nG7NqBPhKzNVQFleCWg/wBEjRBB7fp40Ge0ZOReQX9iZmMQ4amns7V7Z8nTiP1OFV\ncjam6wcJd1e5h9jphd1SCaLSFh0XV0OqrKOtT0wQ4f/WoiH6bT0/K5bQy5nUeHM0\n6gdxHuc6kHP7sIwVhgZXvo1bSZam8dAjCh5lf00h2kOb39p2U32XYX6djLVCPagf\nXln4ryuJb5QrWUe6lPQqZTlVi8CAbYLK9maQZNTDqUWwbisR58hg/3NL6tlEbcZc\n2SkBRB9lZ4ucoRYAf025XhuKwEXCn47C3jeAFWPNSFJP1iZDUVc51kDon+1mqwSn\nMisWeu3BAgMBAAECggEAEpuQf9USCAylOrQhBNf/owMkenX5zmIikhwNYuhqh0H+\nbRbYJ+dX5oHVbFAUig/9xtv8i8nj7vgElMf98OC6yPhw2JevhRrciyjnm5IMYB/6\n1WA/D3KnbX2Sd8HbAWmQDgyNXR731WWQhm9IfR3Sn7aE+Lg5Nt7Gv7jFPIVo5uDs\npAjZioYHa3/p2NszcrF7vZjRp0IVsjCx7nMecHhT1b42bqEw1Rkkj5c1xrhxDNd4\nqd820j2KIXnoTlZVZCW3KhxYuu+feEkglxhBODsoB/+yLdXq0wrBERGtX1YLEIiq\nV0JWuaH8JdXR080e/nSQ3XJ4O0s8pNsJEtL3fX7MyQKBgQDfktzPzHJhb8B2eUkD\nzz5tajOsjGkB0t6to7FvjJpNjiy+aiYCctfS8J/A7u5O1dHUlhm3XBq54cZf5NLA\nDin3PK2TYxunaV5571hs3Sx/EP/GS7kuitQng0YqgtNoN9IwzQIpWsu3bKGtfMjV\n0a98jBjrTMIwL3jI+uaSJ4qG/wKBgQDcIW4ccg5EqYuHGPgBtGqabItYZmJ8PfU1\n3quB95RNokjhqp2KLAca5nurOhsEtCNooUsug2b1f1UJdhq+L2PtuMz8AAp6C5Jz\nkL23MqH1690tMBP5gEJZr/8XKwhmW28A0ZdeIpGSctAlEYOHdF4N7pSPP6hcwgLv\n6h8A2SlLPwKBgDyiafx5aDQAyOPYtPKxjC7EdMtBMWFrPTU+herI6ThLbNsfkrtr\nRhlRZSJAKqV62/OZ2dOeySjMkK6FMpsfvEXvUOv+HwviSdssDIFJ4r17cMLo2opC\n4JLuyWLSJF/Jc9oEX6ezljhi395bT2Sd/8f5fvCh2rCSz2FCmrHcw3clAoGAb+rv\nOLckWfR5Y+5l6Tf5GxoknoUvfUti6EiVmjZtyCrCMzmzbxSDaEHWjm+0XOfZONEI\nkFVue1KJwY2yew9NFwfl8Bl1Oie4BdmJGyM7BPUuNlNDVI7JLSA16WmPk7rY7Omi\ns9GPgY2uFaqZ3LxlNWAfV9VdnAtnwuKdcKj4PbECgYByQt3npIHVUSiFwlCJ/1Ke\nE9xduDqH5vkgKgI1+FD2uNFSk4vNhwVgNrk0Tm3ajXmhuKz1EXxy7GHldDGmhXrZ\n9d0hZ/lXJT+48Po9sZR2vdML9ZoOfx7c97/RrN3M0D8h5rQydpyJtMmF5POTiSg2\nHIyWf/Hk58W4onQzIg9Lmw==\n-----END PRIVATE KEY-----\n",
+    "client_email":
+    "firebase-adminsdk-2kzlg@wen-world.iam.gserviceaccount.com",
     "client_id": "117463761929069557825",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
     "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-2kzlg@wen-world.iam.gserviceaccount.com",
+    "auth_provider_x509_cert_url":
+    "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url":
+    "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-2kzlg@wen-world.iam.gserviceaccount.com",
     "universe_domain": "googleapis.com",
 }
 
@@ -51,6 +54,7 @@ def leaderboard_page():
 def tasks_page():
     return render_template("tasks.html")
 
+
 # Test route
 @app.route("/profile")
 def profile_page():
@@ -74,18 +78,16 @@ def getUserInfo():
     total_score = user_doc.get("totals", 0)
     dailyCheckin = user_doc.get("dailyCheckin", 0)
 
-    return jsonify(
-        {
-            "message": "Success",
-            "data": {
-                "total_score": total_score,
-                "user_name": user_name,
-                "high_score": high_score,
-                "dailyCheckin": dailyCheckin,
-                "picture": user_doc.get("picture", "")
-            },
-        }
-    )
+    return jsonify({
+        "message": "Success",
+        "data": {
+            "total_score": total_score,
+            "user_name": user_name,
+            "high_score": high_score,
+            "dailyCheckin": dailyCheckin,
+            "picture": user_doc.get("picture", "")
+        },
+    })
 
 
 # Init the Task Page
@@ -93,7 +95,8 @@ def getUserInfo():
 def getTaskStatus():
     user_id = str(request.json.get("user_id"))
     user_ref = db.collection("users").document(user_id)
-    task_ref = user_ref.collection("totals").document("taskscore").get().to_dict()
+    task_ref = user_ref.collection("totals").document(
+        "taskscore").get().to_dict()
 
     return jsonify({"message": "Success", "data": task_ref})
 
@@ -106,7 +109,8 @@ def highscore_data():
     if request.args.get("user_id"):
         user_id = request.args.get("user_id")
         # Get Scores
-        scores_ref = db.collection("users").document(user_id).collection("scores")
+        scores_ref = db.collection("users").document(user_id).collection(
+            "scores")
         current_score_doc = scores_ref.document(currentTime).get()
         user_ref = db.collection("users").document(user_id).get()
 
@@ -129,20 +133,21 @@ def highscore_data():
         for user in users:
             user_ref = user.to_dict()
             # Get Scores
-            scores_ref = db.collection("users").document(user.id).collection("scores")
+            scores_ref = db.collection("users").document(
+                user.id).collection("scores")
             current_score_doc = scores_ref.document(currentTime).get()
             if current_score_doc.exists:
                 score_data = current_score_doc.to_dict()
-                highscoredata.append(
-                    {
-                        "name": user_ref.get("nickname", "Player"),
-                        "user_id": user.id,
-                        "points": score_data.get("score", 0),
-                        "picture": user_ref.get("picture", "")
-                    }
-                )
+                highscoredata.append({
+                    "name": user_ref.get("nickname", "Player"),
+                    "user_id": user.id,
+                    "points": score_data.get("score", 0),
+                    "picture": user_ref.get("picture", "")
+                })
 
-        highscoredata = sorted(highscoredata, key=lambda x: x["points"], reverse=True)
+        highscoredata = sorted(highscoredata,
+                               key=lambda x: x["points"],
+                               reverse=True)
         return jsonify(highscoredata)
 
 
@@ -154,7 +159,8 @@ def totalscore_data():
         total_data = 0
         user_id = request.args.get("user_id")
         # Get Scores
-        scores_ref = db.collection("users").document(user_id).collection("scores")
+        scores_ref = db.collection("users").document(user_id).collection(
+            "scores")
         current_score_docs = scores_ref.get()
         if current_score_docs:
             for current_score_doc in current_score_docs:
@@ -162,7 +168,8 @@ def totalscore_data():
                 total_data += current_score
 
         # Get Farming
-        farming_ref = db.collection("users").document(user_id).collection("farming")
+        farming_ref = db.collection("users").document(user_id).collection(
+            "farming")
         farming_score_docs = farming_ref.get()
         if farming_score_docs:
             for farming_score_doc in farming_score_docs:
@@ -182,7 +189,8 @@ def totalscore_data():
 
         for user in users:
             user_ref = user.to_dict()
-            scores_ref = db.collection("users").document(user.id).collection("scores")
+            scores_ref = db.collection("users").document(
+                user.id).collection("scores")
             current_score_docs = scores_ref.get()
             total_data = 0
 
@@ -191,16 +199,16 @@ def totalscore_data():
                     current_score = current_score_doc.to_dict().get("score", 0)
                     total_data += current_score
 
-            totalScoredata.append(
-                {
-                    "name": user_ref.get("nickname", "Player"),
-                    "user_id": user.id,
-                    "total": total_data,
-                    "picture": user_ref.get("picture", ""),
-                }
-            )
+            totalScoredata.append({
+                "name": user_ref.get("nickname", "Player"),
+                "user_id": user.id,
+                "total": total_data,
+                "picture": user_ref.get("picture", ""),
+            })
 
-        totalScoredata = sorted(totalScoredata, key=lambda x: x["total"], reverse=True)
+        totalScoredata = sorted(totalScoredata,
+                                key=lambda x: x["total"],
+                                reverse=True)
         return jsonify(totalScoredata)
 
 
@@ -226,7 +234,7 @@ def currentTime():
 
 
 # Invite the User
-@app.route("/api/v2/invite", methods=["POST"])  
+@app.route("/api/v2/invite", methods=["POST"])
 def invite():
     data = request.json.get("data")
     user_id = str(data["user_id"])
@@ -463,9 +471,9 @@ def dailyCheckin():
     claimable = False
     last_reward = str(user_data.get("last_reward", ""))
 
-    currentTime = datetime.utcnow()
+    currentTime = int(datetime.utcnow().timestamp() * 1000)
     if last_reward != "":
-        last_reward = datetime.strptime(last_reward, "%m/%d/%y:%H-%M-%S")
+        last_reward = convert_to_unix_timestamp(last_reward)
         time_diff = currentTime - last_reward
         days, seconds = time_diff.days, time_diff.seconds
         seconds = seconds % 60
@@ -478,12 +486,10 @@ def dailyCheckin():
             claimable = True
             user_ref.update({"dailyCheckin": dailyCheckin})
 
-    return jsonify(
-        {
-            "dailyCheckin": int(dailyCheckin),
-            "claimable": claimable,
-        }
-    )
+    return jsonify({
+        "dailyCheckin": int(dailyCheckin),
+        "claimable": claimable,
+    })
 
 
 # Daily CheckinClaim
@@ -502,12 +508,13 @@ def dailyClaim():
     daily_total_value = total_data.get("score", 0)
 
     if last_reward != "":
-        currentTime = datetime.utcnow().timestamp()*1000
+        currentTime = datetime.utcnow().timestamp() * 1000
         last_reward = convert_to_unix_timestamp(last_reward)
         time_diff = currentTime - last_reward
-        
+
         if time_diff < 1000 * 24 * 3600:
-            return (jsonify({"message": "failed to claim the daily checkin"}), 400)
+            return (jsonify({"message":
+                             "failed to claim the daily checkin"}), 400)
 
     if dailyCheckin > 6:
         dailyReward = 5000
@@ -516,7 +523,8 @@ def dailyClaim():
 
     dailyCheckin += 1
     user_ref.update({"dailyCheckin": dailyCheckin})
-    user_ref.update({"last_reward": datetime.utcnow().strftime("%m/%d/%y:%H-%M-%S")})
+    user_ref.update(
+        {"last_reward": datetime.utcnow().strftime("%m/%d/%y:%H-%M-%S")})
 
     daily_total_value += dailyReward
     total_score_doc.update({"score": daily_total_value})
@@ -552,20 +560,19 @@ def farmingClaim():
     startFarming = user_data.get("startFarming", '')
 
     # get the time difference
-    currentTime = int(datetime.utcnow().timestamp()*1000)
-    if startFarming != "":
-        oldTime = convert_to_unix_timestamp(startFarming)
-        time_diff = currentTime - oldTime
+    currentTime = int(datetime.utcnow().timestamp() * 1000)
+    oldTime = convert_to_unix_timestamp(startFarming)
+    time_diff = currentTime - oldTime
 
-        if oldTime != 0 and time_diff > (6 * 3600 * 1000):
-            # get total value & set the total value
-            total_value = user_data.get("totals", 0)
-            total_value += 1000
-            farming_total_value += 1000
-            total_score_doc.update({"score": int(farming_total_value)})
-            user_ref.update({"totals": int(total_value)})
-            user_ref.update({"startFarming": ''})
-            return jsonify({"message": "Added the farming reward!"}), 200
+    if oldTime != 0 and time_diff > (6 * 3600 * 1000):
+        # get total value & set the total value
+        total_value = user_data.get("totals", 0)
+        total_value += 1000
+        farming_total_value += 1000
+        total_score_doc.update({"score": int(farming_total_value)})
+        user_ref.update({"totals": int(total_value)})
+        user_ref.update({"startFarming": ''})
+        return jsonify({"message": "Added the farming reward!"}), 200
 
     return jsonify({"message": "failed to add the farming reward!"}), 400
 
@@ -584,12 +591,10 @@ def farmingPoint():
     farming_ref = user_ref.collection("farming")
     farming_ref.document().set({"point": add_point, "timestamp": currentTime})
     return (
-        jsonify(
-            {
-                "status": "success",
-                "message": "Point updated",
-            }
-        ),
+        jsonify({
+            "status": "success",
+            "message": "Point updated",
+        }),
         200,
     )
 
@@ -605,7 +610,10 @@ def update_score():
 
         if not all([user_id, score]):
             return (
-                jsonify({"status": "error", "message": "Missing required fields"}),
+                jsonify({
+                    "status": "error",
+                    "message": "Missing required fields"
+                }),
                 400,
             )
         # userlist creation
@@ -639,12 +647,10 @@ def update_score():
                 total_score_doc.update({"score": highscore_total_value})
 
         return (
-            jsonify(
-                {
-                    "status": "success",
-                    "message": "Score updated and user data saved",
-                }
-            ),
+            jsonify({
+                "status": "success",
+                "message": "Score updated and user data saved",
+            }),
             200,
         )
 
@@ -662,18 +668,23 @@ def updateName():
 
     return jsonify({"message": "Success"})
 
+
 def convert_to_unix_timestamp(date_string):
-    date_part, time_part = date_string.split(':')
-    month, day, year = map(int, date_part.split('/'))
-    hours, minutes, seconds = map(int, time_part.split('-'))
+    if date_string == "":
+        date_part, time_part = date_string.split(':')
+        month, day, year = map(int, date_part.split('/'))
+        hours, minutes, seconds = map(int, time_part.split('-'))
     
-    # Construct the datetime object
-    date = datetime(year + 2000, month, day, hours, minutes, seconds)
+        # Construct the datetime object
+        date = datetime(year + 2000, month, day, hours, minutes, seconds)
     
-    # Convert to Unix timestamp
-    unix_timestamp = int(date.timestamp())
-    
+        # Convert to Unix timestamp
+        unix_timestamp = int(date.timestamp())
+    else:
+        unix_timestamp = 0
     return unix_timestamp
 
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    port = int(os.environ.get('PORT', 80))
+    app.run(host="0.0.0.0", port=port)
