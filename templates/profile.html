@@ -7,9 +7,9 @@
 <button id="info-button">i</button>
 <div class="leaderboard-container">
     <div class="profile-section">
-        <div class="center" style="flex-direction: column; gap:10px;">
+        <div class="center" style="flex-direction: column; gap:10px;max-width: 150px;">
             <div class="profile-pic">
-                <img id="profile-img" src="" alt="Profile Picture">
+                <img id="profile-img" src="{{ url_for('static', filename='img/profile.png') }}" alt="Profile Picture">
                 <input type="file" id="upload-img" accept="image/*">
                 <label for="upload-img">📷</label>
             </div>

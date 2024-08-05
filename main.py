@@ -470,16 +470,17 @@ def dailyCheckin():
     if last_reward != "":
         last_reward = convert_to_unix_timestamp(last_reward)
         time_diff = currentTime - last_reward
-        days, seconds = time_diff.days, time_diff.seconds
-        seconds = seconds % 60
-        if days > 1 and days < 2:
+
+        if time_diff > 24 * 6 * 3600 * 1000 and time_diff < 2 * 24 * 6 * 3600 * 1000:
             dailyCheckin += 1
             claimable = True
 
-        if days > 2:
+        if time_diff > 2 * 24 * 6 * 3600 * 1000:
             dailyCheckin = 1
             claimable = True
             user_ref.update({"dailyCheckin": dailyCheckin})
+    else:
+        claimable = True
 
     return jsonify({
         "dailyCheckin": int(dailyCheckin),
@@ -665,7 +666,7 @@ def updateName():
 
 
 def convert_to_unix_timestamp(date_string):
-    if date_string == "":
+    if date_string != '':
         date_part, time_part = date_string.split(':')
         month, day, year = map(int, date_part.split('/'))
         hours, minutes, seconds = map(int, time_part.split('-'))
@@ -674,7 +675,7 @@ def convert_to_unix_timestamp(date_string):
         date = datetime(year + 2000, month, day, hours, minutes, seconds)
     
         # Convert to Unix timestamp
-        unix_timestamp = int(date.timestamp())
+        unix_timestamp = int(date.timestamp()*1000)
     else:
         unix_timestamp = 0
     return unix_timestamp

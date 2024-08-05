@@ -1,5 +1,5 @@
 // let serverurl = "https://telegram-1-triend.replit.app";
-let serverurl = "http://localhost:5000";
+let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
 // const user_id = user?.id;
@@ -34,7 +34,7 @@ async function init() {
             checkinCountElement.innerHTML = data.data.dailyCheckin;
             highScoreElement.innerHTML = data.data.high_score;
             profileImage.src = data.data.picture != "" ? data.data.picture : "../static/img/profile.png";
-            nickname.innerHTML = data.data.user_name;
+            nickname.innerHTML = data.data.user_name = "" ? "-----" : data.data.user_name;
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -54,7 +54,7 @@ async function init() {
         const farmingDuration = currentTime - convert_lastTime;
         console.log("---------------->currentTime", currentTime);
         console.log("---------------->convert_lastTime", convert_lastTime);
-        
+
         if (farmingDuration > 6 * 1000 * 3600) {
             document.getElementById('farming-btn').innerHTML = `Claim Point <span class="farming-circle"></span><span id="claim-point" class="timer">1000</span>`;
             document.getElementById('farming-btn').onclick = claimPoints;
@@ -74,7 +74,7 @@ async function init() {
     dailyCheckIn();
 }
 
-document.getElementById('nickname').addEventListener('click', function(){
+document.getElementById('nickname').addEventListener('click', function () {
     const nicknameElement = document.getElementById('nickname');
     const currentNickname = nicknameElement.textContent;
     const input = document.createElement('input');
@@ -88,7 +88,7 @@ document.getElementById('nickname').addEventListener('click', function(){
 
     input.addEventListener('blur', () => {
         const newNickname = input.value;
-        nicknameElement.textContent = newNickname;
+        nicknameElement.textContent = newNickname == "" ? "-----" : newNickname;
         input.replaceWith(nicknameElement);
 
         // Send the updated nickname to the backend
@@ -99,17 +99,17 @@ document.getElementById('nickname').addEventListener('click', function(){
             },
             body: JSON.stringify({ user_id: user_id, name: newNickname })
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Nickname updated successfully');
-            } else {
-                console.error('Error updating nickname');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Nickname updated successfully');
+                } else {
+                    console.error('Error updating nickname');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     });
 });
 

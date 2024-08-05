@@ -262,7 +262,7 @@ html {
 
 .modal-content .rewards {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
     margin: 1.5rem 0;
 }
@@ -352,4 +352,9 @@ html {
 
 .input-nickname:focus+.border path {
     stroke: #07f;
+}
+
+.rewards .daily_reward {
+    width: 30vh;
+    height: 30vh;
 }
