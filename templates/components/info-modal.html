@@ -40,7 +40,7 @@
                 <span>
                     Makes all <img id="bad-coin-img-info" loading="lazy"
                         src="{{url_for('static', filename='img/bad-coin-img.png')}}" alt="coin"
-                        style="width: 20px;height: 20px;"> winners for 2 seconds!
+                        style="width: 20px;height: 20px; vertical-align: middle;"> winners for 2 seconds!
                 </span>
             </div>
         </div>
@@ -54,7 +54,7 @@
                 <span>
                     Spawns <img id="bad-coin-img-info" loading="lazy"
                         src="{{url_for('static', filename='img/sam-bankman-img.png')}}" alt="coin"
-                        style="width: 20px;height: 20px;"> , takes a life, and steals 50 TP
+                        style="width: 20px;height: 20px;vertical-align: middle;"> , takes a life, and steals 50 TP
                 </span>
             </div>
         </div>
@@ -69,13 +69,14 @@
         </div>
 
         <div class="tile_bg">
-            <span class="blog" style="flex-direction: column !important;justify-content: left!important;">
+            <span class="blog" style="flex-direction: column !important;align-items: start!important;">
                 <img id="symbol_candle_green-info" loading="lazy"
                     src="{{url_for('static', filename='img/symbol_candle_green.png')}}" alt="coin" width="120px"
                     height="120px">
                 Launch into the air!
             </span>
-            <span class="blog" style="flex-direction: column !important;justify-content: left!important;">
+            <span class="blog"
+                style="flex-direction: column !important;align-items: start!important;height: fit-content;">
                 <img id="symbol_candle_red-info" loading="lazy"
                     src="{{url_for('static', filename='img/symbol_candle_red.png')}}" alt="coin" width="120px"
                     height="120px">

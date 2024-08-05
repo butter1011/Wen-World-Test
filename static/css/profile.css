@@ -197,7 +197,7 @@ html {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 2.5vh;
+    font-size: 1.2rem;
     background: #00FFCF;
     color: black;
     display: flex;
@@ -258,25 +258,26 @@ html {
 
 .modal-content p {
     color: #ccc;
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .modal-content .rewards {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     flex-wrap: wrap;
-    margin: 20px 0;
+    margin: 1.5rem 0;
 }
 
 .modal-content .rewards .reward {
     background: #2A2A2A;
     border-radius: 10px;
-    padding: 10px;
-    margin: 5px;
-    width: 100px;
+    padding: 1rem;
+    margin: 0.1rem;
+    width: 4rem;
     text-align: center;
     color: white;
-    font-size: 2vh;
+    font-size: 1rem;
+    line-height: 1.5rem;
 }
 
 .modal-content .rewards .reward.past {
@@ -300,6 +301,10 @@ html {
 }
 
 .modal_type1 {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
     font-size: 1rem;
     color: white;
@@ -311,6 +316,9 @@ html {
 }
 
 .green_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 90%;
     height: 50px;
     border-radius: 16px 16px 16px 16px;

@@ -8,11 +8,6 @@ from firebase_admin import credentials, firestore
 
 app = Flask(__name__)
 
-# Enable logging
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(meassage)s",
-    level=logging.INFO)
-
 # Firebase credentials and initialization
 firebase_creds = {
     "type": "service_account",
