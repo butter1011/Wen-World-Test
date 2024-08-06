@@ -265,8 +265,8 @@ function drawRoad() {
 }
 
 function updateScore(breakdownMessage = '') {
-    document.getElementById('score').innerText = `Score: ${score + bankedScore}`;
-    document.getElementById('final-score').innerText = score + bankedScore;
+    document.getElementById('score').innerText = `Score: ${score}`;
+    document.getElementById('final-score').innerText = score ;
 
     const scoreBreakdownElement = document.getElementById('score-breakdown');
     if (breakdownMessage) {
@@ -485,15 +485,7 @@ function restartGame() {
     gameLoop(lastTime);
 }
 
-async function endAndBank() {
-    bankedScore += score;
-    todayScore += score;
-    score = 0;
-    gameOver = true;
-
-    await saveScore();
-    await updateScore();
-
+async function endAndBank() {  
     document.getElementById('footer').style.display = 'flex';
     document.getElementById('final-score').innerText = todayScore;
     document.getElementById('game-over-screen').style.display = 'flex';
@@ -502,6 +494,11 @@ async function endAndBank() {
     document.getElementById('score-breakdown').style.display = 'none';
     document.getElementById('health-container').style.display = 'none';
     document.getElementById('end-and-bank-button').style.display = 'none';
+
+    await saveScore();
+    await updateScore();
+    score = 0;
+    gameOver = true;
 
     showNavigationBar();  // Show the navigation bar when the game ends
     await initScore();

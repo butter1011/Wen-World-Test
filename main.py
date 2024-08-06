@@ -64,10 +64,16 @@ def getUserInfo():
     user_ref = db.collection("users").document(user_id)
     user_doc = user_ref.get().to_dict()
     high_ref = user_ref.collection("scores").document(currentTime)
+    high_score = 0
+    # Get Scores
+    scores_ref = db.collection("users").document(user_id).collection(
+        "scores")
+    current_score_doc = scores_ref.document(currentTime).get()
+    user_ref = db.collection("users").document(user_id).get()
 
-    high_doc = high_ref.get().to_dict()
-    if high_doc:
-        high_score = high_doc.get("high_score", 0)
+    if current_score_doc.exists:
+        score_data = current_score_doc.to_dict()
+        high_score = score_data.get("score", 0)
 
     user_name = user_doc.get("nickname", "Player")
     total_score = user_doc.get("totals", 0)

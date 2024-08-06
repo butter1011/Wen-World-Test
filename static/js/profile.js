@@ -1,9 +1,9 @@
-// let serverurl = "https://telegram-1-triend.replit.app";
-let serverurl = "http://localhost:80";
+let serverurl = "https://telegram-1-triend.replit.app";
+// let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
 // const user_id = user?.id;
-const user_id = 7269635495;
+// const user_id = 7269635495;
 
 function convertToUnixTimestamp(dateString) {
     const [datePart, timePart] = dateString.split(':');
@@ -34,7 +34,7 @@ async function init() {
             checkinCountElement.innerHTML = data.data.dailyCheckin;
             highScoreElement.innerHTML = data.data.high_score;
             profileImage.src = data.data.picture != "" ? data.data.picture : "../static/img/profile.png";
-            nickname.innerHTML = data.data.user_name = "" ? "-----" : data.data.user_name;
+            nickname.innerHTML = data.data.user_name == "" ? "-----" : data.data.user_name;
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -52,8 +52,8 @@ async function init() {
     else {
         const convert_lastTime = convertToUnixTimestamp(lastTime);
         const farmingDuration = currentTime - convert_lastTime;
-        console.log("---------------->currentTime", currentTime);
-        console.log("---------------->convert_lastTime", convert_lastTime);
+        console.log("-------------->convert_lastTime", convert_lastTime);
+        console.log("-------------->currentTime", currentTime);
 
         if (farmingDuration > 6 * 1000 * 3600) {
             document.getElementById('farming-btn').innerHTML = `Claim Point <span class="farming-circle"></span><span id="claim-point" class="timer">1000</span>`;
@@ -61,13 +61,7 @@ async function init() {
         } else {
             document.getElementById('farming-btn').innerHTML = `⌛Farming <span id="farming-timer" class="timer">-- : -- : --</span> <span id="claim-point" class="timer"></span>`;
             document.getElementById('farming-btn').onclick = "";
-
-            // if (6 * 1000 * 3600 - farmingDuration > 0)
             startFarmingTimer(6 * 1000 * 3600 - farmingDuration);
-            // else {
-            //     document.getElementById('farming-btn').innerHTML = `Claim Point <span class="farming-circle"></span><span id="claim-point" class="timer">1000</span>`;
-            //     document.getElementById('farming-btn').onclick = claimPoints;
-            // }
         }
     }
 
