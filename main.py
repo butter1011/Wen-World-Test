@@ -221,6 +221,7 @@ def farmingTime():
         user_ref = db.collection("users").document(user_id)
         user_data = user_ref.get().to_dict()
         farmingTime = user_data.get("startFarming", '')
+
         if farmingTime == '':
             farmingTime = 0
 
@@ -564,7 +565,11 @@ def farmingClaim():
     # get the time difference
     currentTime = int(datetime.utcnow().timestamp() * 1000)
     oldTime = convert_to_unix_timestamp(startFarming)
+    print("--------------->currentTime", currentTime)
+    print("--------------->oldTime", oldTime)
     time_diff = currentTime - oldTime
+    print("--------------->time_diff", time_diff)
+
 
     if oldTime != 0 and time_diff > (6 * 3600 * 1000):
         # get total value & set the total value

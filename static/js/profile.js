@@ -2,16 +2,20 @@ let serverurl = "https://telegram-1-triend.replit.app";
 // let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-// const user_id = user?.id;
+const user_id = user?.id;
 // const user_id = 7269635495;
 
 function convertToUnixTimestamp(dateString) {
-    const [datePart, timePart] = dateString.split(':');
-    const [month, day, year] = datePart.split('/').map(Number);
-    const [hours, minutes, seconds] = timePart.split('-').map(Number);
-    const date = new Date(`20${year}`, month - 1, day, hours, minutes, seconds);
-
-    return date.getTime();
+    if (dateString != "") {
+        const [datePart, timePart] = dateString.split(':');
+        const [month, day, year] = datePart.split('/').map(Number);
+        const [hours, minutes, seconds] = timePart.split('-').map(Number);
+        // 08/06/24:17-12-19
+        const date = new Date(Date.UTC(`20${year}`, month - 1, day, hours, minutes, seconds));
+        console.log("------------>date", date);
+        return date.getTime();
+    }
+    else return 0;
 }
 
 async function init() {
