@@ -34,31 +34,31 @@ async function init() {
 
                 if (data.data.joinDiscord) {
                     document.getElementById('joinDiscord').classList.add('claim');
-                    document.getElementById('joinDiscord').innerHTML = 'CLAIM';
+                    document.getElementById('joinDiscord').innerHTML = 'claim';
                     document.getElementById('joinDiscord').onclick = 'claimPoints("joinDiscord")';
                 }
 
                 if (data.data.joinInstagram) {
                     document.getElementById('joinInstagram').classList.add('claim');
-                    document.getElementById('joinInstagram').innerHTML = 'CLAIM';
+                    document.getElementById('joinInstagram').innerHTML = 'claim';
                     document.getElementById('joinInstagram').onclick = 'claimPoints("joinInstagram")';
                 }
 
                 if (data.data.joinTikTok) {
                     document.getElementById('joinTikTok').classList.add('claim');
-                    document.getElementById('joinTikTok').innerHTML = 'CLAIM';
+                    document.getElementById('joinTikTok').innerHTML = 'claim';
                     document.getElementById('joinTikTok').onclick = 'claimPoints("joinTikTok")';
                 }
 
                 if (data.data.joinX) {
                     document.getElementById('joinX').classList.add('claim');
-                    document.getElementById('joinX').innerHTML = 'CLAIM';
+                    document.getElementById('joinX').innerHTML = 'claim';
                     document.getElementById('joinX').onclick = 'claimPoints("joinX")';
                 }
 
                 if (data.data.learnAbout) {
                     document.getElementById('learnAbout').classList.add('claim');
-                    document.getElementById('learnAbout').innerHTML = 'CLAIM';
+                    document.getElementById('learnAbout').innerHTML = 'claim';
                     document.getElementById('learnAbout').onclick = 'claimPoints("learnAbout")';
                 }
             }
@@ -70,9 +70,9 @@ async function init() {
 
 async function claimPoints(parameters) {
     document.getElementById(parameters).classList.delete('claim');
-    document.getElementById('learnAbout').innerHTML = 'CLAIMED';
-    document.getElementById('learnAbout').onclick = '';
-    document.getElementById('learnAbout').disabled = true;
+    document.getElementById(parameters).innerHTML = 'CLAIMED';
+    document.getElementById(parameters).onclick = '';
+    document.getElementById(parameters).disabled = true;
 }
 
 async function inviteFriend() {

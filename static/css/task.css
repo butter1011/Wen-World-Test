@@ -84,6 +84,7 @@ html {
     font-size: 0.8rem;
     color: white;
     border-radius: 32px;
+    text-transform: uppercase;
 }
 
 .task .task-action button:hover {
