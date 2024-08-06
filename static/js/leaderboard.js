@@ -1,15 +1,15 @@
-let serverurl = "https://telegram-1-triend.replit.app";
-// let serverurl = "http://localhost:5000";
+// let serverurl = "https://telegram-1-triend.replit.app";
+let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-const user_id = user?.id;
-// const user_id = 7269635495;
+// const user_id = user?.id;
+const user_id = 7269635495;
 
 let farmingInterval;
 const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
 const farmingDuration = 6 * 60 * 60 * 1000;
-const defautlSvg = `<svg fill="#FFFFFF" height="40px" width="40px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-	 viewBox="0 0 512 512" xml:space="preserve">
+const defautlSvg = `<svg fill="#FFFFFF" height="30px" width="30px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 512 512" xml:space="preserve" style="border-radius:100%;">
 <g>
 	<g>
 		<path d="M256,0c-84.83,0-153.6,85.965-153.6,192S171.17,384,256,384s153.6-85.965,153.6-192S340.83,0,256,0z M256,358.4
@@ -47,7 +47,27 @@ async function initScore() {
             data.forEach((entry, index) => {
                 const highlistItem = document.createElement('div');
                 highlistItem.classList.add("score-table");
-                highlistItem.innerHTML = `<div style="display:flex; justify-content: space-between;width: 30%;align-items:center"><span class="width:40px;">${index + 1}.</span>${entry.picture != "" ? (`<img src='${entry.picture}' width='40' height='40' />`) : defautlSvg}</div>${entry.name}</span><span style="color:gray;">${entry.points}</span>`;
+                let id_rank = "";
+                id_rank = String(index + 1) + ".";
+
+                if (index == 0) id_rank = "🥇";
+                if (index == 1) id_rank = "🥈";
+                if (index == 2) id_rank = "🥉";
+
+                highlistItem.innerHTML = `
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-rank-and-avatar">
+                            <span class="leaderboard-rank">${id_rank}</span>
+                            <div class="leaderboard-avatar">
+                                ${entry.picture !== ""
+                        ? `<img src="${entry.picture}" alt="${entry.name}" />`
+                        : defautlSvg}
+                            </div>
+                        </div>
+                        <span class="leaderboard-name">${entry.name}</span>
+                        <span class="leaderboard-points">${entry.points} TP</span>
+                    </div>
+                `;
                 highScorelist.appendChild(highlistItem);
             });
         })
@@ -61,7 +81,7 @@ async function initScore() {
             'Content-Type': 'application/json',
         },
     })
-            .then(response => response.json())
+        .then(response => response.json())
         .then(data => {
             let score = 0;
             let rank = 1;
@@ -74,7 +94,27 @@ async function initScore() {
 
                 const totallistItem = document.createElement('div');
                 totallistItem.classList.add("score-table");
-                totallistItem.innerHTML = `<div style="display:flex; justify-content: space-between;width: 30%;align-items:center;"><span class="width:40px;">${index + 1}.</span>${entry.picture != "" ? (`<img src='${entry.picture}' width='40' height='40' />`) : defautlSvg}</div><span>${entry.name}</span><span style="color:gray;">${entry.total}</span>`;
+                let id_rank = "";
+                id_rank = String(index + 1)+".";
+
+                if (index == 0) id_rank = "🥇";
+                if (index == 1) id_rank = "🥈";
+                if (index == 2) id_rank = "🥉";
+
+                totallistItem.innerHTML = `
+                    <div class="leaderboard-item">
+                        <div class="leaderboard-rank-and-avatar">
+                            <span class="leaderboard-rank">${id_rank}</span>
+                            <div class="leaderboard-avatar">
+                                ${entry.picture !== ""
+                        ? `<img src="${entry.picture}" alt="${entry.name}" />`
+                        : defautlSvg}
+                            </div>
+                        </div>
+                        <span class="leaderboard-name">${entry.name}</span>
+                        <span class="leaderboard-points">${entry.total} TP</span>
+                    </div>
+                `;
                 totalScorelist.appendChild(totallistItem);
                 total_rank.innerHTML = `${rank}`;
             });
