@@ -1,9 +1,9 @@
-// let serverurl = "https://telegram-1-triend.replit.app";
-let serverurl = "http://localhost:80";
+let serverurl = "https://telegram-1-triend.replit.app";
+// let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-// const user_id = user?.id;
-const user_id = 7269635495;
+const user_id = user?.id;
+// const user_id = 7269635495;
 
 document.addEventListener('DOMContentLoaded', (event) => {
     if (window.Telegram.WebApp) {
@@ -16,19 +16,10 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 function resizeCanvas() {
-    // if (window.Telegram.WebApp) {
-    //     const viewportHeight = Telegram.WebApp.viewportHeight;
-    //     const viewportStableHeight = Telegram.WebApp.viewportStableHeight;
-    //     canvas.width = window.innerWidth;
-    //     canvas.height = viewportHeight;
-    //     canvas.style.marginTop = `${(window.innerHeight - viewportHeight) / 2}px`;
-    //     canvas.style.marginLeft = `${(window.innerWidth - canvas.width) / 2}px`;
-    // } else {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     canvas.style.marginTop = '0';
     canvas.style.marginLeft = '0';
-    // }
 }
 
 window.addEventListener('resize', resizeCanvas);
@@ -402,7 +393,10 @@ function showNoMessage() {
 
 function enterGame() {
     if (localStorage.getItem('tutorial_shown') === 'true') {
-        startCountdown();
+        document.getElementById('opening-page').style.display = 'none';
+        document.getElementById('header').style.display = 'none';
+        document.getElementById('character-card').style.display = 'flex';
+        document.getElementById("rule-modal").style.display = 'none';
     } else {
         // If tutorial hasn't been shown, show it and set the flag
         showTutorial();
@@ -418,7 +412,6 @@ function showTutorial() {
 }
 
 function startCountdown() {
-    document.getElementById("rule-modal").style.display='none';
     document.getElementById('opening-page').style.display = 'none';
     document.getElementById('header').style.display = 'none';
     document.getElementById('loading_screen').style.display = 'block'

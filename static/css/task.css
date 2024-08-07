@@ -88,12 +88,12 @@ html {
 }
 
 .task .task-action button:hover {
-    background-color: #00bfa0;
+    background-color: #fb00ff;
 }
 
 .task .task-action button.claim {
-    background: #00FFCF;
-    color: black;
+    background: #fb00ff;
+    color: white;
     cursor: not-allowed;
 }
 

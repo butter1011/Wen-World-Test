@@ -214,6 +214,7 @@ def currentTime():
 # Invite the User
 @app.route("/api/v2/invite", methods=["POST"])
 def invite():
+    print("API request is given-------------->")
     data = request.json.get("data")
     user_id = str(data["user_id"])
     inviter_id = str(data["inviter_id"])
