@@ -36,6 +36,7 @@
     cursor: pointer;
     margin: 1vh;
     width: 40vw;
+    font-weight: 700;
   }
   
   #character-card {

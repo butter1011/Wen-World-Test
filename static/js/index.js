@@ -1,9 +1,9 @@
-let serverurl = "https://telegram-1-triend.replit.app";
-// let serverurl = "http://localhost:5000";
+// let serverurl = "https://telegram-1-triend.replit.app";
+let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-const user_id = user?.id;
-// const user_id = 7269635495;
+// const user_id = user?.id;
+const user_id = 7269635495;
 
 document.addEventListener('DOMContentLoaded', (event) => {
     if (window.Telegram.WebApp) {
@@ -401,6 +401,16 @@ function showNoMessage() {
 }
 
 function enterGame() {
+    if (localStorage.getItem('tutorial_shown') === 'true') {
+        startCountdown();
+    } else {
+        // If tutorial hasn't been shown, show it and set the flag
+        showTutorial();
+        localStorage.setItem('tutorial_shown', 'true');
+    }
+}
+
+function showTutorial() {
     document.getElementById('info-button').style.display = 'flex';
     document.getElementById('opening-page').style.display = 'none';
     document.getElementById('header').style.display = 'none';
@@ -408,11 +418,11 @@ function enterGame() {
 }
 
 function startCountdown() {
-    // document.getElementById('info-button').style.display = 'none';
+    document.getElementById("rule-modal").style.display='none';
     document.getElementById('opening-page').style.display = 'none';
     document.getElementById('header').style.display = 'none';
-    document.getElementById('character-card').style.display = 'none';
     document.getElementById('loading_screen').style.display = 'block'
+    document.getElementById('character-card').style.display = 'none';
     // const countdownElement = document.getElementById('countdown');
     // countdownElement.style.display = 'block';
     let countdown = 3;
@@ -1002,11 +1012,11 @@ async function initScore() {
             });
 
             if (high_rank == 0) {
-                bestScore.innerHTML = `${entry.points}`;
+                bestScore.innerHTML = score;
                 rankScore.innerHTML = "None";
             } else {
-                bestScore.innerHTML = `${entry.points}`;
-                rankScore.innerHTML = `${index + 1}`;
+                bestScore.innerHTML = score;
+                rankScore.innerHTML = high_rank;
             }
         })
         .catch((error) => {

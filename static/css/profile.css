@@ -91,7 +91,8 @@ html {
 }
 
 .nickname {
-    font-size: 1.2rem;
+    overflow: hidden;
+    font-size: 1rem;
     /* Increased font size for nickname */
     color: #00FFCF;
     margin-bottom: 10px;
@@ -100,7 +101,7 @@ html {
 }
 
 .nickname input {
-    font-size: 3vh;
+    font-size: 1rem;
     /* Increased font size for nickname input */
     padding: 5px;
     margin-left: 10px;
