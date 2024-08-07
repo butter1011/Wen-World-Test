@@ -254,7 +254,7 @@ function drawRoad() {
 
 function updateScore(breakdownMessage = '') {
     document.getElementById('score').innerText = `Score: ${score}`;
-    document.getElementById('final-score').innerText = score ;
+    document.getElementById('final-score').innerText = score;
 
     const scoreBreakdownElement = document.getElementById('score-breakdown');
     if (breakdownMessage) {
@@ -473,7 +473,7 @@ function restartGame() {
     gameLoop(lastTime);
 }
 
-async function endAndBank() {  
+async function endAndBank() {
     document.getElementById('footer').style.display = 'flex';
     document.getElementById('final-score').innerText = todayScore;
     document.getElementById('game-over-screen').style.display = 'flex';
@@ -991,18 +991,12 @@ async function initScore() {
     })
         .then(response => response.json())
         .then(data => {
-            let score = 0;
-            let rank = 1;
-            data.forEach(element => {
-                if (element.user_id == user_id) {
-                    score = element.points;
-                } else {
-                    rank++;
+            data.forEach((entry, index) => {
+                if (entry.user_id == user_id) {
+                    bestScore.innerHTML = `${entry.points}`;
+                    rankScore.innerHTML = `${index + 1}`;
                 }
             });
-
-            bestScore.innerHTML = `${score}`;
-            rankScore.innerHTML = `${rank}`;
         })
         .catch((error) => {
             console.error(error);
