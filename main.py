@@ -454,11 +454,11 @@ def dailyCheckin():
         last_reward = convert_to_unix_timestamp(last_reward)
         time_diff = currentTime - last_reward
 
-        if time_diff > 24 * 6 * 3600 * 1000 and time_diff < 2 * 24 * 6 * 3600 * 1000:
+        if time_diff > 24 * 3600 * 1000 and time_diff < 2 * 24 * 3600 * 1000:
             dailyCheckin += 1
             claimable = True
 
-        if time_diff > 2 * 24 * 6 * 3600 * 1000:
+        if time_diff > 2 * 24 * 3600 * 1000:
             dailyCheckin = 1
             claimable = True
             user_ref.update({"dailyCheckin": dailyCheckin})
