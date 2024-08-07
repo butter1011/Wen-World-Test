@@ -5,6 +5,10 @@ const user = window.Telegram.WebApp.initDataUnsafe.user;
 // const user_id = user?.id;
 const user_id = 7269635495;
 
+// rank in the leaderboard
+let high_rank = 0;
+let total_rank = 0;
+
 let farmingInterval;
 const dailyLoginRewards = [100, 200, 400, 800, 1600, 3200, 5000];
 const farmingDuration = 6 * 60 * 60 * 1000;
@@ -31,7 +35,6 @@ const defautlSvg = `<svg fill="#FFFFFF" height="30px" width="30px" version="1.1"
 async function initScore() {
     const highScorelist = document.getElementById('high-scores-list');
     const totalScorelist = document.getElementById('total-points-list');
-    const total_rank = document.getElementById("total_rank");
 
     highScorelist.innerHTML = '';
     totalScorelist.innerHTML = '';
@@ -47,12 +50,14 @@ async function initScore() {
             data.forEach((entry, index) => {
                 const highlistItem = document.createElement('div');
                 highlistItem.classList.add("score-table");
+
                 let id_rank = "";
                 id_rank = String(index + 1) + ".";
 
                 if (index == 0) id_rank = "🥇";
                 if (index == 1) id_rank = "🥈";
                 if (index == 2) id_rank = "🥉";
+                if (entry.user_id == user_id) high_rank = index + 1;
 
                 highlistItem.innerHTML = `
                     <div class="leaderboard-item">
@@ -83,23 +88,15 @@ async function initScore() {
     })
         .then(response => response.json())
         .then(data => {
-            let score = 0;
-            let rank = 1;
             data.forEach((entry, index) => {
-                if (entry.user_id == user_id) {
-                    score = entry.points;
-                } else {
-                    rank++;
-                }
-
                 const totallistItem = document.createElement('div');
                 totallistItem.classList.add("score-table");
-                let id_rank = "";
-                id_rank = String(index + 1)+".";
+                id_rank = String(index + 1) + ".";
 
                 if (index == 0) id_rank = "🥇";
                 if (index == 1) id_rank = "🥈";
                 if (index == 2) id_rank = "🥉";
+                if (entry.user_id == user_id) total_rank = index + 1;
 
                 totallistItem.innerHTML = `
                     <div class="leaderboard-item">
@@ -116,12 +113,14 @@ async function initScore() {
                     </div>
                 `;
                 totalScorelist.appendChild(totallistItem);
-                total_rank.innerHTML = `${rank}`;
             });
         })
         .catch((error) => {
             console.error('Error:', error);
         });
+    
+    // init the rank
+    showTab('high-scores');
 }
 
 // get the all the score value
@@ -170,6 +169,21 @@ async function displayLeaderboard() {
 }
 
 function showTab(tabId) {
+    const total_rank_ele = document.getElementById("total_rank");
+    if (tabId === 'high-scores') {
+        if (high_rank == 0) {
+            total_rank_ele.innerHTML = "None";
+        } else {
+            total_rank_ele.innerHTML = high_rank;
+        }
+    } else if (tabId === 'total-points') {
+        if (total_rank == 0) {
+            total_rank_ele.innerHTML = "None";
+        } else {
+            total_rank_ele.innerHTML = total_rank;
+        }
+    }
+
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
     });

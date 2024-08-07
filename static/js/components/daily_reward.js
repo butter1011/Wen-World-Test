@@ -44,9 +44,11 @@ async function  dailyCheckIn() {
     // disable the claimbutton
     if (claimable) {
         claim_btn.style.background = '#00FFCF';
+        claim_btn.innerHTML = 'CLAIM';
         claim_btn.removeAttribute('disabled');
     } else {
         claim_btn.style.background = 'gray';
+        claim_btn.innerHTML = 'CLAIMED';
         claim_btn.setAttribute('disabled', 'disabled');
     }
 }

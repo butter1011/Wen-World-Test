@@ -23,13 +23,13 @@ async function init() {
                 }
 
                 if (data.data.inviteFriend != null) {
-                    // if (data.data.inviteFriend > 9) {
-                    //     document.getElementById('inviteFriend').classList.add('claim');
-                    //     document.getElementById('inviteFriend').innerHTML = 'claim';
-                    //     document.getElementById('inviteFriend').onclick = '';
-                    // } else {
-                    //     document.getElementById('inviteText').innerHTML = `${data.data.inviteFriend} / 10`;
-                    // }
+                    if (data.data.inviteFriend > 9) {
+                        document.getElementById('inviteFriend').classList.add('claim');
+                        document.getElementById('inviteFriend').innerHTML = 'CLAIMED';
+                        document.getElementById('inviteFriend').onclick = '';
+                    } else {
+                        document.getElementById('inviteText').innerHTML = `${10 - data.data.inviteFriend} / 10`;
+                    }
                 }
 
                 if (data.data.joinDiscord) {

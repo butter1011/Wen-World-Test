@@ -157,29 +157,13 @@ def highscore_data():
 def totalscore_data():
 
     if request.args.get("user_id"):
-        total_data = 0
         user_id = request.args.get("user_id")
-        # Get Scores
-        scores_ref = db.collection("users").document(user_id).collection(
-            "scores")
-        current_score_docs = scores_ref.get()
-        if current_score_docs:
-            for current_score_doc in current_score_docs:
-                current_score = current_score_doc.to_dict().get("score", 0)
-                total_data += current_score
+        user_ref = db.collection("users").document(user_id)
+        user_data = user_ref.get().to_dict()
+        total_data = user_data.get("totals", '')
 
-        # Get Farming
-        farming_ref = db.collection("users").document(user_id).collection(
-            "farming")
-        farming_score_docs = farming_ref.get()
-        if farming_score_docs:
-            for farming_score_doc in farming_score_docs:
-                farming_score = farming_score_doc.to_dict().get("point", 0)
-                total_data += farming_score
-
-        user_ref = db.collection("users").document(user_id).get()
         return {
-            "name": user_ref.to_dict().get("nickname", "Player"),
+            "name": user_data.get("nickname", "Player"),
             "total": total_data,
         }
 
@@ -190,15 +174,7 @@ def totalscore_data():
 
         for user in users:
             user_ref = user.to_dict()
-            scores_ref = db.collection("users").document(
-                user.id).collection("scores")
-            current_score_docs = scores_ref.get()
-            total_data = 0
-
-            if current_score_docs:
-                for current_score_doc in current_score_docs:
-                    current_score = current_score_doc.to_dict().get("score", 0)
-                    total_data += current_score
+            total_data = user_ref.get("totals", '')
 
             totalScoredata.append({
                 "name": user_ref.get("nickname", "Player"),
