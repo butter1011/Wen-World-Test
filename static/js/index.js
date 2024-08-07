@@ -991,12 +991,23 @@ async function initScore() {
     })
         .then(response => response.json())
         .then(data => {
+            let high_rank = 0;
+            let score = 0;
+
             data.forEach((entry, index) => {
                 if (entry.user_id == user_id) {
-                    bestScore.innerHTML = `${entry.points}`;
-                    rankScore.innerHTML = `${index + 1}`;
+                    score = entry.points;
+                    high_rank = index + 1;
                 }
             });
+
+            if (high_rank == 0) {
+                bestScore.innerHTML = `${entry.points}`;
+                rankScore.innerHTML = "None";
+            } else {
+                bestScore.innerHTML = `${entry.points}`;
+                rankScore.innerHTML = `${index + 1}`;
+            }
         })
         .catch((error) => {
             console.error(error);
