@@ -1,9 +1,9 @@
-// let serverurl = "https://telegram-1-triend.replit.app";
-let serverurl = "http://localhost:80";
+let serverurl = "https://telegram-1-triend.replit.app";
+// let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-// const user_id = user?.id;
-const user_id = 7269635495;
+const user_id = user?.id;
+// const user_id = 7269635495;
 
 function convertToUnixTimestamp(dateString) {
     if (dateString != "") {
@@ -78,7 +78,7 @@ document.getElementById('nickname').addEventListener('click', function () {
     const input = document.createElement('input');
     input.type = 'text';
     input.classList.add('input-nickname');
-    // input.value = currentNickname;
+    input.value = currentNickname;
     input.id = 'nickname-input';
 
     nicknameElement.replaceWith(input);
@@ -86,7 +86,7 @@ document.getElementById('nickname').addEventListener('click', function () {
 
     input.addEventListener('blur', () => {
         const newNickname = input.value;
-        nicknameElement.textContent = newNickname == "" ? "-----" : newNickname;
+        nicknameElement.textContent = newNickname == "" ? currentNickname : newNickname;
         input.replaceWith(nicknameElement);
 
         // Send the updated nickname to the backend
