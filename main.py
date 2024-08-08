@@ -450,19 +450,19 @@ def dailyCheckin():
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get().to_dict()
     dailyCheckin = user_data.get("dailyCheckin", 0)
+    last_reward = user_data.get("last_reward", "")
+    current_date = datetime.utcnow().date()
     claimable = False
-    last_reward = str(user_data.get("last_reward", ""))
 
-    currentTime = int(datetime.utcnow().timestamp() * 1000)
     if last_reward != "":
-        last_reward = convert_to_unix_timestamp(last_reward)
-        time_diff = currentTime - last_reward
+        # Assuming last_reward is stored as a string in 'YYYY-MM-DD' format
+        last_reward_date = convert_to_unix_timestamp(last_reward)
+        date_diff = (current_date - last_reward_date.date()).days
 
-        if time_diff > 24 * 3600 * 1000 and time_diff < 2 * 24 * 3600 * 1000:
+        if date_diff == 1:
             dailyCheckin += 1
             claimable = True
-
-        if time_diff > 2 * 24 * 3600 * 1000:
+        elif date_diff >= 2:
             dailyCheckin = 1
             claimable = True
             user_ref.update({"dailyCheckin": dailyCheckin})
@@ -483,23 +483,23 @@ def dailyClaim():
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get().to_dict()
     dailyCheckin = user_data.get("dailyCheckin", 0)
-    last_reward = str(user_data.get("last_reward", 0))
+    last_reward = user_data.get("last_reward", "")
 
     total_ref = user_ref.collection("totals")
     total_score_doc = total_ref.document("dailyscore")
     total_data = total_score_doc.get().to_dict()
     daily_total_value = total_data.get("score", 0)
+    current_date = datetime.utcnow().date()
 
     if last_reward != "":
-        currentTime = datetime.utcnow().timestamp() * 1000
-        last_reward = convert_to_unix_timestamp(last_reward)
-        time_diff = currentTime - last_reward
+        last_reward_date = convert_to_unix_timestamp(last_reward)
+        date_diff = (current_date - last_reward_date.date()).days
 
-        if time_diff < 1000 * 24 * 3600:
+        if date_diff < 1:
             return (jsonify({"message":
                              "failed to claim the daily checkin"}), 400)
 
-    if dailyCheckin > 6:
+    if date_diff > 6:
         dailyReward = 5000
     else:
         dailyReward = reward_array[dailyCheckin]
@@ -545,10 +545,8 @@ def farmingClaim():
     # get the time difference
     currentTime = int(datetime.utcnow().timestamp() * 1000)
     oldTime = convert_to_unix_timestamp(startFarming)
-    print("--------------->currentTime", currentTime)
-    print("--------------->oldTime", oldTime)
+    oldTime_timestamp = int(oldTime.timestamp()*1000)
     time_diff = currentTime - oldTime
-    print("--------------->time_diff", time_diff)
 
 
     if oldTime != 0 and time_diff > (6 * 3600 * 1000):
@@ -666,11 +664,10 @@ def convert_to_unix_timestamp(date_string):
         date = datetime(year + 2000, month, day, hours, minutes, seconds)
     
         # Convert to Unix timestamp
-        unix_timestamp = int(date.timestamp()*1000)
+        # unix_timestamp = int(date.timestamp()*1000)
     else:
-        unix_timestamp = 0
-    return unix_timestamp
-
+        date = 0
+    return date
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 80))
