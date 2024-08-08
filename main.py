@@ -67,8 +67,8 @@ def getUserInfo():
     high_score = 0
     # Get Scores
     scores_ref = db.collection("users").document(user_id).collection(
-        "scores")
-    current_score_doc = scores_ref.document(currentTime).get()
+        "totals")
+    current_score_doc = scores_ref.document("highscore").get()
     user_ref = db.collection("users").document(user_id).get()
 
     if current_score_doc.exists:
@@ -106,50 +106,29 @@ def getTaskStatus():
 @app.route("/api/v1/highscore_data", methods=["GET"])
 def highscore_data():
     currentTime = datetime.utcnow().strftime("%m-%d-%y")
+    highscoredata = []
+    users_ref = db.collection("users")
+    users = users_ref.get()
 
-    if request.args.get("user_id"):
-        user_id = request.args.get("user_id")
+    for user in users:
+        user_ref = user.to_dict()
         # Get Scores
-        scores_ref = db.collection("users").document(user_id).collection(
-            "scores")
-        current_score_doc = scores_ref.document(currentTime).get()
-        user_ref = db.collection("users").document(user_id).get()
-
+        scores_ref = db.collection("users").document(
+            user.id).collection("totals")
+        current_score_doc = scores_ref.document('highscore').get()
         if current_score_doc.exists:
             score_data = current_score_doc.to_dict()
-            return {
-                "name": user_ref.to_dict().get("nickname", "Player"),
+            highscoredata.append({
+                "name": user_ref.get("nickname", "Player"),
+                "user_id": user.id,
                 "points": score_data.get("score", 0),
-            }
-        else:
-            return {
-                "name": user_ref.to_dict().get("nickname", "Player"),
-                "points": 0,
-            }
-    else:
-        highscoredata = []
-        users_ref = db.collection("users")
-        users = users_ref.get()
+                "picture": user_ref.get("picture", "")
+            })
 
-        for user in users:
-            user_ref = user.to_dict()
-            # Get Scores
-            scores_ref = db.collection("users").document(
-                user.id).collection("totals")
-            current_score_doc = scores_ref.document('highscore').get()
-            if current_score_doc.exists:
-                score_data = current_score_doc.to_dict()
-                highscoredata.append({
-                    "name": user_ref.get("nickname", "Player"),
-                    "user_id": user.id,
-                    "points": score_data.get("score", 0),
-                    "picture": user_ref.get("picture", "")
-                })
-
-        highscoredata = sorted(highscoredata,
-                               key=lambda x: x["points"],
-                               reverse=True)
-        return jsonify(highscoredata)
+    highscoredata = sorted(highscoredata,
+                            key=lambda x: x["points"],
+                            reverse=True)
+    return jsonify(highscoredata)
 
 
 # Endpoint to get the leaderboard

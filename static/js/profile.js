@@ -55,8 +55,6 @@ async function init() {
     else {
         const convert_lastTime = convertToUnixTimestamp(lastTime);
         const farmingDuration = currentTime - convert_lastTime;
-        console.log("-------------->convert_lastTime", convert_lastTime);
-        console.log("-------------->currentTime", currentTime);
 
         if (farmingDuration > 6 * 1000 * 3600) {
             document.getElementById('farming-btn').innerHTML = `Claim Point <span class="farming-circle"></span><span id="claim-point" class="timer">1000</span>`;

@@ -157,23 +157,6 @@ async function joinInstagram() {
         });
 }
 
-async function joinInstagram() {
-    window.open('https://www.instagram.com/triend.app/?hl=en', '_blank');
-    await fetch(`${serverurl}/api/v2/joinInstagram`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 'user_id': user_id })
-    })
-        .then(response => {
-            init();
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-}
-
 async function joinDiscord() {
     window.open('https://discord.gg/XZPwtfZjWq', '_blank');
     await fetch(`${serverurl}/api/v2/joinDiscord`, {
@@ -189,17 +172,6 @@ async function joinDiscord() {
         .catch((error) => {
             console.error('Error:', error);
         });
-}
-
-function completeTask(button, points, url) {
-    window.open(url, '_blank');
-    let tridendAmount = parseInt(localStorage.getItem('tridendAmount')) || 0;
-    tridendAmount += points;
-    localStorage.setItem('tridendAmount', tridendAmount);
-    updateLeaderboard(points);
-    button.innerText = "Completed";
-    button.classList.add("completed");
-    button.disabled = true;
 }
 
 document.addEventListener('DOMContentLoaded', async (event) => {
