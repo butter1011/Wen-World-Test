@@ -66,14 +66,13 @@ def getUserInfo():
     high_ref = user_ref.collection("scores").document(currentTime)
     high_score = 0
     # Get Scores
-    scores_ref = db.collection("users").document(user_id).collection(
-        "totals")
-    current_score_doc = scores_ref.document("highscore").get()
+    scores_ref = db.collection("users").document(user_id)
+    current_score_doc = scores_ref.get()
     user_ref = db.collection("users").document(user_id).get()
 
     if current_score_doc.exists:
         score_data = current_score_doc.to_dict()
-        high_score = score_data.get("score", 0)
+        high_score = score_data.get("highscore", 0)
 
     user_name = user_doc.get("nickname", "Player")
     total_score = user_doc.get("totals", 0)
@@ -114,14 +113,14 @@ def highscore_data():
         user_ref = user.to_dict()
         # Get Scores
         scores_ref = db.collection("users").document(
-            user.id).collection("totals")
-        current_score_doc = scores_ref.document('highscore').get()
+            user.id)
+        current_score_doc = scores_ref.get()
         if current_score_doc.exists:
             score_data = current_score_doc.to_dict()
             highscoredata.append({
                 "name": user_ref.get("nickname", "Player"),
                 "user_id": user.id,
-                "points": score_data.get("score", 0),
+                "points": score_data.get("highscore", 0),
                 "picture": user_ref.get("picture", "")
             })
 
@@ -242,6 +241,7 @@ def initUser():
                 "dailyCheckin": 0,
                 "last_reward": "",
                 "startFarming": "",
+                "highscore": 0,
             },
             merge=True,
         )
@@ -589,9 +589,16 @@ def update_score():
         total_ref = user_ref.collection("totals")
         total_score_doc = total_ref.document("highscore")
         total_data = total_score_doc.get().to_dict()
+        highscore_current = user_ref.get().to_dict()
         highscore_total_value = total_data.get("score", 0)
+
+        highscore_current_value = highscore_current.get("highscore", 0)
         total_value = user_data.get("totals", 0)
         current_score_doc = scores_ref.document(currentTime).get()
+
+        # companre the score with high score
+        if highscore_current_value < score:
+            highscore_current.update({"highscore": score})
 
         # update total score & scores data
         if not current_score_doc.exists:
