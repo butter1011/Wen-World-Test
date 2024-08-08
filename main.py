@@ -525,7 +525,7 @@ def farmingClaim():
     currentTime = int(datetime.utcnow().timestamp() * 1000)
     oldTime = convert_to_unix_timestamp(startFarming)
     oldTime_timestamp = int(oldTime.timestamp()*1000)
-    time_diff = currentTime - oldTime
+    time_diff = currentTime - oldTime_timestamp
 
 
     if oldTime != 0 and time_diff > (6 * 3600 * 1000):

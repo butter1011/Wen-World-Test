@@ -1,50 +1,55 @@
 /* character_card css */
 .character-card {
-    background: #333;
-    border-radius: 10px;
-    padding: 10px;
-    width: 100px;
-    text-align: center;
-    color: white;
-    font-size: 2vh;
-    cursor: pointer;
-    transition: transform 0.3s;
-    margin: 5px;
-  }
-  
-  .character-card img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-  }
-  
-  .character-card:hover {
-    transform: scale(1.1);
-  }
-  
-  .character-card.selected {
-    border: 2px solid #00FFCF;
-  }
-  
-  #start-game-button {
-    padding: 1vh 2vh;
-    font-size: 1rem;
-    background-color: #00FFCF;
-    color: black;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 1vh;
-    width: 40vw;
-    font-weight: 700;
-  }
-  
-  #character-card {
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    color: white;
-    font-size: 24px;
-    margin-bottom: 20px;
-    display: none;
-  }
+  background: #333;
+  border-radius: 10px;
+  padding: 2vh;
+  /* Changed from 10px for better scaling */
+  max-width: 200px;
+  /* Changed from 100px for better scaling */
+  text-align: center;
+  color: white;
+  font-size: 2vh;
+  cursor: pointer;
+  transition: transform 0.3s, border 0.3s;
+  margin: 1vh;
+  /* Changed from 5px for better scaling */
+  border: 2px solid transparent;
+  /* Added border for initial state */
+}
+
+.character-card img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.character-card:hover {
+  transform: scale(1.1);
+}
+
+.character-card.selected {
+  border: 2px solid #00FFCF;
+}
+
+#start-game-button {
+  padding: 1vh 2vh;
+  font-size: 1rem;
+  background-color: #00FFCF;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1vh;
+  width: 40vw;
+  font-weight: 700;
+}
+
+#character-card {
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  color: white;
+  font-size: 24px;
+  margin-bottom: 20px;
+  display: none;
+}

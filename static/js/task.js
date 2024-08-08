@@ -69,7 +69,7 @@ async function init() {
 }
 
 async function inviteFriend() {
-    window.open(`https://t.me/share/url?url=https://t.me/wen_worldbot?startapp=${user_id}&text=Hey%20there!%F0%9F%8C%9F%0A%20Your%20go-to%20game%20for%20navigating%20the%20crypto%20market%20-%20travel%20the%20world,%20navigate%20the%20bull%20and%20bear%20market,%20and%20dodge%20the%20SEC!%20%F0%9F%8C%8D%F0%9F%93%88%F0%9F%9A%80.%0A%0A%20Start%20farming%20points%20now,%20and%20who%20knows%20what%20cool%20stuff%20you%27ll%20snag%20with%20them%20soon!%20%F0%9F%9A%80%0A%0A%20Got%20friends?%20Bring%20%27em%20in!%20The%20more,%20the%20errier!%20%F0%9F%8C%B1%0A%0A%20Remember:%20World%20of%20Wen%20is%20where%20growth%20thrives%20and%20endless%20opportunities%20are%20discovered!%20%F0%9F%8C%BC%0A%0A`);
+    window.open(`https://t.me/share/url?url=https://t.me/wen_worldbot?start=${user_id}&text=Hey%20there!%F0%9F%8C%9F%0A%20Your%20go-to%20game%20for%20navigating%20the%20crypto%20market%20-%20travel%20the%20world,%20navigate%20the%20bull%20and%20bear%20market,%20and%20dodge%20the%20SEC!%20%F0%9F%8C%8D%F0%9F%93%88%F0%9F%9A%80.%0A%0A%20Start%20farming%20points%20now,%20and%20who%20knows%20what%20cool%20stuff%20you%27ll%20snag%20with%20them%20soon!%20%F0%9F%9A%80%0A%0A%20Got%20friends?%20Bring%20%27em%20in!%20The%20more,%20the%20errier!%20%F0%9F%8C%B1%0A%0A%20Remember:%20World%20of%20Wen%20is%20where%20growth%20thrives%20and%20endless%20opportunities%20are%20discovered!%20%F0%9F%8C%BC%0A%0A`);
 }
 
 async function learnClick() {
