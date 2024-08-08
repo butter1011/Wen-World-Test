@@ -1,9 +1,9 @@
-// let serverurl = "https://telegram-1-triend.replit.app";
-let serverurl = "http://localhost:80";
+let serverurl = "https://telegram-1-triend.replit.app";
+// let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-// const user_id = user?.id;
-const user_id = 7269635495;
+const user_id = user?.id;
+// const user_id = 7269635495;
 
 async function init() {
     await fetch(`${serverurl}/api/v1/getTaskStatus`, {
@@ -27,9 +27,9 @@ async function init() {
                         document.getElementById('inviteFriend').classList.add('claim');
                         document.getElementById('inviteFriend').innerHTML = 'Completed';
                         document.getElementById('inviteFriend').onclick = '';
-                    } else {
-                        document.getElementById('inviteText').innerHTML = `${10 - data.data.inviteFriend} / 10`;
                     }
+                        
+                    document.getElementById('inviteText').innerHTML = `${10 - data.data.inviteFriend} / 10`;
                 }
 
                 if (data.data.joinDiscord) {

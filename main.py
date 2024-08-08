@@ -214,28 +214,31 @@ def currentTime():
 # Invite the User
 @app.route("/api/v2/invite", methods=["POST"])
 def invite():
-    print("API request is given-------------->")
-    data = request.json.get("data")
-    user_id = str(data["user_id"])
-    inviter_id = str(data["inviter_id"])
+    user_id = str(request.json.get("user_id"))
+    inviter_id = str(request.json.get("inviter_id"))
 
     # Get Scores
     user_ref = db.collection("users").document(inviter_id)
 
-    if db.collection("user").document(inviter_id) and inviter_id != user_id:
+    if db.collection("user").document(user_id) and inviter_id != user_id:
         task_ref = user_ref.collection("totals").document("taskscore")
         task_data = task_ref.get().to_dict()
 
+        task_score = task_data.get("score", 0)
         inviteFriend = task_data.get("inviteFriend", 0)
         friendList = task_data.get("friendList", [])
 
         if inviteFriend < 10:
             friendList.append(user_id)
             inviteFriend += 1
+            task_score += 4000
 
             task_ref.update({"inviteFriend": inviteFriend})
             task_ref.update({"friendList": friendList})
+            task_ref.update({"score": task_score})
             return (jsonify({"message": "success"}), 200)
+        else:
+            return (jsonify({"message": "Already invited over 10 users."}), 201)
 
     return (jsonify({"message": "failed"}), 400)
 
