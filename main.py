@@ -135,8 +135,8 @@ def highscore_data():
             user_ref = user.to_dict()
             # Get Scores
             scores_ref = db.collection("users").document(
-                user.id).collection("scores")
-            current_score_doc = scores_ref.document(currentTime).get()
+                user.id).collection("totals")
+            current_score_doc = scores_ref.document('highscore').get()
             if current_score_doc.exists:
                 score_data = current_score_doc.to_dict()
                 highscoredata.append({

@@ -35,6 +35,7 @@ let images = {
     triendImg: "../static/img/triend-img.png",
     zkpImg: "../static/img/zkp-img.png"
 };
+
 let imageElements = {};
 
 function selectCharacter(name) {

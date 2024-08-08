@@ -12,7 +12,6 @@ function convertToUnixTimestamp(dateString) {
         const [hours, minutes, seconds] = timePart.split('-').map(Number);
         // 08/06/24:17-12-19
         const date = new Date(Date.UTC(`20${year}`, month - 1, day, hours, minutes, seconds));
-        console.log("------------>date", date);
         return date.getTime();
     }
     else return 0;
