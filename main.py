@@ -7,6 +7,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": ["https://telegram-1-Triend.replit.app", "https://wenworld.replit.app"]}})
 
 # Firebase credentials and initialization
 firebase_creds = {
@@ -487,8 +488,8 @@ def dailyClaim():
             return (jsonify({"message":
                              "failed to claim the daily checkin"}), 400)
 
-    if date_diff > 6:
-        dailyReward = 5000
+        if date_diff > 6:
+            dailyReward = 5000
     else:
         dailyReward = reward_array[dailyCheckin]
 
@@ -533,19 +534,22 @@ def farmingClaim():
     # get the time difference
     currentTime = int(datetime.utcnow().timestamp() * 1000)
     oldTime = convert_to_unix_timestamp(startFarming)
-    oldTime_timestamp = int(oldTime.timestamp()*1000)
-    time_diff = currentTime - oldTime_timestamp
+    print("--------->oldTime", oldTime)
 
+    if oldTime != 0:
+        oldTime_timestamp = int(oldTime.timestamp() * 1000)
+        time_diff = currentTime - oldTime_timestamp
 
-    if oldTime != 0 and time_diff > (6 * 3600 * 1000):
-        # get total value & set the total value
-        total_value = user_data.get("totals", 0)
-        total_value += 1000
-        farming_total_value += 1000
-        total_score_doc.update({"score": int(farming_total_value)})
-        user_ref.update({"totals": int(total_value)})
-        user_ref.update({"startFarming": ''})
-        return jsonify({"message": "Added the farming reward!"}), 200
+        if time_diff > (6 * 3600 * 1000):
+            # get total value & set the total value
+            total_value = user_data.get("totals", 0)
+            total_value += 1000
+            farming_total_value += 1000
+            total_score_doc.update({"score": int(farming_total_value)})
+            user_ref.update({"totals": int(total_value)})
+            user_ref.update({"startFarming": ''})
+
+            return jsonify({"message": "Added the farming reward!"}), 200
 
     return jsonify({"message": "failed to add the farming reward!"}), 400
 
@@ -607,7 +611,7 @@ def update_score():
 
         # companre the score with high score
         if highscore_current_value < score:
-            highscore_current.update({"highscore": score})
+            user_ref.update({"highscore": score})
 
         # update total score & scores data
         if not current_score_doc.exists:
