@@ -8,3 +8,7 @@ body,
 html {
   font-family: Inter;
 }
+
+.font_bold{
+  font-weight: 700;
+}
