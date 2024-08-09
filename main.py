@@ -192,38 +192,42 @@ def currentTime():
 # Invite the User
 @app.route("/api/v2/invite", methods=["POST"])
 def invite():
-    user_id = str(request.json.get("user_id"))
-    inviter_id = str(request.json.get("inviter_id"))
+    try:
+        user_id = str(request.json.get("user_id"))
+        inviter_id = str(request.json.get("inviter_id"))
 
-    # Get Scores
-    user_ref = db.collection("users").document(inviter_id)
-    user_doc = user_ref.get().to_dict()
-    nick_name = user_doc.get("nickname", "")
+        # Get Scores
+        user_ref = db.collection("users").document(inviter_id)
+        user_doc = user_ref.get().to_dict()
+        nick_name = user_doc.get("nickname", "")
 
-    if nick_name == "":
-        nick_name = user_doc.get("name", "")
+        if nick_name == "":
+            nick_name = user_doc.get("name", "")
 
-    if db.collection("user").document(user_id) and inviter_id != user_id:
-        task_ref = user_ref.collection("totals").document("taskscore")
-        task_data = task_ref.get().to_dict()
+        if db.collection("user").document(user_id) and inviter_id != user_id:
+            task_ref = user_ref.collection("totals").document("taskscore")
+            task_data = task_ref.get().to_dict()
 
-        task_score = task_data.get("score", 0)
-        inviteFriend = task_data.get("inviteFriend", 0)
-        friendList = task_data.get("friendList", [])
+            task_score = task_data.get("score", 0)
+            inviteFriend = task_data.get("inviteFriend", 0)
+            friendList = task_data.get("friendList", [])
+    
+            if inviteFriend < 10:
+                if user_id not in friendList:
+                    friendList.append(user_id)
+                    inviteFriend += 1
+                    task_score += 4000
 
-        if inviteFriend < 10:
-            friendList.append(user_id)
-            inviteFriend += 1
-            task_score += 4000
-
-            task_ref.update({"inviteFriend": inviteFriend})
-            task_ref.update({"friendList": friendList})
-            task_ref.update({"score": task_score})
-            return (jsonify({"message": "success", "nickname": nick_name}), 200)
-        else:
-            return (jsonify({"message": "Already invited over 10 users."}), 201)
-
-    return (jsonify({"message": "failed"}), 400)
+                    task_ref.update({"inviteFriend": inviteFriend})
+                    task_ref.update({"friendList": friendList})
+                    task_ref.update({"score": task_score})
+                    return (jsonify({"message": "success", "nickname": nick_name}), 200)
+                else: 
+                    return (jsonify({"message": "Already added into the friendList"}), 201)
+            else:
+                return (jsonify({"message": "Already invited over 10 users."}), 201)
+    except Exception as e:
+        return (jsonify({"message": "failed"}), 400)
 
 
 # Init the User Database
