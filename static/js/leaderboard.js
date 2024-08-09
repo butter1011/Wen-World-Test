@@ -1,9 +1,9 @@
-let serverurl = "https://telegram-1-triend.replit.app";
-// let serverurl = "http://localhost:80";
+// let serverurl = "https://telegram-1-triend.replit.app";
+let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-const user_id = user?.id;
-// const user_id = 7269635495;
+// const user_id = user?.id;
+const user_id = 7269635495;
 
 // rank in the leaderboard
 let high_rank = 0;

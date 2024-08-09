@@ -35,7 +35,8 @@ html {
 }
 
 .game-stats {
-    margin-top: 10px;
+    margin-top: 0.7rem;
+    margin-bottom: 3rem;
     font-size: 2.5vh;
     flex-grow: 1;
     overflow-y: auto;
@@ -158,7 +159,6 @@ html {
 #total-points{
     justify-content: center;
     align-items: center;
-    max-height: 100vh;
     overflow-y: auto;
 }
 

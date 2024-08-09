@@ -197,6 +197,11 @@ def invite():
 
     # Get Scores
     user_ref = db.collection("users").document(inviter_id)
+    user_doc = user_ref.get().to_dict()
+    nick_name = user_doc.get("nickname", "")
+
+    if nick_name == "":
+        nick_name = user_doc.get("name", "")
 
     if db.collection("user").document(user_id) and inviter_id != user_id:
         task_ref = user_ref.collection("totals").document("taskscore")
@@ -214,7 +219,7 @@ def invite():
             task_ref.update({"inviteFriend": inviteFriend})
             task_ref.update({"friendList": friendList})
             task_ref.update({"score": task_score})
-            return (jsonify({"message": "success"}), 200)
+            return (jsonify({"message": "success", "nickname": nick_name}), 200)
         else:
             return (jsonify({"message": "Already invited over 10 users."}), 201)
 
