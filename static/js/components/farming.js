@@ -11,6 +11,7 @@ async function startFarming() {
 async function claimPoints() {
     document.getElementById('farming-btn').innerHTML = `Farming`;
     document.getElementById('farming-btn').onclick = startFarming;
+    const total_score_ele = document.getElementById('total_score');
 
     await fetch(`${serverurl}/api/v2/farmingClaim`, {
         method: 'POST',
@@ -19,7 +20,9 @@ async function claimPoints() {
         },
         body: JSON.stringify({ 'user_id': user_id })
     })
-        .then(response => response.json())
+        .then((response) => {
+            total_score_ele.innerHTML = parseInt(total_score_ele.innerText) + 1000;
+        })
         .catch((error) => {
             console.error('Error:', error);
         });

@@ -48,7 +48,7 @@ async function init() {
     const lastTime = await getfarmingTime();
 
     if (lastTime === 0) {
-        document.getElementById('farming-btn').innerHTML = `Start Farming`;
+        document.getElementById('farming-btn').innerHTML = `FARM TP`;
         document.getElementById('farming-btn').onclick = startFarming;
     }
 
