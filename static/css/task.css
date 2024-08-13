@@ -76,6 +76,7 @@ html {
 .task .task-info .task-points {
     font-size: 16px;
     color: #00FFCF;
+    font-weight: 500;
 }
 
 .task .task-action button {
@@ -84,11 +85,9 @@ html {
     font-size: 0.8rem;
     color: white;
     border-radius: 32px;
+    border: none;
     text-transform: uppercase;
-}
-
-.task .task-action button:hover {
-    background-color: #00FFCF;
+    font-weight: bolder;
 }
 
 .task .task-action button.claim{
