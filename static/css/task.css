@@ -88,13 +88,16 @@ html {
 }
 
 .task .task-action button:hover {
-    background-color: #fb00ff;
+    background-color: #00FFCF;
 }
 
-.task .task-action button.claim {
-    background: #fb00ff;
-    color: white;
-    cursor: not-allowed;
+.task .task-action button.claim{
+    background-color: #00FFCF;
+}
+
+.task .task-action button.claimed {
+    background: #636363;
+    color: gray;
 }
 
 /* .overlay {
