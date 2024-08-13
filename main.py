@@ -272,7 +272,7 @@ def initUser():
         farmingscore_doc = total_ref.document("farmingscore")
 
         taskscore_doc = total_ref.document("taskscore")
-        score_doc = score_ref.document(currentTime)
+        score_doc = score_ref.document(current_time)
 
         score_doc.set({"score": 0}, merge=True)
         highscore_doc.set({"score": 0}, merge=True)

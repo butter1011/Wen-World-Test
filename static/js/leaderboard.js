@@ -65,7 +65,7 @@ async function initScore() {
                             <span class="leaderboard-rank">${id_rank}</span>
                             <div class="leaderboard-avatar">
                                 ${entry.picture !== ""
-                        ? `<img src="${entry.picture}" alt="${entry.name}" />`
+                        ? `<img src="data:image/png;base64,${entry.picture}" alt="${entry.name}" />`
                         : defautlSvg}
                             </div>
                         </div>
@@ -104,7 +104,7 @@ async function initScore() {
                             <span class="leaderboard-rank">${id_rank}</span>
                             <div class="leaderboard-avatar">
                                 ${entry.picture !== ""
-                        ? `<img src="${entry.picture}" alt="${entry.name}" />`
+                        ? `<img src="data:image/png;base64,${entry.picture}" alt="${entry.name}" />`
                         : defautlSvg}
                             </div>
                         </div>
