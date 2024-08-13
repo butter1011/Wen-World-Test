@@ -1,9 +1,9 @@
-let serverurl = "https://telegram-1-triend.replit.app";
-// let serverurl = "http://localhost:80";
+// let serverurl = "https://telegram-1-triend.replit.app";
+let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-const user_id = user?.id;
-// const user_id = 7269635495;
+// const user_id = user?.id;
+const user_id = 7269635495;
 
 function convertToUnixTimestamp(dateString) {
     if (dateString != "") {
@@ -36,7 +36,7 @@ async function init() {
             scoreElement.innerHTML = data.data.total_score;
             checkinCountElement.innerHTML = data.data.dailyCheckin;
             highScoreElement.innerHTML = data.data.high_score;
-            profileImage.src = data.data.picture != "" ? data.data.picture : "../static/img/profile.png";
+            profileImage.src = data.data.picture != "" ? `data:image/png;base64,${data.data.picture}` : "../static/img/profile.png";
             nickname.innerHTML = data.data.user_name == "" ? "-----" : data.data.user_name;
         })
         .catch((error) => {

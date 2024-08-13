@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, firestore
+import base64
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": ["https://telegram-1-Triend.replit.app", "https://wenworld.replit.app"]}})
@@ -66,6 +67,7 @@ def getUserInfo():
     user_doc = user_ref.get().to_dict()
     high_ref = user_ref.collection("scores").document(currentTime)
     high_score = 0
+    
     # Get Scores
     scores_ref = db.collection("users").document(user_id)
     current_score_doc = scores_ref.get()
@@ -234,10 +236,17 @@ def invite():
 # Init the User Database
 @app.route("/api/v2/initUser", methods=["POST"])
 def initUser():
-    currentTime = datetime.utcnow().strftime("%m-%d-%y")
-    user_id = str(request.json.get("user_id"))
-    user_name = str(request.json.get("user_name"))
-    picture = str(request.json.get("picture"))
+    current_time = datetime.utcnow().strftime("%m-%d-%y")
+    user_id = request.json.get("user_id")
+    user_name = request.json.get("user_name")
+    picture = request.json.get("picture")
+
+    if not user_id or not user_name or not picture:
+        return jsonify({"message": "Missing required fields"}), 400
+
+    user_id = str(user_id)
+    user_name = str(user_name)
+
     user_ref = db.collection("users").document(user_id)
     user_data = user_ref.get().to_dict()
 
@@ -283,8 +292,11 @@ def initUser():
             },
             merge=True,
         )
+    
+    else:
+        current_pic = user_ref.update({"picture": picture})
+        
     return jsonify({"message": "Success"})
-
 
 # Learn about the triend app
 @app.route("/api/v2/learnAbout", methods=["POST"])
