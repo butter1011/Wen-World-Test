@@ -48,6 +48,7 @@ async function init() {
     const lastTime = await getfarmingTime();
 
     if (lastTime === 0) {
+        document.getElementById('farming-btn').classList.remove('claimed');
         document.getElementById('farming-btn').innerHTML = `Start Farming`;
         document.getElementById('farming-btn').onclick = startFarming;
     }
@@ -57,9 +58,11 @@ async function init() {
         const farmingDuration = currentTime - convert_lastTime;
 
         if (farmingDuration > 6 * 1000 * 3600) {
+            document.getElementById('farming-btn').classList.add('claimed');
             document.getElementById('farming-btn').innerHTML = `CLAIM 1000 TP`;
             document.getElementById('farming-btn').onclick = claimPoints;
         } else {
+            document.getElementById('farming-btn').classList.remove('claimed');
             document.getElementById('farming-btn').innerHTML = `1000 TP IN ⌛<span id="farming-timer" class="timer">-- : -- : --</span> <span id="claim-point" class="timer"></span>`;
             document.getElementById('farming-btn').onclick = "";
             startFarmingTimer(6 * 1000 * 3600 - farmingDuration);

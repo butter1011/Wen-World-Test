@@ -183,7 +183,7 @@ html {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 2.5vh;
+    font-size: 1.2rem;
     background: #636363;
     color: white;
     display: flex;
@@ -192,6 +192,11 @@ html {
     text-align: center;
     font-weight: bold;
     font-family: 'Inter';
+}
+
+.farming-button.claimed{
+    background-color: #00FFCF;
+    color: black;
 }
 
 .checkin-button {
