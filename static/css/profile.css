@@ -153,11 +153,11 @@ html {
     justify-content: center;
 }
 
-.timer {
-    color: #FFF;
-    font-size: 0.8rem;
-    margin-left: 10px;
-}
+    .timer {
+        color: #FFF;
+        font-size: 0.8rem;
+        margin-left: 10px;
+    }
 
 .farming-circle {
     position: absolute;
@@ -183,15 +183,16 @@ html {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1rem;
     background: #636363;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-weight: bold;
+    font-weight: bolder;
     font-family: 'Inter';
+    text-transform: capitalize;
 }
 
 .farming-button.claimed{
@@ -204,14 +205,14 @@ html {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1rem;
     background: #00FFCF;
     color: black;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-weight: bold;
+    font-weight: bolder;
     font-family: 'Inter';
 }
 

@@ -35,8 +35,8 @@ html {
 }
 
 .game-stats {
-    margin-top: 0.7rem;
-    margin-bottom: 3rem;
+    margin-top: 0.5rem;
+    margin-bottom: 4rem;
     font-size: 2.5vh;
     flex-grow: 1;
     overflow-y: auto;
