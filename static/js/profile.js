@@ -33,7 +33,7 @@ async function init() {
     })
         .then(response => response.json())
         .then((data) => {
-            scoreElement.innerHTML = data.data.total_score;
+            scoreElement.innerHTML = "TP " + data.data.total_score;
             checkinCountElement.innerHTML = data.data.dailyCheckin;
             highScoreElement.innerHTML = data.data.high_score;
             profileImage.src = data.data.picture != "" ? `data:image/png;base64,${data.data.picture}` : "../static/img/profile.png";

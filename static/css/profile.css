@@ -16,7 +16,7 @@ html {
 
 .leaderboard-container {
     width: 100%;
-    width: 90%;
+    width: 80%;
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
     padding: 20px;
@@ -38,7 +38,7 @@ html {
 
 .profile-section {
     background: #333333;
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 50px;
     opacity: 0px;
     display: flex;
@@ -179,7 +179,7 @@ html {
 }
 
 .farming-button {
-    padding: 10px 20px;
+    padding: 1rem;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -191,10 +191,11 @@ html {
     justify-content: center;
     text-align: center;
     font-weight: bold;
+    font-family: 'Inter';
 }
 
 .checkin-button {
-    padding: 10px 20px;
+    padding: 1rem;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -206,6 +207,7 @@ html {
     justify-content: center;
     text-align: center;
     font-weight: bold;
+    font-family: 'Inter';
 }
 
 @keyframes sparkle {
@@ -243,7 +245,7 @@ html {
     border-radius: 10px;
     padding: 20px;
     text-align: center;
-    max-width: 90%;
+    max-width: 80%;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
