@@ -16,23 +16,30 @@
             <p class="nickname" id="nickname">-----</p>
         </div>
         <div class="center" style="gap: 10px;">
-            <div class="tridend-amount center" id="tridend-amount" style="flex-direction: column;">
+            <!-- <div class="tridend-amount center" id="tridend-amount" style="flex-direction: column;">
                 <span style="color: gray;">Total Score: </span>
                 <span id="total_score">0</span>
+            </div> -->
+            <div class="top-score center" id="top-score" style="flex-direction: column;gap: 10px;">
+                <span style="color: gray;font-weight: lighter;">Highest Score</span>
+                <span id="high_score" style="font-weight: bold;">0</span>
             </div>
-            <div class="top-score center" id="top-score" style="flex-direction: column;">
-                <span style="color: gray;">High Score:</span>
-                <span id="high_score">0</span>
-            </div>
-            <div class="checkin-count center" id="checkin-count" style="flex-direction: column;">
-                <span style="color: gray;">Check-Ins:</span>
-                <span id="check_ins"> 0</span>
+            <div class="checkin-count center" id="checkin-count" style="flex-direction: column;gap: 10px;">
+                <span style="color: gray;font-weight: lighter;">Check-Ins</span>
+                <span id="check_ins" style="font-weight: bold;"> 0</span>
             </div>
         </div>
     </div>
+    <div class="center" style="margin-top: 1rem; gap: 1rem;text-align: center;">
+        <span style="font-size: 16px; color: gray; font-weight: 500;">Total Triend Points</span>
+        <div class="center" style="gap: 1rem;flex-direction: row;">
+            <img src="{{ url_for('static', filename='img/currencycoin.png') }}" alt="icon-points" width="40px" height="40px">
+            <span id="total_score" style="font-size: 24px; font-weight: bolder;min-width: 8rem;">0</span>
+        </div>
+    </div>
     <div class="button-container">
-        <button class="farming-button" id="farming-btn" onclick="">FARM</button>
-        <button class="checkin-button" onclick="showModal()">CHECK-IN</button>
+        <button class="farming-button" id="farming-btn" onclick="">Start Farming</button>
+        <button class="checkin-button" onclick="showModal()">DAILY CHECK-IN</button>
     </div>
 </div>
 

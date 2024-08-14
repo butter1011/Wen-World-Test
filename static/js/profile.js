@@ -1,9 +1,9 @@
-let serverurl = "https://telegram-1-triend.replit.app";
-// let serverurl = "http://localhost:80";
+// let serverurl = "https://telegram-1-triend.replit.app";
+let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-const user_id = user?.id;
-// const user_id = 7269635495;
+// const user_id = user?.id;
+const user_id = 7269635495;
 
 function convertToUnixTimestamp(dateString) {
     if (dateString != "") {
@@ -48,7 +48,7 @@ async function init() {
     const lastTime = await getfarmingTime();
 
     if (lastTime === 0) {
-        document.getElementById('farming-btn').innerHTML = `FARM`;
+        document.getElementById('farming-btn').innerHTML = `Start Farming`;
         document.getElementById('farming-btn').onclick = startFarming;
     }
 
@@ -57,10 +57,10 @@ async function init() {
         const farmingDuration = currentTime - convert_lastTime;
 
         if (farmingDuration > 6 * 1000 * 3600) {
-            document.getElementById('farming-btn').innerHTML = `CLAIM`;
+            document.getElementById('farming-btn').innerHTML = `CLAIM 1000 TP`;
             document.getElementById('farming-btn').onclick = claimPoints;
         } else {
-            document.getElementById('farming-btn').innerHTML = `1000TP IN ⌛<span id="farming-timer" class="timer">-- : -- : --</span> <span id="claim-point" class="timer"></span>`;
+            document.getElementById('farming-btn').innerHTML = `1000 TP IN ⌛<span id="farming-timer" class="timer">-- : -- : --</span> <span id="claim-point" class="timer"></span>`;
             document.getElementById('farming-btn').onclick = "";
             startFarmingTimer(6 * 1000 * 3600 - farmingDuration);
         }
