@@ -292,6 +292,7 @@ html {
 
 .modal-content .rewards .reward.past {
     background: #636363;
+    color: gray;
 }
 
 

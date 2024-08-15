@@ -14,19 +14,16 @@ async function claimPoints() {
     document.getElementById('farming-btn').onclick = startFarming;
     const total_score_ele = document.getElementById('total_score');
 
-    await fetch(`${serverurl}/api/v2/farmingClaim`, {
+    const response = await fetch(`${serverurl}/api/v2/farmingClaim`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 'user_id': user_id })
     })
-        .then((response) => {
-            total_score_ele.innerHTML = parseInt(total_score_ele.innerText) + 1000;
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+
+    if(response.ok)
+        total_score_ele.innerHTML = parseInt(total_score_ele.innerText) + 1000;
 }
 
 async function setFarmingTime() {
