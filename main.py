@@ -8,7 +8,7 @@ from firebase_admin import credentials, firestore
 import base64
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["https://telegram-1-Triend.replit.app", "https://wenworld.replit.app"]}})
+# CORS(app, resources={r"/*": {"origins": ["https://telegram-1-Triend.replit.app"]}})
 
 # Firebase credentials and initialization
 firebase_creds = {
