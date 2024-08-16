@@ -1,55 +1,125 @@
-/* character_card css */
+/* Base body and html styling */
+body,
+html {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Center alignment for container elements */
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Header styling */
+.header {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 2rem;
+}
+
+@media (max-width: 600px) {
+    .header {
+        font-size: 1.5rem; /* Adjust font size for smaller screens */
+        margin-top: 1rem;  /* Reduce top margin for smaller screens */
+    }
+}
+
+/* Character card styling */
 .character-card {
-  background: #333;
-  border-radius: 10px;
-  padding: 2vh;
-  /* Changed from 10px for better scaling */
-  max-width: 200px;
-  /* Changed from 100px for better scaling */
-  text-align: center;
-  color: white;
-  font-size: 2vh;
-  cursor: pointer;
-  transition: transform 0.3s, border 0.3s;
-  margin: 1vh;
-  /* Changed from 5px for better scaling */
-  border: 2px solid transparent;
-  /* Added border for initial state */
+    background: #333;
+    border-radius: 10px;
+    padding: 2vh;  /* Changed from 10px for better scaling */
+    max-width: 200px;   /* Changed from 100px for better scaling */
+    text-align: center;
+    color: white;
+    font-size: 2vh;
+    cursor: pointer;
+    transition: transform 0.3s, border 0.3s;
+    margin: 1vh;   /* Changed from 5px for better scaling */
+    border: 2px solid transparent;  /* Added border for initial state */
 }
 
 .character-card img {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
+    width: 10vh;   /* Changed from 70px for better scaling */
+    height: 10vh;  /* Changed from 70px for better scaling */
+    border-radius: 50%;
 }
 
 .character-card:hover {
-  transform: scale(1.1);
+    transform: scale(1.1);
+    border: 2px solid #00FFCF;  /* Added border color on hover */
 }
 
 .character-card.selected {
-  border: 2px solid #00FFCF;
+    border: 2px solid #00FFCF;
 }
 
 #start-game-button {
-  padding: 1vh 2vh;
-  font-size: 1rem;
-  background-color: #00FFCF;
-  color: black;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 1vh;
-  width: 40vw;
-  font-weight: 700;
+    padding: 2vh 4vh;  /* Changed for better scaling */
+    font-size: 2.5vh;  /* Changed from 1rem for better scaling */
+    background-color: #00FFCF;
+    color: black;
+    border: none;
+    border-radius: 10px;  /* Changed from 5px for consistency */
+    cursor: pointer;
+    margin: 2vh;  /* Changed from 1vh for better spacing */
+    width: 40vw;
+    font-weight: 700;
 }
 
 #character-card {
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  color: white;
-  font-size: 24px;
-  margin-bottom: 20px;
-  display: none;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: white;
+    font-size: 3vh;  /* Changed from 24px for better scaling */
+    margin-bottom: 5vh;  /* Changed from 20px for better scaling */
+    display: none;
+}
+
+/* Added .daily-checkin button styles */
+.daily-checkin button {
+    padding: 2vh 4vh;  /* Changed from 10px 20px for better scaling */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 2.5vh;
+    background-color: #00FFCF;
+    color: black;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Title styling */
+.title {
+    font-size: 2rem;  /* Match header font size */
+    color: white;
+    text-align: center;
+    margin-top: 2rem; /* Match header top margin */
+    margin-bottom: 2rem; /* Ensure sufficient spacing */
+}
+
+@media (max-width: 600px) {
+    .title {
+        font-size: 1.5rem; /* Adjust font size for smaller screens */
+        margin-top: 1rem;  /* Reduce top margin for smaller screens */
+        margin-bottom: 1rem; /* Reduce bottom margin for smaller screens */
+    }
 }

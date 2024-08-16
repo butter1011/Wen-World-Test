@@ -43,11 +43,11 @@ async function  dailyCheckIn() {
     }
     // disable the claimbutton
     if (claimable) {
-        claim_btn.style.background = '#00FFCF';
+        claim_btn.classList.remove('claimed');
         claim_btn.innerHTML = 'CLAIM';
         claim_btn.removeAttribute('disabled');
     } else {
-        // claim_btn.style.background = 'linear-gradient(258.94deg, #FF0092 16.45%, #00FFCF 91.3%)';
+        claim_btn.classList.add('claimed');
         claim_btn.innerHTML = 'CLAIMED';
         claim_btn.setAttribute('disabled', 'disabled');
     }

@@ -1,4 +1,4 @@
-let serverurl = "https://triend-wenworldgame-05ef17649d0d.herokuapp.com";
+let serverurl = "https://telegram-1-triend.replit.app";
 // let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
@@ -35,7 +35,6 @@ let images = {
     triendImg: "../static/img/triend-img.png",
     zkpImg: "../static/img/zkp-img.png"
 };
-
 let imageElements = {};
 
 function selectCharacter(name) {

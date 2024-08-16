@@ -1,4 +1,4 @@
-let serverurl = "https://triend-wenworldgame-05ef17649d0d.herokuapp.com";
+let serverurl = "https://telegram-1-triend.replit.app";
 // let serverurl = "http://localhost:80";
 // let serverurl = "https://telegram-1-Triend.replit.app";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
@@ -12,6 +12,7 @@ function convertToUnixTimestamp(dateString) {
         const [hours, minutes, seconds] = timePart.split('-').map(Number);
         // 08/06/24:17-12-19
         const date = new Date(Date.UTC(`20${year}`, month - 1, day, hours, minutes, seconds));
+        console.log("------------>date", date);
         return date.getTime();
     }
     else return 0;
@@ -71,6 +72,7 @@ async function init() {
 
     dailyCheckIn();
 }
+
 
 document.getElementById('nickname').addEventListener('click', function () {
     const nicknameElement = document.getElementById('nickname');

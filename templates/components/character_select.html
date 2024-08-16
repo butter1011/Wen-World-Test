@@ -1,24 +1,24 @@
 <div id="character-card" class="center">
     <div class="center">
-        <h2>Pick Your Hero</h2>
+        <p style="font-size: 1.4rem; font-weight: 1000;">PICK YOUR HERO</p>
         <div id="character-selection-container">
             <div class="character-card" ondblclick="startCountdown()"
                 onclick="selectCharacter('character1')">
                 <img src="{{url_for('static', filename='img/player1-img.png')}}"
-                    alt="Character 1">
-                <div style="font-weight: 700; font-size: 1rem;">Character 1</div>
+                    alt="Market-order Mark">
+                <div style="font-weight: 700; font-size: 0.8rem;">Market-order Mark</div>
             </div>
             <div class="character-card" ondblclick="startCountdown()"
                 onclick="selectCharacter('character2')">
                 <img src="{{url_for('static', filename='img/player2-img.png')}}"
-                    alt="Character 2">
-                <div style="font-weight: 700; font-size: 1rem;">Character 2</div>
+                    alt="Stop-loss Sally">
+                <div style="font-weight: 700; font-size: 0.8rem;">Stop-loss Sally</div>
             </div>
             <div class="character-card" ondblclick="startCountdown()"
                 onclick="selectCharacter('character3')">
                 <img src="{{url_for('static', filename='img/player3-img.png')}}"
-                    alt="Character 3">
-                <div style="font-weight: 700; font-size: 1rem;">Character 3</div>
+                    alt="TWAP Tammy">
+                <div style="font-weight: 700; font-size: 0.8rem;">TWAP Tammy</div>
             </div>
         </div>
         <button id="start-game-button" onclick="startCountdown()" style="font-weight: 700; font-size: 1.2rem;min-width: fit-content;">Start Game</button>

@@ -196,7 +196,7 @@ html {
   border-radius: 10px;
   cursor: pointer;
   font-size: 3vh;
-  background: linear-gradient(90deg, #FF0092, #00FFCF);
+  background: #00FFCF;
   /* Linear gradient color */
   color: black;
   text-align: center;
