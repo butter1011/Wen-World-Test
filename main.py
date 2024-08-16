@@ -561,7 +561,7 @@ def farmingClaim():
             user_ref.update({"totals": int(total_value)})
             user_ref.update({"startFarming": ''})
 
-            return jsonify({"message": "Added the farming reward!"}), 200
+            return jsonify({"message": "Added the farming reward!", "total_val": total_value}), 200
 
     return jsonify({"message": "failed to add the farming reward!"}), 400
 

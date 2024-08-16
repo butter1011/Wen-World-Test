@@ -23,7 +23,7 @@ async function claimPoints() {
     })
 
     if(response.ok)
-        total_score_ele.innerHTML = parseInt(total_score_ele.innerText) + 1000;
+        total_score_ele.innerHTML = response.total_val;
 }
 
 async function setFarmingTime() {
