@@ -1,9 +1,6 @@
-let serverurl = "https://telegram-1-triend.replit.app";
-// let serverurl = "http://localhost:80";
-// let serverurl = "https://telegram-1-Triend.replit.app";
+let serverurl = "https://triend-wenworldgame-05ef17649d0d.herokuapp.com";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
 const user_id = user?.id;
-// const user_id = 7269635495;
 
 function convertToUnixTimestamp(dateString) {
     if (dateString != "") {
