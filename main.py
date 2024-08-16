@@ -1,11 +1,8 @@
-import logging
 import os
 from datetime import datetime
 from flask import Flask, request, jsonify, render_template
-from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, firestore
-import base64
 
 app = Flask(__name__)
 # CORS(app, resources={r"/*": {"origins": ["https://telegram-1-Triend.replit.app"]}})
