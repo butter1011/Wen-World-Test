@@ -110,14 +110,14 @@ document.getElementById('nickname').addEventListener('click', function () {
     });
 });
 
-document.getElementById('upload-img').addEventListener('change', function () {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        document.getElementById('profile-img').src = e.target.result;
-        localStorage.setItem('profileImage', e.target.result);
-    }
-    reader.readAsDataURL(this.files[0]);
-});
+// document.getElementById('upload-img').addEventListener('change', function () {
+//     const reader = new FileReader();
+//     reader.onload = function (e) {
+//         document.getElementById('profile-img').src = e.target.result;
+//         localStorage.setItem('profileImage', e.target.result);
+//     }
+//     reader.readAsDataURL(this.files[0]);
+// });
 
 async function getCurrentTime() {
     const response = await fetch(`${serverurl}/api/v1/currentTime?user_id=${user_id}`, {
