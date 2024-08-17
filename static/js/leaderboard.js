@@ -1,6 +1,8 @@
-let serverurl = "https://triend-wenworldgame-05ef17649d0d.herokuapp.com";
+// let serverurl = "https://triend-wenworldgame-05ef17649d0d.herokuapp.com";
+let serverurl = "http://localhost:80/"
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-const user_id = user?.id;
+// const user_id = user?.id;
+const user_id = 7269635495;
 
 // rank in the leaderboard
 let high_rank = 0;
@@ -171,13 +173,13 @@ function showTab(tabId) {
         if (high_rank == 0) {
             total_rank_ele.innerHTML = "None";
         } else {
-            total_rank_ele.innerHTML = high_rank;
+            total_rank_ele.innerHTML = "#" + high_rank;
         }
     } else if (tabId === 'total-points') {
         if (total_rank == 0) {
             total_rank_ele.innerHTML = "None";
         } else {
-            total_rank_ele.innerHTML = total_rank;
+            total_rank_ele.innerHTML = "#" + total_rank;
         }
     }
 

@@ -291,7 +291,7 @@ def initUser():
         )
     
     else:
-        current_pic = user_ref.update({"picture": picture})
+        user_ref.update({"picture": picture})
         
     return jsonify({"message": "Success"})
 
@@ -554,8 +554,8 @@ def farmingClaim():
             total_value = user_data.get("totals", 0)
             total_value += 1000
             farming_total_value += 1000
-            total_score_doc.update({"score": int(farming_total_value)})
-            user_ref.update({"totals": int(total_value)})
+            total_score_doc.update({"score": farming_total_value})
+            user_ref.update({"totals": total_value})
             user_ref.update({"startFarming": ''})
 
             return jsonify({"message": "Added the farming reward!", "total_val": total_value}), 200
@@ -625,8 +625,8 @@ def update_score():
         # update total score & scores data
         if not current_score_doc.exists:
             scores_ref.document(currentTime).set({"score": score})
-            total_value += int(score)
-            highscore_total_value += int(score)
+            total_value += score
+            highscore_total_value += score
             user_ref.update({"totals": total_value})
             total_score_doc.update({"score": highscore_total_value})
             # user_ref.set({"totals": total_value}, merge=True)
@@ -634,8 +634,8 @@ def update_score():
             current_score = current_score_doc.to_dict().get("score", 0)
             if score > current_score:
                 scores_ref.document(currentTime).set({"score": score})
-                total_value += int(score) - int(current_score)
-                highscore_total_value += int(score) - int(current_score)
+                total_value += score - current_score
+                highscore_total_value += score - current_score
                 user_ref.update({"totals": total_value})
                 total_score_doc.update({"score": highscore_total_value})
 

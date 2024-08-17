@@ -198,7 +198,7 @@ html {
     text-align: center;
     font-weight: bolder;
     font-family: 'Inter';
-    text-transform: capitalize;
+    text-transform: uppercase;
 }
 
 .green_btn.claimed{
