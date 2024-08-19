@@ -224,7 +224,7 @@ def invite():
                     task_ref.update({"friendList": friendList})
                     task_ref.update({"score": task_score})
 
-                    task_data.update("totals": total_score)
+                    task_data.update({"totals": total_score})
 
                     return (jsonify({"message": "success", "nickname": nick_name}), 200)
                 else: 
