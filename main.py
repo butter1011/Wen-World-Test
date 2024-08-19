@@ -200,6 +200,7 @@ def invite():
         user_ref = db.collection("users").document(inviter_id)
         user_doc = user_ref.get().to_dict()
         nick_name = user_doc.get("nickname", "")
+        total_score = user_doc.get("totals", "")
 
         if nick_name == "":
             nick_name = user_doc.get("name", "")
@@ -217,10 +218,14 @@ def invite():
                     friendList.append(user_id)
                     inviteFriend += 1
                     task_score += 4000
-
+                    total_score += 4000
+ 
                     task_ref.update({"inviteFriend": inviteFriend})
                     task_ref.update({"friendList": friendList})
                     task_ref.update({"score": task_score})
+
+                    task_data.update("totals": total_score)
+
                     return (jsonify({"message": "success", "nickname": nick_name}), 200)
                 else: 
                     return (jsonify({"message": "Already added into the friendList"}), 201)
