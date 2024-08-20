@@ -968,11 +968,12 @@ async function gameLoop(timestamp) {
   }
 
   if (Math.random() < greenCandleProbability * deltaTime * 60) {
+    let random_value = player.height * (0.7 + Math.random() * 0.3);
     obstacles.push({
       x: canvas.width,
-      y: canvas.height - 25 - player.height, // on the road
+      y: canvas.height - 25 - random_value, // on the road
       width: player.width,
-      height: player.height * (0.7 + Math.random() * 0.3),
+      height: random_value,
       speed: 5,
       type: "candleGreen",
     });
