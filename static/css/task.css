@@ -59,6 +59,7 @@ html {
     background: #333333;
     padding: 1rem;
     border-radius: 32px;
+    border: 2px solid #00FFCF;
 }
 
 .task .task-info {
