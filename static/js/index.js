@@ -89,7 +89,7 @@ const player = {
   gravity: 0.5,
   jumpPower: 12,
   jumpCount: 0,
-  maxJumpCount: 2,
+  maxJumpCount: 4,
   health: 3, // Set to 3 lives
   visible: true,
 };
