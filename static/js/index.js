@@ -7,6 +7,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
     Telegram.WebApp.ready();
     resizeCanvas();
   }
+
+  const characterCard = document.querySelector(".character-card");
+
+  characterCard.addEventListener("touchstart", function () {
+    characterCard.classList.add("selected");
+  });
+
+  characterCard.addEventListener("touchend", function () {
+    characterCard.classList.remove("selected");
+  });
 });
 
 const canvas = document.getElementById("gameCanvas");

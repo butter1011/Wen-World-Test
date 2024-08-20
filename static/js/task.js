@@ -184,4 +184,14 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     Telegram.WebApp.ready();
     init();
   }
+
+  const taskCard = document.querySelector(".task");
+
+  taskCard.addEventListener("touchstart", function () {
+    taskCard.classList.add("selected");
+  });
+
+  taskCard.addEventListener("touchend", function () {
+    taskCard.classList.remove("selected");
+  });
 });
