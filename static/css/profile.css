@@ -210,6 +210,15 @@ html {
     text-transform: uppercase;
 }
 
+.character-card:hover {
+    transform: scale(1.1);
+    border: 2px solid #00FFCF;  /* Added border color on hover */
+}
+
+.character-card.selected {
+    border: 2px solid #00FFCF;
+}
+
 .green_btn.claimed{
     background-color: #00FFCF;
     color: black;
