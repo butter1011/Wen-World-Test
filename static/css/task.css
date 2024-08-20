@@ -59,6 +59,9 @@ html {
     background: #333333;
     padding: 1rem;
     border-radius: 32px;
+}
+
+.task:hover, .task:active{
     border: 2px solid #00FFCF;
 }
 

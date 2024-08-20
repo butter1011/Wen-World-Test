@@ -60,6 +60,10 @@ html {
     margin-bottom: 10px;
 }
 
+.profile-section:hover, .profile-section:active{
+    border: 2px solid #00FFCF;
+}
+
 .center {
     display: flex;
     justify-content: center;
