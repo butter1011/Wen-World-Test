@@ -1,6 +1,8 @@
-let serverurl = "https://triend-wenworldgame-05ef17649d0d.herokuapp.com";
+// let serverurl = "https://triend-wenworldgame-05ef17649d0d.herokuapp.com";
+let serverurl = "http://localhost:80/";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-const user_id = user?.id;
+// const user_id = user?.id;
+const user_id = 7269635495;
 
 async function init() {
   await fetch(`${serverurl}/api/v1/getTaskStatus`, {
@@ -91,92 +93,105 @@ Join the community and let’s see who can top the leaderboard! 🎮💰`;
 
 async function learnClick() {
   window.open("https://triend.gitbook.io/triend-docs-and-litepaper", "_blank");
-  document.getElementById("learnAbout").innerHTML = "claim";
-  document.getElementById("learnAbout").classList.add("claim");
-  document.getElementById("learnAbout").onclick = init;
+  if (document.getElementById("learnAbout").classList.contains("claimed")) {
+    document.getElementById("learnAbout").innerHTML = "claim";
+    document.getElementById("learnAbout").classList.add("claim");
+    document.getElementById("learnAbout").onclick = init;
 
-  await fetch(`${serverurl}/api/v2/learnAbout`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user_id: user_id }),
-  });
+    await fetch(`${serverurl}/api/v2/learnAbout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: user_id }),
+    });
+  }
 }
 
 async function followTelegram() {
   window.open("https://t.me/triendapp", "_blank");
-  document.getElementById("followTelegram").innerHTML = "claim";
-  document.getElementById("followTelegram").classList.add("claim");
-  document.getElementById("followTelegram").onclick = init;
-
-  await fetch(`${serverurl}/api/v2/followTelegram`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user_id: user_id }),
-  });
+  if (
+    !document.getElementById("followTelegram").classList.contains("claimed")
+  ) {
+    document.getElementById("followTelegram").innerHTML = "claim";
+    document.getElementById("followTelegram").classList.add("claim");
+    document.getElementById("followTelegram").onclick = init;
+    await fetch(`${serverurl}/api/v2/followTelegram`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: user_id }),
+    });
+  }
 }
 
 async function joinX() {
   window.open("https://x.com/triendapp", "_blank");
-  document.getElementById("joinX").innerHTML = "claim";
-  document.getElementById("joinX").classList.add("claim");
-  document.getElementById("joinX").onclick = init;
+  if (!document.getElementById("joinX").classList.contains("claimed")) {
+    document.getElementById("joinX").innerHTML = "claim";
+    document.getElementById("joinX").classList.add("claim");
+    document.getElementById("joinX").onclick = init;
 
-  await fetch(`${serverurl}/api/v2/joinX`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user_id: user_id }),
-  });
+    await fetch(`${serverurl}/api/v2/joinX`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: user_id }),
+    });
+  }
 }
 
 async function joinTikTok() {
   window.open("https://www.tiktok.com/@triendapp", "_blank");
-  document.getElementById("joinTikTok").innerHTML = "claim";
-  document.getElementById("joinTikTok").classList.add("claim");
-  document.getElementById("joinTikTok").onclick = init;
+  if (!document.getElementById("joinTikTok").classList.contains("claimed")) {
+    document.getElementById("joinTikTok").innerHTML = "claim";
+    document.getElementById("joinTikTok").classList.add("claim");
+    document.getElementById("joinTikTok").onclick = init;
 
-  await fetch(`${serverurl}/api/v2/joinTikTok`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user_id: user_id }),
-  });
+    await fetch(`${serverurl}/api/v2/joinTikTok`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: user_id }),
+    });
+  }
 }
 
 async function joinInstagram() {
   window.open("https://www.instagram.com/triend.app/?hl=en", "_blank");
-  document.getElementById("joinInstagram").innerHTML = "claim";
-  document.getElementById("joinInstagram").classList.add("claim");
-  document.getElementById("joinInstagram").onclick = init;
+  if (!document.getElementById("joinInstagram").classList.contains("claimed")) {
+    document.getElementById("joinInstagram").innerHTML = "claim";
+    document.getElementById("joinInstagram").classList.add("claim");
+    document.getElementById("joinInstagram").onclick = init;
 
-  await fetch(`${serverurl}/api/v2/joinInstagram`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user_id: user_id }),
-  });
+    await fetch(`${serverurl}/api/v2/joinInstagram`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: user_id }),
+    });
+  }
 }
 
 async function joinDiscord() {
   window.open("https://discord.gg/XZPwtfZjWq", "_blank");
-  document.getElementById("joinDiscord").innerHTML = "claim";
-  document.getElementById("joinDiscord").classList.add("claim");
-  document.getElementById("joinDiscord").onclick = init;
+  if (!document.getElementById("joinDiscord").classList.contains("claimed")) {
+    document.getElementById("joinDiscord").innerHTML = "claim";
+    document.getElementById("joinDiscord").classList.add("claim");
+    document.getElementById("joinDiscord").onclick = init;
 
-  await fetch(`${serverurl}/api/v2/joinDiscord`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user_id: user_id }),
-  });
+    await fetch(`${serverurl}/api/v2/joinDiscord`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: user_id }),
+    });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", async (event) => {
