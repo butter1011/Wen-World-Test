@@ -17,7 +17,7 @@ async function init() {
           document.getElementById("followTelegram").classList.remove("claim");
           document.getElementById("followTelegram").classList.add("claimed");
           document.getElementById("followTelegram").innerHTML = "claimed";
-          document.getElementById("followTelegram").onclick = "";
+          // document.getElementById("followTelegram").onclick = "";
         }
 
         if (data.data.inviteFriend != null) {
@@ -25,7 +25,7 @@ async function init() {
             document.getElementById("inviteFriend").classList.remove("claim");
             document.getElementById("inviteFriend").classList.add("claimed");
             document.getElementById("inviteFriend").innerHTML = "claimed";
-            document.getElementById("inviteFriend").onclick = "";
+            // document.getElementById("inviteFriend").onclick = "";
           }
 
           document.getElementById("inviteText").innerHTML = `${
@@ -37,35 +37,35 @@ async function init() {
           document.getElementById("joinDiscord").classList.remove("claim");
           document.getElementById("joinDiscord").classList.add("claimed");
           document.getElementById("joinDiscord").innerHTML = "claimed";
-          document.getElementById("joinDiscord").onclick = "";
+          // document.getElementById("joinDiscord").onclick = "";
         }
 
         if (data.data.joinInstagram) {
           document.getElementById("joinInstagram").classList.remove("claim");
           document.getElementById("joinInstagram").classList.add("claimed");
           document.getElementById("joinInstagram").innerHTML = "claimed";
-          document.getElementById("joinInstagram").onclick = "";
+          // document.getElementById("joinInstagram").onclick = "";
         }
 
         if (data.data.joinTikTok) {
           document.getElementById("joinTikTok").classList.remove("claim");
           document.getElementById("joinTikTok").classList.add("claimed");
           document.getElementById("joinTikTok").innerHTML = "claimed";
-          document.getElementById("joinTikTok").onclick = "";
+          // document.getElementById("joinTikTok").onclick = "";
         }
 
         if (data.data.joinX) {
           document.getElementById("joinX").classList.remove("claim");
           document.getElementById("joinX").classList.add("claimed");
           document.getElementById("joinX").innerHTML = "claimed";
-          document.getElementById("joinX").onclick = "";
+          // document.getElementById("joinX").onclick = "";
         }
 
         if (data.data.learnAbout) {
           document.getElementById("learnAbout").classList.remove("claim");
           document.getElementById("learnAbout").classList.add("claimed");
           document.getElementById("learnAbout").innerHTML = "claimed";
-          document.getElementById("learnAbout").onclick = "";
+          // document.getElementById("learnAbout").onclick = "";
         }
       }
     })
