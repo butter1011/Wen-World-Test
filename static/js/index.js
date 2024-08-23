@@ -259,6 +259,7 @@ function drawRoad() {
 }
 
 function updateScore(breakdownMessage = "") {
+  todayScore = score;
   document.getElementById("score").innerText = `Score: ${score}`;
   document.getElementById("final-score").innerText = score;
 
