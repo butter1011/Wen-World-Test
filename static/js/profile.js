@@ -144,25 +144,13 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     init();
   }
 
-  const profileCard = document.querySelector(".profile-section");
+  // const profileCard = document.querySelector(".profile-section");
 
-  profileCard.addEventListener("touchstart", function () {
-    profileCard.classList.add("selected");
-  });
+  // profileCard.addEventListener("touchstart", function () {
+  //   profileCard.classList.add("selected");
+  // });
 
-  profileCard.addEventListener("touchend", function () {
-    profileCard.classList.remove("selected");
-  });
+  // profileCard.addEventListener("touchend", function () {
+  //   profileCard.classList.remove("selected");
+  // });
 });
-
-// async function update_name(username) {
-//     const response = await fetch(`${serverurl}/api/v2/updateName`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ user_id: user_id, name: username })
-//     });
-
-//     init();
-// }

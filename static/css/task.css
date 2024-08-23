@@ -62,11 +62,7 @@ html {
     transition: all 0.3s;
 }
 
-.task:hover {
-    border: 2px solid #00FFCF;  /* Added border color on hover */
-}
-
-.task.selected {
+.task:active {
     border: 2px solid #00FFCF;
 }
 

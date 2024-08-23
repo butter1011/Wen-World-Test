@@ -198,13 +198,13 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     init();
   }
 
-  const taskCard = document.querySelector(".task");
+  // const taskCard = document.querySelector(".task");
 
-  taskCard.addEventListener("touchstart", function () {
-    taskCard.classList.add("selected");
-  });
+  // taskCard.addEventListener("touchstart", function () {
+  //   taskCard.classList.add("selected");
+  // });
 
-  taskCard.addEventListener("touchend", function () {
-    taskCard.classList.remove("selected");
-  });
+  // taskCard.addEventListener("touchend", function () {
+  //   taskCard.classList.remove("selected");
+  // });
 });
