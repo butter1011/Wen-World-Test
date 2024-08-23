@@ -488,8 +488,8 @@ function restartGame() {
   document.getElementById("score-breakdown").style.display = "block";
   document.getElementById("health-container").style.display = "flex";
   document.getElementById("end-and-bank-button").style.display = "block";
-  document.getElementById("share-dropdown").style.display = 'none';
-  document.getElementById("brag-button").style.display = 'block';
+  document.getElementById("share-dropdown").style.display = "none";
+  document.getElementById("brag-button").style.display = "block";
   hideNavigationBar(); // Hide the navigation bar when the game restarts
   changeTerrain();
   lastTime = performance.now();
@@ -510,7 +510,8 @@ async function endAndBank() {
   await updateScore();
   score = 0;
   gameOver = true;
-
+  
+  showAlert(); //show alert message
   showNavigationBar(); // Show the navigation bar when the game ends
   await initScore();
 
@@ -726,6 +727,7 @@ async function gameLoop(timestamp) {
         document.getElementById("score-breakdown").style.display = "none";
         document.getElementById("health-container").style.display = "none";
         document.getElementById("end-and-bank-button").style.display = "none";
+        showAlert(); //show alert message
         showNavigationBar(); // Show the navigation bar when the game ends
         initScore();
         if (todayScore > allTimeTopScore) {
@@ -788,6 +790,7 @@ async function gameLoop(timestamp) {
           document.getElementById("score-breakdown").style.display = "none";
           document.getElementById("health-container").style.display = "none";
           document.getElementById("end-and-bank-button").style.display = "none";
+          showAlert(); //show alert message
           showNavigationBar(); // Show the navigation bar when the game ends
           initScore();
           if (todayScore > allTimeTopScore) {
@@ -1127,9 +1130,9 @@ function shareDropDown(e) {
   /*
    This is for showing the share dropdown modal
   */
-  const shareModal = document.getElementById('share-dropdown');
-  e.target.style.display = 'none';
-  shareModal.style.display = 'flex';
+  const shareModal = document.getElementById("share-dropdown");
+  e.target.style.display = "none";
+  shareModal.style.display = "flex";
 }
 function shareWithFriends() {
   const shareText = `I scored ${todayScore} points in this awesome game! Can you beat my score?`;
@@ -1178,4 +1181,23 @@ function shareOnTwitter() {
     "Share on Twitter",
     "height=600,width=800,resizable,scrollbars"
   );
+}
+
+function showAlert() {
+  /**
+   * This is the alert message for when the game is finished
+   */
+  const alertMessage = document.getElementById("alert-message");
+  alertMessage.style.display = "block";
+  setTimeout(() => {
+    alertMessage.style.display = "none";
+  }, 5000);
+}
+
+function closeAlert() {
+  /**
+   * This is the close event for when the game is finished
+   */
+  const alertMessage = document.getElementById("alert-message");
+  alertMessage.style.display = "none";
 }
