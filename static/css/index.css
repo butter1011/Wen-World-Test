@@ -356,9 +356,9 @@ html {
 
 .alert {
   top: 5rem;
+  border-radius: 0.5rem;
+  color: black;
   position: absolute;
   padding: .7143rem 1.071rem;
-  margin-bottom: 1.429rem;
   border: 1px solid transparent;
-  color: #FFF
 }
