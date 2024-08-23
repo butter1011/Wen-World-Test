@@ -1135,7 +1135,7 @@ function shareDropDown(e) {
   shareModal.style.display = "flex";
 }
 function shareWithFriends() {
-  const shareText = `I scored ${todayScore} points in this awesome game! Can you beat my score?`;
+  const shareText = `I scored ${todayScore} on Wenworld - join me now`;
   const url = window.location.href;
   const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
     url
