@@ -1,8 +1,6 @@
-// let serverurl = "https://triend-wenworldgame-05ef17649d0d.herokuapp.com";
-let serverurl = "http://localhost:80/";
+let serverurl = "https://triend-wenworldgame-05ef17649d0d.herokuapp.com";
 const user = window.Telegram.WebApp.initDataUnsafe.user;
-// const user_id = user?.id;
-const user_id = 7269635495;
+const user_id = user?.id;
 
 async function init() {
   await fetch(`${serverurl}/api/v1/getTaskStatus`, {

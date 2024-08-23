@@ -488,6 +488,8 @@ function restartGame() {
   document.getElementById("score-breakdown").style.display = "block";
   document.getElementById("health-container").style.display = "flex";
   document.getElementById("end-and-bank-button").style.display = "block";
+  document.getElementById("share-dropdown").style.display = 'none';
+  document.getElementById("brag-button").style.display = 'block';
   hideNavigationBar(); // Hide the navigation bar when the game restarts
   changeTerrain();
   lastTime = performance.now();
@@ -1121,32 +1123,59 @@ function showNavigationBar() {
   document.getElementById("footer").style.display = "flex";
 }
 
-// function shareWithFriends() {
-//     const shareText = `I scored ${todayScore} points in this awesome game! Can you beat my score?`;
-//     const url = window.location.href;
-//     const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
-//     const discordUrl = `https://discord.com/channels/@me?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
-//     const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
+function shareDropDown(e) {
+  /*
+   This is for showing the share dropdown modal
+  */
+  const shareModal = document.getElementById('share-dropdown');
+  e.target.style.display = 'none';
+  shareModal.style.display = 'flex';
+}
+function shareWithFriends() {
+  const shareText = `I scored ${todayScore} points in this awesome game! Can you beat my score?`;
+  const url = window.location.href;
+  const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+    url
+  )}&text=${encodeURIComponent(shareText)}`;
+  const discordUrl = `https://discord.com/channels/@me?url=${encodeURIComponent(
+    url
+  )}&text=${encodeURIComponent(shareText)}`;
+  const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(
+    url
+  )}&text=${encodeURIComponent(shareText)}`;
 
-//     return { twitterUrl, discordUrl, telegramUrl };
-// }
+  return { twitterUrl, discordUrl, telegramUrl };
+}
 
-// function toggleDropdown() {
-//     const dropdown = document.getElementById('share-dropdown');
-//     dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-// }
+function toggleDropdown() {
+  const dropdown = document.getElementById("share-dropdown");
+  dropdown.style.display =
+    dropdown.style.display === "block" ? "none" : "block";
+}
 
-// function shareOnDiscord() {
-//     const { discordUrl } = shareWithFriends();
-//     window.open(discordUrl, 'Share on Discord', 'height=600,width=800,resizable,scrollbars');
-// }
+function shareOnDiscord() {
+  const { discordUrl } = shareWithFriends();
+  window.open(
+    discordUrl,
+    "Share on Discord",
+    "height=600,width=800,resizable,scrollbars"
+  );
+}
 
-// function shareOnTelegram() {
-//     const { telegramUrl } = shareWithFriends();
-//     window.open(telegramUrl, 'Share on Telegram', 'height=600,width=800,resizable,scrollbars');
-// }
+function shareOnTelegram() {
+  const { telegramUrl } = shareWithFriends();
+  window.open(
+    telegramUrl,
+    "Share on Telegram",
+    "height=600,width=800,resizable,scrollbars"
+  );
+}
 
-// function shareOnTwitter() {
-//     const { twitterUrl } = shareWithFriends();
-//     window.open(twitterUrl, 'Share on Twitter', 'height=600,width=800,resizable,scrollbars');
-// }
+function shareOnTwitter() {
+  const { twitterUrl } = shareWithFriends();
+  window.open(
+    twitterUrl,
+    "Share on Twitter",
+    "height=600,width=800,resizable,scrollbars"
+  );
+}

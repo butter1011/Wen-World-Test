@@ -21,8 +21,14 @@
         </div>
         <div class="center" style="gap:10px;padding:1rem;">
             <button class="center green_btn" onclick="navigateTo('tasks')">GET MORE POINTS</button>
-            <!-- <button class="center green_btn">BRAG 😏</button> -->
+            <button id="brag-button" class="center green_btn" onclick="shareDropDown(event)">BRAG 😏</button>
+            <div id="share-dropdown" class="share-dropdown">
+                <a href="#" onclick="shareOnDiscord()">Discord</a>
+                <a href="#" onclick="shareOnTelegram()">Telegram</a>
+                <a href="#" onclick="shareOnTwitter()">Twitter</a>
+            </div>
             <button class="center green_btn" onclick="restartGame()">PLAY AGAIN</button>
         </div>
+        
     </div>
 </div>
