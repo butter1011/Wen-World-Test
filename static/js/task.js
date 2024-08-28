@@ -198,13 +198,15 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     init();
   }
 
-  // const taskCard = document.querySelector(".task");
+  const taskCards = document.querySelectorAll(".task");
 
-  // taskCard.addEventListener("touchstart", function () {
-  //   taskCard.classList.add("selected");
-  // });
+  taskCards.forEach(function (taskCard) {
+    taskCard.addEventListener("touchstart", function () {
+      taskCard.classList.add("selected");
+    });
 
-  // taskCard.addEventListener("touchend", function () {
-  //   taskCard.classList.remove("selected");
-  // });
+    taskCard.addEventListener("touchend", function () {
+      taskCard.classList.remove("selected");
+    });
+  });
 });

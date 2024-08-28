@@ -60,7 +60,7 @@ html {
     border-radius: 50%;
 }
 
-.character-card:active {
+.character-card.selected {
     transform: scale(1.1);
     border: 2px solid #00FFCF;  /* Added border color on hover */
 }

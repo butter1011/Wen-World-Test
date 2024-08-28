@@ -61,7 +61,7 @@ html {
     transition: all 0.3s;
 }
 
-.profile-section:active {
+.profile-section.selected {
     border: 2px solid #00FFCF;  /* Added border color on hover */
 }
 
@@ -206,11 +206,11 @@ html {
     text-transform: uppercase;
 }
 
-.farming-button:active{
+.farming-button.selected{
     border: 2px solid #00FFCF;
 }
 
-.character-card:active {
+.character-card.selected {
     transform: scale(1.1);
     border: 2px solid #00FFCF;  /* Added border color on hover */
 }

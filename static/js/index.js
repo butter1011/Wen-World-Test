@@ -8,15 +8,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
     resizeCanvas();
   }
 
-  // const characterCard = document.querySelector(".character-card");
+  // Select all character cards
+  const characterCards = document.querySelectorAll(".character-card");
 
-  // characterCard.addEventListener("touchstart", function () {
-  //   characterCard.classList.add("selected");
-  // });
+  // Loop through each character card
+  characterCards.forEach(function (characterCard) {
+    // Add touchstart event listener
+    characterCard.addEventListener("touchstart", function () {
+      characterCard.classList.add("selected");
+    });
 
-  // characterCard.addEventListener("touchend", function () {
-  //   characterCard.classList.remove("selected");
-  // });
+    // Add touchend event listener
+    characterCard.addEventListener("touchend", function () {
+      characterCard.classList.remove("selected");
+    });
+  });
 });
 
 const canvas = document.getElementById("gameCanvas");
@@ -511,7 +517,7 @@ async function endAndBank() {
   await updateScore();
   score = 0;
   gameOver = true;
-  
+
   showAlert(); //show alert message
   showNavigationBar(); // Show the navigation bar when the game ends
   await initScore();
@@ -989,7 +995,7 @@ async function gameLoop(timestamp) {
     let random_value = player.height * (1 + Math.random());
     obstacles.push({
       x: canvas.width,
-      y: canvas.height - 25 - random_value,  // on the road
+      y: canvas.height - 25 - random_value, // on the road
       width: player.width,
       height: random_value,
       speed: 5,

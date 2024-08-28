@@ -144,13 +144,25 @@ document.addEventListener("DOMContentLoaded", async (event) => {
     init();
   }
 
-  // const profileCard = document.querySelector(".profile-section");
+  // add touch event to profile-section
+  const profileCard = document.querySelector(".profile-section");
 
-  // profileCard.addEventListener("touchstart", function () {
-  //   profileCard.classList.add("selected");
-  // });
+  profileCard.addEventListener("touchstart", function () {
+    profileCard.classList.add("selected");
+  });
 
-  // profileCard.addEventListener("touchend", function () {
-  //   profileCard.classList.remove("selected");
-  // });
+  profileCard.addEventListener("touchend", function () {
+    profileCard.classList.remove("selected");
+  });
+
+  // add touch event to farming button
+  const farmingBtn = document.querySelector(".farming-button");
+
+  farmingBtn.addEventListener("touchstart", function () {
+    farmingBtn.classList.add("selected");
+  });
+
+  farmingBtn.addEventListener("touchend", function () {
+    farmingBtn.classList.remove("selected");
+  });
 });

@@ -62,7 +62,7 @@ html {
     transition: all 0.3s;
 }
 
-.task:active {
+.task.selected {
     border: 2px solid #00FFCF;
 }
 

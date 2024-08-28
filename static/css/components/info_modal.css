@@ -1,6 +1,5 @@
 /* info_modal css */
-#info-button,
-#info-close {
+.infoBtn {
   display: flex;
   position: absolute;
   top: 2vh;
@@ -19,7 +18,7 @@
   z-index: 10;
 }
 
-#info-close:active, #info-button:active{
+.infoBtn.selected{
   border: 2px solid #00FFCF;
 }
 
