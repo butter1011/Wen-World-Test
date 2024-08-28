@@ -27,12 +27,18 @@
             <button class="center green_btn" onclick="navigateTo('tasks')">GET MORE POINTS</button>
             <button id="brag-button" class="center green_btn" onclick="shareDropDown(event)">BRAG 😏</button>
             <div id="share-dropdown" class="share-dropdown">
-                <a href="#" onclick="shareOnDiscord()">Discord</a>
-                <a href="#" onclick="shareOnTelegram()">Telegram</a>
-                <a href="#" onclick="shareOnTwitter()">Twitter</a>
+                <a href="#" onclick="shareOnDiscord()">
+                    <img src="{{url_for('static', filename='svg/discord_icon.svg')}}" alt="Discord" width="48px" height="48px">
+                </a>
+                <a href="#" onclick="shareOnTelegram()">
+                    <img src="{{url_for('static', filename='svg/telegram_icon.svg')}}" alt="Telegram" width="48px" height="48px">
+                </a>
+                <a href="#" onclick="shareOnTwitter()">
+                    <img src="{{url_for('static', filename='svg/twitter_icon.svg')}}" alt="Twitter" width="48px" height="48px">
+                </a>
             </div>
             <button class="center green_btn" onclick="restartGame()">PLAY AGAIN</button>
         </div>
-        
+
     </div>
 </div>
