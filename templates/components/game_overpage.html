@@ -25,20 +25,37 @@
         </div>
         <div class="center" style="gap:10px;padding:1rem;">
             <button class="center green_btn" onclick="navigateTo('tasks')">GET MORE POINTS</button>
-            <button id="brag-button" class="center green_btn" onclick="shareDropDown(event)">BRAG 😏</button>
-            <div id="share-dropdown" class="share-dropdown">
-                <a href="#" onclick="shareOnDiscord()">
-                    <img src="{{url_for('static', filename='svg/discord_icon.svg')}}" alt="Discord" width="48px" height="48px">
-                </a>
-                <a href="#" onclick="shareOnTelegram()">
-                    <img src="{{url_for('static', filename='svg/telegram_icon.svg')}}" alt="Telegram" width="48px" height="48px">
-                </a>
-                <a href="#" onclick="shareOnTwitter()">
-                    <img src="{{url_for('static', filename='svg/twitter_icon.svg')}}" alt="Twitter" width="48px" height="48px">
-                </a>
-            </div>
+            <button id="brag-button" class="center green_btn" onclick="showDropDown()">BRAG 😏</button>
             <button class="center green_btn" onclick="restartGame()">PLAY AGAIN</button>
         </div>
-
     </div>
+</div>
+
+<div id="share-dropdown">
+    <div style="background-color: white;">
+        <div style="padding: 1rem;">
+            <div class="center" style="color: black; font-size: 14px;">Share score</div>
+            <div style="color: black; font-size: 12px; text-align: left;">Share on socials</div>
+        </div>
+
+        <div class="row center" style="position: relative; padding: 0.5rem;">
+            <a href="#" onclick="selectSocialChannel('Telegram')">
+                <img src="{{url_for('static', filename='img/task_telegram.png')}}" alt="Telegram" width="48px" height="48px">
+            </a>
+            <a href="#" onclick="selectSocialChannel('Discord')">
+                <img src="{{url_for('static', filename='img/task_discord.png')}}" alt="Discord" width="48px" height="48px">
+            </a>
+            <a href="#" onclick="selectSocialChannel('Twitter')">
+                <img src="{{url_for('static', filename='img/task_twitter.png')}}" alt="Twitter" width="48px" height="48px">
+            </a>
+        </div>
+
+        <div class="center" style="position: relative;">
+            <textarea id="text-area" rows="5">Some text here</textarea>
+            <button id="delete-button" onclick="clearMessage()">x</button>
+        </div>
+        <button id="send-button" onclick="sendMessage()">Send</button>
+    </div>
+
+    <button id="cancel_button" onclick="hideDropDown()">Cancel</button>
 </div>

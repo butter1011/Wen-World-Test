@@ -19,6 +19,11 @@ html {
   flex-direction: column;
 }
 
+.center.row{
+  flex-direction: row!important;
+  justify-content: space-around;
+}
+
 #game-container {
   flex: 1;
   display: flex;
@@ -188,22 +193,31 @@ html {
   margin-top: 20px;
 }
 
-.buttons button,
-.my-progress,
-.share-dropdown a {
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-  background: #00FFCF;
-  /* Linear gradient color */
-  color: black;
-  text-align: center;
+#share-dropdown #cancel_button{
+  margin-top: 0.5rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: white;
+  border: white;
+}
+
+#share-dropdown #send-button{
+  background-color: white;
+  border: white;
+  width: 100%;
+  padding: 0.5rem;
+  color: gray;
 }
 
 .my-progress {
   background-color: #ADD8E6;
   color: black;
+}
+
+.row{
+  display: flex;
+  width: 100%;
 }
 
 #add-points-button {
@@ -212,14 +226,17 @@ html {
 }
 
 #share-dropdown {
+  justify-content: center;
   display: none;
-  background-color: #ADD8E6;
+  width: 90%;
+  position: absolute;
+  bottom: 0px;
   min-width: 160px;
-  max-height: 200px;
   overflow-y: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  border-radius: 10px;
+  padding: 0.2rem;
+  overflow-x: hidden;
 }
 
 #share-dropdown a {
@@ -361,4 +378,21 @@ html {
   position: absolute;
   padding: .7143rem 1.071rem;
   border: 1px solid transparent;
+}
+
+#text-area {
+  width: 90%;
+  padding: 0.5rem;
+  border: white;
+  background: lightgray;
+}
+
+#delete-button {
+  color: white;
+  border-color: white;
+  background: lightgray;
+  border-radius: 100%;
+  position: absolute;
+  top: .5rem;
+  right: 1rem;
 }

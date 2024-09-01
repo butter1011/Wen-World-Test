@@ -126,6 +126,7 @@ let allTimeTopScore = 0;
 let collectingCoins = false;
 let clearingCoins = false;
 let bullhit = false;
+let channel = "Telegram";
 const debugMode = false; // Change this to true to enable hitbox visualization
 
 const terrains = [
@@ -495,7 +496,6 @@ function restartGame() {
   document.getElementById("score-breakdown").style.display = "block";
   document.getElementById("health-container").style.display = "flex";
   document.getElementById("end-and-bank-button").style.display = "block";
-  document.getElementById("share-dropdown").style.display = "none";
   document.getElementById("brag-button").style.display = "block";
   hideNavigationBar(); // Hide the navigation bar when the game restarts
   changeTerrain();
@@ -1134,16 +1134,26 @@ function showNavigationBar() {
   document.getElementById("footer").style.display = "flex";
 }
 
-function shareDropDown(e) {
+function showDropDown() {
   /*
    This is for showing the share dropdown modal
   */
   const shareModal = document.getElementById("share-dropdown");
-  e.target.style.display = "none";
-  shareModal.style.display = "flex";
+  shareModal.style.display = "block";
 }
+
+function hideDropDown() {
+  /*
+   This is for showing the share dropdown modal
+  */
+  const shareModal = document.getElementById("share-dropdown");
+  shareModal.style.display = "none";
+}
+
 function shareWithFriends() {
-  const shareText = `I scored ${todayScore} on Wenworld - join me now`;
+  const element = document.getElementById("text-area");
+  shareText = element.value;
+  
   const url = window.location.href;
   const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
     url
@@ -1158,12 +1168,28 @@ function shareWithFriends() {
   return { twitterUrl, discordUrl, telegramUrl };
 }
 
+function selectSocialChannel(data) {
+  /*
+    This function is for selecting the social channel
+    params: channel is for social channel
+  */
+  channel = data;
+}
+
 function toggleDropdown() {
   const dropdown = document.getElementById("share-dropdown");
   dropdown.style.display =
     dropdown.style.display === "block" ? "none" : "block";
 }
 
+function sendMessage() {
+  /*
+    This is for sending the message to the social
+  */ 
+  if(channel == "Telegram") shareOnTelegram();
+  if(channel == "Discord") shareOnDiscord();
+  if(channel == "Twitter") shareOnTwitter();
+}
 function shareOnDiscord() {
   const { discordUrl } = shareWithFriends();
   window.open(
@@ -1193,19 +1219,15 @@ function shareOnTwitter() {
 
 function showAlert() {
   /**
-   * This is the alert message for when the game is finished
+   * This is the alert message for when the game is finished and copy the share text to the modal.
    */
+  const textArea = document.getElementById("text-area");
+  const shareText = `I scored ${todayScore} on Wenworld - join me now`;
+  textArea.innerText = shareText;
+
   const alertMessage = document.getElementById("alert-message");
   alertMessage.style.display = "block";
   setTimeout(() => {
     alertMessage.style.display = "none";
   }, 5000);
-}
-
-function closeAlert() {
-  /**
-   * This is the close event for when the game is finished
-   */
-  const alertMessage = document.getElementById("alert-message");
-  alertMessage.style.display = "none";
 }
